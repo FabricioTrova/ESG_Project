@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>kjhg</title>
+    <title>ESG Project</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +33,8 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <!-- <i class="fas fa-laugh-wink"></i>  logo projeto-->
+                    <!-- <img src="img\logo.png" alt="" style="height: 60px; width: 100px;"> -->
+                    <!-- <i class="fas fa-laugh-wink"></i>  logo projeto -->
                 </div>
                 <div class="sidebar-brand-text mx-3">ESG Project</div>
             </a>
