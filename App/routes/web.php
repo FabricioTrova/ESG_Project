@@ -16,22 +16,22 @@ Route::get('/', function () {
     return view('dashboard'); // Carrega a View dashboard.blade.php
 });
 
-Route::get('/history',function(){
+Route::get('/history',function(){// Carrega a View history.blade.php
     return View('history');
 });
 
-Route::get('/charts', function(){
+Route::get('/charts', function(){// Carrega a View charts.blade.php
     return view('charts');
 });
 
-Route::get('/login', function(){
+Route::get('/login', function(){// Carrega a View login.blade.php
     return view('auth/login');
 });
 
-Route::get('/register', function(){
+Route::get('/register', function(){// Carrega a View register.blade.php
     return view('auth/register');
 });
 
-Route::get('/forgot', function(){
+Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
     return view('auth/forgot-password');
 });
