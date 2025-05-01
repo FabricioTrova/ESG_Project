@@ -15,9 +15,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard'); // Carrega a View dashboard.blade.php
 });
+
 Route::get('/history',function(){
     return View('history');
 });
+
 Route::get('/charts', function(){
     return view('charts');
+});
+
+Route::get('/login', function(){
+    return view('auth/login');
+});
+
+Route::get('/register', function(){
+    return view('auth/register');
+});
+
+Route::get('/forgot', function(){
+    return view('auth/forgot-password');
 });

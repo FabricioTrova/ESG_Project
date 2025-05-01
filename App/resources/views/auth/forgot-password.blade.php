@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/frontend/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -55,10 +55,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="/frontend/Auth_Reserve/register.html">Create an Account!</a>
+                                        <a class="small" href="{{ url('/register') }}">Create an Account!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="/frontend/Auth_Reserve/login.html">Already have an account? Login!</a>
+                                        <a class="small" href="{{ url('/login') }}">Already have an account? Login!</a>
                                     </div>
                                 </div>
                             </div>
