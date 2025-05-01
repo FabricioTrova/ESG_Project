@@ -25,13 +25,13 @@ Route::get('/charts', function(){// Carrega a View charts.blade.php
 });
 
 Route::get('/login', function(){// Carrega a View login.blade.php
-    return view('auth/login');
+    return view('auth.login');
 });
 
 Route::get('/register', function(){// Carrega a View register.blade.php
-    return view('auth/register');
+    return view('auth.register');
 });
 
 Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
-    return view('auth/forgot-password');
+    return view('auth.forgot-password');
 });
