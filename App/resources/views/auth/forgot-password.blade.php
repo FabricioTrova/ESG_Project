@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="Pt-br">
 
 <head>
 
@@ -12,11 +12,10 @@
     <title>DashCarbon - Forgot Password</title>
 
     <!-- Custom fonts for this template-->
-    <link href="/frontend/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
@@ -39,9 +38,10 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
-                                        <p class="mb-4">We get it, stuff happens. Just enter your email address below
-                                            and we'll send you a link to reset your password!</p>
+                                        <h1 class="h4 text-gray-900 mb-2">Esqueceu Sua Senha?</h1>
+                                        <p class="mb-4">Nós entendemos, às vezes as coisas acontecem. Basta inserir seu endereço de e-mail 
+                                            abaixo e enviaremos um link para redefinir sua senha.!
+                                        </p>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
@@ -50,15 +50,15 @@
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                            Reset Password
+                                        Redefinir Senha
                                         </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="{{ url('/register') }}">Create an Account!</a>
+                                        <a class="small" href="{{ url('/register') }}">Criar uma Conta!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{ url('/login') }}">Already have an account? Login!</a>
+                                        <a class="small" href="{{ url('/login') }}">Já tem uma conta? Faça login!</a>
                                     </div>
                                 </div>
                             </div>
@@ -73,14 +73,12 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="{{ asset('jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    <script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
 </body>
 
