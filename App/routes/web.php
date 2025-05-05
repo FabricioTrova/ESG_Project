@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegistroController;
+
+Route::get('/registro', [RegistroController::class, 'index'])->name('registro.index');
+Route::post('/registro', [RegistroController::class, 'store'])->name('registro.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +40,6 @@ Route::get('/register', function(){// Carrega a View register.blade.php
 Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
     return view('auth.forgot-password');
 });
+
+
+
