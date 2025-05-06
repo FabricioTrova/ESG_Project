@@ -33,42 +33,43 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Criar uma Conta!</h1>
                             </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-primary btn-user btn-block">
-                                    Registrar Conta
-                                </a>
-                                <hr>
-                                <a href="#" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Registrar com Google
-                                </a>
-                                <a href="#" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Registrar com Facebook
-                                </a>
-                            </form>
+                            <form method="POST" action="{{ url('/register') }}" class="user">
+    @csrf
+
+    @if ($errors->any())
+        <div class="alert alert-danger">{{ $errors->first() }}</div>
+    @endif
+
+    <div class="form-group">
+        <input type="text" name="nome" class="form-control form-control-user" placeholder="Seu nome completo" required>
+    </div>
+
+    <div class="form-group">
+        <input type="email" name="email" class="form-control form-control-user" placeholder="Email" required>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="password" name="senha" class="form-control form-control-user" placeholder="Senha" required>
+        </div>
+        <div class="col-sm-6">
+            <input type="password" name="senha_confirmation" class="form-control form-control-user" placeholder="Confirme a senha" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="empresa_nome" class="form-control form-control-user" placeholder="Nome da empresa" required>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="empresa_cnpj" class="form-control form-control-user" placeholder="CNPJ da empresa" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-user btn-block">
+        Registrar Conta
+    </button>
+</form>
+
                             <hr>
                             <div class="text-center">
                                 <a class="small" href="{{ url('/forgot') }}">Esqueceu a Senha?</a>
