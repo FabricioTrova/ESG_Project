@@ -26,7 +26,27 @@
                     <span>Painel</span>
                 </a>
             </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Cadastros</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        
+                        <a class=" collapse-item" href="{{ url('/history') }}">
+                        <span>Historico</span></a>
+          
+                        <a class="collapse-item" href="cards.html">Cards</a>
+                    </div>
+                </div>
+            </li> 
             <hr class="sidebar-divider">
+
             <div class="sidebar-heading">Complementos</div>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/charts') }}">
@@ -34,16 +54,13 @@
                     <span>Gráfico</span>
                 </a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/history') }}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Histórico</span>
-                </a>
-            </li>
+
             <hr class="sidebar-divider d-none d-md-block">
+
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
