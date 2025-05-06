@@ -113,6 +113,8 @@
                             </div>
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
+                        
+                        <!-- icone do perfil e configuraçãoo -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
@@ -136,6 +138,9 @@
                         </li>
                     </ul>
                 </nav>
+
+
+                <!-- aqui é o modal onde voce faz os registro das informaçoes para a tabela -->
                 <div class="container-fluid">
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -156,6 +161,8 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Registros de Informações ESG</h6>
+
+                            <!-- botão para  abrir modal e registrar os registro -->
                             <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">
                                 <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
                                 <span class="text">Registrar</span>
@@ -176,6 +183,8 @@
                                     </thead>
                                     <tbody>
                                         @if(isset($registros) && $registros->count() > 0)
+
+                                        <!-- nesse trecho de codigo ele faz uma estrutura de repetição onde ele libera mais cadastro na tabela -->
                                             @foreach($registros as $registro)
                                                 <tr>
                                                     <td>{{ $registro->fonte_consumo }}</td>
@@ -214,7 +223,9 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
+                                        <!-- inicio do modal  -->
                                         <div class="modal-body">
+                                            <!-- esse e o formulario de registro onde ele chama  Registro.store para adicionar as informaçoes no banco -->
                                             <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
                                                 @csrf
                                                 @method('POST')
