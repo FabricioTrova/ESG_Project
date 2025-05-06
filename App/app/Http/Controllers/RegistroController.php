@@ -4,84 +4,107 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class RegistroController extends Controller
 {
     public function index()
     {
-        // ALTERAÇÃO: Corrigido o nome da variável para 'registros'
-        $registros = DB::table('registro_esg')->get();
-        // ALTERAÇÃO: Ajustado o nome da view para corresponder à rota /history
+        $registros = DB::table('consumo')->get();
         return view('history', compact('registros'));
     }
 
     public function store(Request $request)
     {
-        // ALTERAÇÃO: Adicionada validação para os campos esperados
         $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'tipo' => 'required|string|max:255',
-            'nacionalidade' => 'required|string|max:255',
-            'personalidade' => 'required|string|max:255',
+            'fonte_consumo' => 'required|string|max:255',
+            'quantidade_consumida' => 'required|numeric|min:0',
+            'emissoes_co2' => 'required|numeric|min:0',
+            'data_referencia' => 'required|date',
+            'origem_dado' => 'required|string|max:255',
         ]);
 
-        // ALTERAÇÃO: Adicionado created_at para consistência com a view
-        DB::table('registro_esg')->insert([
-            'nome' => $validated['nome'],
-            'tipo' => $validated['tipo'],
-            'nacionalidade' => $validated['nacionalidade'],
-            'personalidade' => $validated['personalidade'],
-            'created_at' => now(),
-        ]);
+        try {
+            $empresa_id = 1; // Ajuste para contexto real (ex.: auth()->user()->empresa_id)
 
-        // ALTERAÇÃO: Ajustada a resposta JSON para corresponder ao script da view
-        return response()->json(['message' => 'Registro criado com sucesso'], 200);
-    }
+            // Busca ou cria fonte_consumo
+            $fonte_consumo_id = DB::table('fontes_consumo')
+                ->where('nome', $validated['fonte_consumo'])
+                ->value('id');
 
-    // ALTERAÇÃO: Adicionado método edit para suportar links de edição
-    public function edit($id)
-    {
-        $registro = DB::table('registro_esg')->where('id', $id)->first();
-        if (!$registro) {
-            return response()->json(['message' => 'Registro não encontrado'], 404);
+            if (!$fonte_consumo_id) {
+                $fonte_consumo_id = DB::table('fontes_consumo')->insertGetId([
+                    'nome' => $validated['fonte_consumo'],
+                    'unidade_medida' => 'Desconhecida', // Ajuste conforme necessário
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            DB::table('consumo')->insert([
+                'empresa_id' => $empresa_id,
+                'fonte_consumo_id' => $fonte_consumo_id,
+                'fonte_consumo' => $validated['fonte_consumo'],
+                'quantidade_consumida' => $validated['quantidade_consumida'],
+                'emissoes_co2' => $validated['emissoes_co2'],
+                'data_referencia' => $validated['data_referencia'],
+                'origem_dado' => $validated['origem_dado'],
+                'data_registro' => Carbon::now(),
+            ]);
+
+            return redirect()->route('registros.index')->with('success', 'Registro cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Erro ao salvar o registro: ' . $e->getMessage()]);
         }
-        return view('registro_esg.edit', compact('registro'));
     }
 
-    // ALTERAÇÃO: Adicionado método update para suportar atualizações
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'tipo' => 'required|string|max:255',
-            'nacionalidade' => 'required|string|max:255',
-            'personalidade' => 'required|string|max:255',
+            'fonte_consumo' => 'required|string|max:255',
+            'quantidade_consumida' => 'required|numeric|min:0',
+            'emissoes_co2' => 'required|numeric|min:0',
+            'data_referencia' => 'required|date',
+            'origem_dado' => 'required|string|max:255',
         ]);
 
-        $affected = DB::table('registro_esg')->where('id', $id)->update([
-            'nome' => $validated['nome'],
-            'tipo' => $validated['tipo'],
-            'nacionalidade' => $validated['nacionalidade'],
-            'personalidade' => $validated['personalidade'],
-            'updated_at' => now(),
-        ]);
+        try {
+            $fonte_consumo_id = DB::table('fontes_consumo')
+                ->where('nome', $validated['fonte_consumo'])
+                ->value('id');
 
-        if ($affected) {
-            return response()->json(['message' => 'Registro atualizado com sucesso'], 200);
+            if (!$fonte_consumo_id) {
+                $fonte_consumo_id = DB::table('fontes_consumo')->insertGetId([
+                    'nome' => $validated['fonte_consumo'],
+                    'unidade_medida' => 'Desconhecida',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            DB::table('consumo')->where('id', $id)->update([
+                'fonte_consumo_id' => $fonte_consumo_id,
+                'fonte_consumo' => $validated['fonte_consumo'],
+                'quantidade_consumida' => $validated['quantidade_consumida'],
+                'emissoes_co2' => $validated['emissoes_co2'],
+                'data_referencia' => $validated['data_referencia'],
+                'origem_dado' => $validated['origem_dado'],
+                'data_registro' => Carbon::now(),
+            ]);
+
+            return redirect()->route('registros.index')->with('success', 'Registro atualizado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Erro ao atualizar o registro: ' . $e->getMessage()]);
         }
-
-        return response()->json(['message' => 'Registro não encontrado'], 404);
     }
 
-    // ALTERAÇÃO: Adicionado método destroy para suportar exclusão
     public function destroy($id)
     {
-        $affected = DB::table('registro_esg')->where('id', $id)->delete();
-
-        if ($affected) {
-            return response()->json(['message' => 'Registro excluído com sucesso'], 200);
+        try {
+            DB::table('consumo')->where('id', $id)->delete();
+            return redirect()->route('registros.index')->with('success', 'Registro excluído com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Erro ao excluir o registro: ' . $e->getMessage()]);
         }
-
-        return response()->json(['message' => 'Registro não encontrado'], 404);
     }
 }

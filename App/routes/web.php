@@ -41,5 +41,7 @@ Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
     return view('auth.forgot-password');
 });
 
-Route::resource('registro', RegistroController::class);
-
+Route::get('/registros', [App\Http\Controllers\RegistroController::class, 'index'])->name('registros.index');
+Route::post('/registros', [App\Http\Controllers\RegistroController::class, 'store'])->name('registros.store');
+Route::put('/registros/{id}', [App\Http\Controllers\RegistroController::class, 'update'])->name('registros.update');
+Route::delete('/registros/{id}', [App\Http\Controllers\RegistroController::class, 'destroy'])->name('registros.destroy');
