@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegistroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,26 +14,27 @@ use Illuminate\Support\Facades\Route;
 | contém o grupo de middleware "web". Agora crie algo incrível!
 |
 */
-Route::get('/', function () {
-    return view('dashboard'); // Carrega a View dashboard.blade.php
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register', [RegistroController::class, 'showForm']);
+Route::post('/register', [RegistroController::class, 'registrar']);
+
+// Protegidas futuramente com middleware('auth')
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
+
+
+Route::get('/history', function () {
+    return view('history');
 });
 
-Route::get('/history',function(){// Carrega a View history.blade.php
-    return View('history');
-});
-
-Route::get('/charts', function(){// Carrega a View charts.blade.php
+Route::get('/charts', function () {
     return view('charts');
 });
 
-Route::get('/login', function(){// Carrega a View login.blade.php
-    return view('auth.login');
-});
-
-Route::get('/register', function(){// Carrega a View register.blade.php
-    return view('auth.register');
-});
-
-Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
+Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
