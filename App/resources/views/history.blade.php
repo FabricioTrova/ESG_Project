@@ -1,29 +1,25 @@
-<?php
-    // Conexão com o BD
-    // require 'config.php';
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-
+    <!-- token para acessa  -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>DashCarbon- History</title>
+    <title>DashCarbon- Historico</title>
 
-    <!-- Custom fonts for this template -->
+    <!-- Fontes -->
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Estilizaçao para esse template -->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     
@@ -34,14 +30,15 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
+        <!-- Sidebar lateral  -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <!-- logo do menu lateral  -->
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
-                </div>
+                </div> -->
                 <div class="sidebar-brand-text mx-3">DashCarbon</div>
             </a>
 
@@ -160,7 +157,7 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <!--comentario-->
+                    
                     <!-- Sidebar Toggle (Topbar) -->
                     <form class="form-inline">
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -168,7 +165,7 @@
                         </button>
                     </form>
 
-                    <!-- Topbar Search -->
+                    <!-- Barra de pesquisa -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -378,190 +375,93 @@
                         For more information about DataTables, please visit the <a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 ">
-                            <h6 class="m-0 font-weight-bold text-primary">Registros de informaçoes</h6>
-                            <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">
-                             <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
-                             <span class="text">Registrar</span>
-                            </a>
-                        </div>
-                        
-                        <div class="card-body">
-                       
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Tipo</th>
-                                            <th>Quantidade</th>
-                                            <th>Gasto</th>
-                                            <th>Data de registro</th>
-                                            <th>Ação
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    <?php
-                                    //caminho para arquivo de conexao com banco de dados
-                                    require_once base_path('App/Models/conexao.php');
-
-                                     // seleção de todos os usuários do BD 
-                                     $sql = "SELECT * FROM registro";
-                                     // PDO que executa a query SELECT
-                                     $sql = $pdo->query($sql);
-                                      // Verifica se a Query retornou
-                                        if ($sql->rowCount() > 0) {
-                                            // O loop percorre todo o Select
-                                            // imprimindo como user[]
-                                            foreach ($sql->fetchAll() as $registro) {
-                                                echo '<tr>';
-                                                    echo '<td>'.$registro['tipo'].'</td>';
-                                                    echo '<td>'.$registro['nacionalidade'].'</td>';
-                                                    echo '<td>'.$registro['personalidade'].'</td>';
-                                                    echo '<td>'.$registro['created_at'].'</td>'; // ou data de inserção, se existir
-                                                    echo '<td><a href="#">Editar</a> | <a href="#">Excluir</a></td>';
-                                                echo '</tr>';
-                                            }
-                                        }                                                     
-                                    ?>              
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-
-                <!-- Modal para quando apertar o botao registrar -->
-<!-- Modal -->
-<div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registroModalLabel">Novo Registro</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulário -->
-        <form action="seu_arquivo_de_processamento.php" method="POST">
-          <div class="form-group">
-            <label for="tipo">Tipo</label>
-            <input type="text" class="form-control" id="tipo" name="tipo" required>
-          </div>
-          <div class="form-group">
-            <label for="quantidade">Quantidade</label>
-            <input type="number" class="form-control" id="quantidade" name="quantidade" required>
-          </div>
-          <div class="form-group">
-            <label for="gasto">Gasto</label>
-            <input type="text" class="form-control" id="gasto" name="gasto">
-          </div>
-          <button type="submit" class="btn btn-primary">Salvar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-            </div>
-            <!--Final do conteudo central -->
 
 
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-    <div class="col-lg-6">
-
+                  <!-- Card com título e botão para abrir o modal de registro -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Registros de informações</h6>
+
+        <!-- Botão que abre o modal ao ser clicado -->
+        <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">
+            <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
+            <span class="text">Registrar</span>
+        </a>
     </div>
+
     <div class="card-body">
-        <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-            the markup in the examples below. The examples below also use the
-            <code>.text-white-50</code> helper class on the icons for additional styling,
-            but it is not required.</p>
-        <a href="#" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-flag"></i>
-            </span>
-            <span class="text">Split Button Primary</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-success btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-check"></i>
-            </span>
-            <span class="text">Split Button Success</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-info btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-info-circle"></i>
-            </span>
-            <span class="text">Split Button Info</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-warning btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-exclamation-triangle"></i>
-            </span>
-            <span class="text">Split Button Warning</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-danger btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-trash"></i>
-            </span>
-            <span class="text">Split Button Danger</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-secondary btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-arrow-right"></i>
-            </span>
-            <span class="text">Split Button Secondary</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-light btn-icon-split">
-            <span class="icon text-gray-600">
-                <i class="fas fa-arrow-right"></i>
-            </span>
-            <span class="text">Split Button Light</span>
-        </a>
-        <div class="mb-4"></div>
-        <p>Also works with small and large button classes!</p>
-        <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-            <span class="icon text-white-50">
-                <i class="fas fa-flag"></i>
-            </span>
-            <span class="text">Split Button Small</span>
-        </a>
-        <div class="my-2"></div>
-        <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-            <span class="icon text-white-50">
-                <i class="fas fa-flag"></i>
-            </span>
-            <span class="text">Split Button Large</span>
-        </a>
+        <!-- Tabela de registros -->
+        <div class="table-responsive">
+            <!-- Tabela -->
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Gasto</th>
+            <th>Data de registro</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($registros as $registro)
+    <tr>
+        <td>{{ $registro->nome }}</td> <!-- Alterado de tipo para nome -->
+        <td>{{ $registro->tipo }}</td> <!-- Mantido tipo -->
+        <td>{{ $registro->nacionalidade }}</td> <!-- Alterado de quantidade para nacionalidade -->
+        <td>{{ $registro->personalidade }}</td> <!-- Alterado de gasto para personalidade -->
+        <td>{{ $registro->created_at }}</td>
+        <td>
+            <!-- ALTERAÇÃO: Adicionados links funcionais para editar e excluir -->
+            <a href="{{ route('registro.edit', $registro->id) }}">Editar</a> |
+            <a href="#" onclick="event.preventDefault(); if(confirm('Tem certeza que deseja excluir?')) document.getElementById('delete-form-{{ $registro->id }}').submit();">Excluir</a>
+            <form id="delete-form-{{ $registro->id }}" action="{{ route('registro.destroy', $registro->id) }}" method="POST" style="display: none;">
+                @csrf
+                @method('DELETE')
+            </form>
+        </td>
+    </tr>
+    @endforeach
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="registroModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="formRegistro">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <!-- ALTERAÇÃO: Ajustados os campos do formulário para corresponder ao controlador -->
+<div class="modal-body">
+    <input type="text" name="nome" class="form-control mb-2" placeholder="Nome" required>
+    <input type="text" name="tipo" class="form-control mb-2" placeholder="Tipo" required>
+    <input type="text" name="nacionalidade" class="form-control mb-2" placeholder="Nacionalidade" required>
+    <input type="text" name="personalidade" class="form-control mb-2" placeholder="Personalidade" required>
+</div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
+            <!--Final do conteudo central -->
 </div>
+         <!-- Fim do conteiner principal -->
+</div>
+    <!--Final da pagina Wrapper -->
 
-</div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Modal de saida ao apertar o botao logout na configuraçao do perfil-->
+    <!-- Modal Logout do perfil do usuario -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -601,40 +501,41 @@
 
     
     <!-- script para rodar o modal ao apertar o botao registrar  -->
-    <script>
-document.getElementById('formRegistro').addEventListener('submit', async function(e) {
-    e.preventDefault();  // Impede o envio padrão do formulário
-    const form = e.target;
-    const data = new FormData(form);
-
-    try {
-        const response = await fetch("{{ route('registro.store') }}", {
-            method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': data.get('_token')
-            },
-            body: data
+<!-- Scripts -->
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json'
+            }
         });
+    });
 
-        if (response.ok) {
-            // Se a resposta for ok, mostramos a mensagem de sucesso
-            alert("Registro inserido com sucesso!");
+    document.getElementById('formRegistro').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            // Opcional: Adicionar o novo registro na tabela sem recarregar a página
-            // Isso pode ser feito ao atualizar a tabela com os novos dados ou adicionando a linha diretamente
+        const form = e.target;
+        const data = new FormData(form);
 
-            // Exemplo: Limpar o formulário após o envio
-            form.reset();
-        } else {
-            // Caso a resposta não seja ok, mostramos um erro
-            const errorData = await response.json(); // Caso a resposta tenha conteúdo em JSON
-            alert("Erro ao inserir registro: " + errorData.message || "Erro desconhecido.");
+        try {
+            const response = await fetch("{{ route('registro.store') }}", {
+                method: "POST",
+                body: data
+            });
+
+            if (response.ok) {
+                alert("Registro inserido com sucesso!");
+                form.reset();
+                $('#registroModal').modal('hide');
+                location.reload();
+            } else {
+                const errorData = await response.json();
+                alert("Erro ao inserir registro: " + (errorData.message || "Erro desconhecido."));
+            }
+        } catch (error) {
+            alert("Erro de conexão: " + error.message);
         }
-    } catch (error) {
-        // Captura erros na requisição (ex: falha de rede)
-        alert("Erro de conexão: " + error.message);
-    }
-});
+    });
 </script>
 
 

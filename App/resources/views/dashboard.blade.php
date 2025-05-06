@@ -695,30 +695,20 @@
                 <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <!-- <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; ESG Gestão</span>
-                    </div>
-                </div>
-            </footer> -->
-            <!-- End of Footer -->
+            <!-- Fim do conteiner principal -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- Fim do conteiner Wrapper -->
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!--Final da pagina Wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
+    <!-- Modal Logout do perfil do usuario -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">

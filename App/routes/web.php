@@ -41,5 +41,5 @@ Route::get('/forgot', function(){// Carrega a View forgot-password.blade.php
     return view('auth.forgot-password');
 });
 
-
+Route::resource('registro', RegistroController::class);
 
