@@ -138,7 +138,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
+            <!-- Botao de fechar barra lateral -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
@@ -146,8 +146,8 @@
             <!-- Sidebar Messagem de upgrade de plano -->
             <!-- <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+                <p class="text-center mb-2"><strong>DashCarbon</strong> Aproveite mais recursos!</p>
+                <a class="btn btn-success btn-sm" href="">Upgrade to Pro!</a>
             </div> -->
 
         </ul>
@@ -545,7 +545,7 @@
                         <div class="col-lg-6 mb-4">
 
                             <!-- Project Card Example -->
-                            <!-- <div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
                                 </div>
@@ -581,7 +581,7 @@
                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!-- Color System -->
                             <!-- <div class="row">
@@ -653,7 +653,7 @@
 
                         </div> -->
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-7 mb-4" >
 
                             <!-- Illustrations -->
                             <!-- <div class="card shadow mb-4">
@@ -698,13 +698,13 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <!-- <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; ESG Gestão</span>
                     </div>
                 </div>
-            </footer>
+            </footer> -->
             <!-- End of Footer -->
 
         </div>
@@ -724,15 +724,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Pronto para Sair?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione 'Sair' abaixo se estiver pronto para encerrar sua sessão atual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/frontend/Auth_Reserve/login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{{ url('/login') }}">Sair</a>
                 </div>
             </div>
         </div>
