@@ -37,7 +37,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class=" collapse-item" href="{{ url('/history') }}">
+                        <a class=" collapse-item" href="{{ url('/historico') }}">
                         <span>Historico de consumo</span></a>
           
                         <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
@@ -309,14 +309,8 @@
     <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+    
     <script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json'
-            }
-        });
-
         function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
             $('#registro_id').val(id);
             $('#fonte_consumo').val(fonte);

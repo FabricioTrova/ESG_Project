@@ -21,8 +21,8 @@ Route::get('/', function () {
     return view('dashboard'); // Carrega a View dashboard.blade.php
 });
 
-Route::get('/history',function(){// Carrega a View history.blade.php
-    return View('history');
+Route::get('/historico',function(){// Carrega a View history.blade.php
+    return View('historico');
 });
 
 Route::get('/fonteDeConsumo',function(){// Carrega a View history.blade.php
