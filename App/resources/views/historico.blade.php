@@ -309,7 +309,7 @@
     <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
-    
+
     <script>
 
         function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
@@ -348,7 +348,6 @@
             var origem = $(this).data('origem');
             abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
         });
-    });
     </script>
 </body>
 </html>

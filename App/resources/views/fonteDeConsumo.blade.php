@@ -189,12 +189,9 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Tipo de Consumo</th>
-                                            <th>Quantidade</th>
-                                            <th>Emissões CO2 (kg)</th>
-                                            <th>Data de Registro</th>
-                                            <th>Origem do Dado</th>
-                                            <th>Ações</th>
+                                            <th>Nome do consumo</th>
+                                            <th>Unidade de medida</th>
+                                            <th>Fator de emisão</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -203,19 +200,16 @@
                                         <!-- nesse trecho de codigo ele faz uma estrutura de repetição onde ele libera mais cadastro na tabela -->
                                             @foreach($registros as $registro)
                                                 <tr>
-                                                    <td>{{ $registro->fonte_consumo }}</td>
-                                                    <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                                    <td>{{ number_format($registro->emissoes_co2, 2) }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
-                                                    <td>{{ $registro->origem_dado }}</td>
+                                                    <td>{{ $registro->Nomedoconsumo}}</td>
+                                                    <td>{{ number_format($registro->Unidade de medida, 2) }}</td>
+                                                    <td>{{ $registro->Fator de emisão }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-warning btn-sm edit-btn"
                                                            data-id="{{ $registro->id }}"
-                                                           data-fonte="{{ $registro->fonte_consumo }}"
-                                                           data-quantidade="{{ $registro->quantidade_consumida }}"
-                                                           data-emissoes="{{ $registro->emissoes_co2 }}"
-                                                           data-data="{{ $registro->data_referencia }}"
-                                                           data-origem="{{ $registro->origem_dado }}">Editar</a>
+                                                           data-fonte="{{ $registro->Nomedoconsumo}}"
+                                                           data-quantidade="{{ $registro->unidadedemedida}}"
+                                                           data-origem="{{ $registro->fatordeEmisao }}">Editar</a>
+
                                                         <a href="{{ route('registros.destroy', $registro->id) }}"
                                                            class="btn btn-danger btn-sm"
                                                            onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</a>
@@ -347,7 +341,7 @@
             var origem = $(this).data('origem');
             abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
         });
-    });
+    
     </script>
 </body>
 </html>
