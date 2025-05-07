@@ -176,7 +176,7 @@
                     @endif
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Registros de Informações ESG</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Registros de fontes de consumo</h6>
 
                             <!-- botão para  abrir modal e registrar os registro -->
                             <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">

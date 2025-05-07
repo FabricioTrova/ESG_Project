@@ -25,6 +25,10 @@ Route::get('/history',function(){// Carrega a View history.blade.php
     return View('history');
 });
 
+Route::get('/fonteDeConsumo',function(){// Carrega a View history.blade.php
+    return View('fonteDeConsumo');
+});
+
 Route::get('/charts', function(){// Carrega a View charts.blade.php
     return view('charts');
 });
