@@ -4,20 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistroController;
 
-/*
-|--------------------------------------------------------------------------
-| Rotas Web
-|--------------------------------------------------------------------------
-|
-| Aqui é onde você pode registrar as rotas web para sua aplicação. Essas
-| rotas são carregadas pelo RouteServiceProvider dentro de um grupo que
-| contém o grupo de middleware "web". Agora crie algo incrível!
-|
-*/
+//Rotas de login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+//Rotas de registro
 Route::get('/register', [RegistroController::class, 'showForm']);
 Route::post('/register', [RegistroController::class, 'registrar']);
 
