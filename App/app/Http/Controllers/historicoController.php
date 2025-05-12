@@ -10,8 +10,10 @@ class RegistroController extends Controller
 {
     public function index()
     {
+        //salvando as informações do banco de dados, busca todos os dados da tabela consumo no banco de dados.
+        // Envia esses dados para a view chamada history.
         $registros = DB::table('consumo')->get();
-        return view('history', compact('registros'));
+        return view('historico', compact('registros'));
     }
 
     public function store(Request $request)
