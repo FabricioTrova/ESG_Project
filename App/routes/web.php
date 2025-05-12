@@ -10,8 +10,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Rotas de registro
-Route::get('/register', [RegistroController::class, 'showForm']);
-Route::post('/register', [RegistroController::class, 'registrar']);
+Route::get('/register', [RegistroController::class, 'showUserForm']);
+Route::post('/register', [RegistroController::class, 'registrarUsuario']);
 
 // Protegidas futuramente com middleware('auth')
 Route::get('/dashboard', function () {
