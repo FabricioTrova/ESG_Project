@@ -10,15 +10,15 @@ class RegistroController extends Controller
 {
     public function index()
     {
-        //salvando as informações do banco de dados, busca todos os dados da tabela consumo no banco de dados.
+        //salvando as informações do banco de dados na variavel, busca todos os dados da tabela consumo no banco de dados.
         // Envia esses dados para a view chamada history.
         $registros = DB::table('consumo')->get();
         return view('historico', compact('registros'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request)//Define uma função pública chamada store, que recebe os dados do formulário através da variável
     {
-        $validated = $request->validate([
+        $validated = $request->validate([// retorna apenas os dados válidos 
             'fonte_consumo' => 'required|string|max:255',
             'quantidade_consumida' => 'required|numeric|min:0',
             'emissoes_co2' => 'required|numeric|min:0',
@@ -27,7 +27,7 @@ class RegistroController extends Controller
         ]);
 
         try {
-            $empresa_id = 1; // Ajuste para contexto real (ex.: auth()->user()->empresa_id)
+            $empresa_id = 1; 
 
             // Busca ou cria fonte_consumo
             $fonte_consumo_id = DB::table('fontes_consumo')
@@ -100,7 +100,7 @@ class RegistroController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         try {
             DB::table('consumo')->where('id', $id)->delete();
