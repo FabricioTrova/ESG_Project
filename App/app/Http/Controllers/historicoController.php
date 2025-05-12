@@ -60,7 +60,7 @@ class RegistroController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)//funcao para atualizar um registro
     {
         $validated = $request->validate([
             'fonte_consumo' => 'required|string|max:255',
@@ -71,7 +71,7 @@ class RegistroController extends Controller
         ]);
 
         try {
-            $fonte_consumo_id = DB::table('fontes_consumo')
+            $fonte_consumo_id = DB::table('fontes_consumo')//tabela fontes_consumo
                 ->where('nome', $validated['fonte_consumo'])
                 ->value('id');
 
@@ -100,7 +100,7 @@ class RegistroController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id)//funçao para deletar as informaçao no banco
     {
         try {
             DB::table('consumo')->where('id', $id)->delete();
