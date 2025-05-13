@@ -9,34 +9,31 @@ use Illuminate\Support\Facades\Hash;
 
 class RegistroController extends Controller
 {
-    public function showForm()
-    {
-        return view('auth.register');
-    }
+    public function showUserForm()
+{
+    $empresas = Empresa::all();
+    return view('auth.register-user', compact('empresas'));
+}
 
-    public function registrar(Request $request)
-    {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email',
-            'senha' => 'required|min:6|confirmed',
-            'empresa_nome' => 'required|string|max:255',
-            'empresa_cnpj' => 'required|string|max:18|unique:empresas,cnpj',
-        ]);
+public function registrarUsuario(Request $request)
+{
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'email' => 'required|email|unique:usuarios,email',
+        'senha' => 'required|min:6|confirmed',
+        'empresa_id' => 'required|exists:empresas,id',
+        'tipo_usuario' => 'required|in:admin,gestor,colaborador', // <-- Adicione essa linha
+    ]);
+    
+    Usuario::create([
+        'nome' => $request->nome,
+        'email' => $request->email,
+        'senha_hash' => Hash::make($request->senha),
+        'empresa_id' => $request->empresa_id,
+        'tipo_usuario' => $request->tipo_usuario,
+        'data_cadastro' => now(),
+    ]);
 
-        $empresa = Empresa::create([
-            'nome' => $request->empresa_nome,
-            'cnpj' => $request->empresa_cnpj,
-        ]);
-
-        Usuario::create([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'senha_hash' => Hash::make($request->senha),
-            'empresa_id' => $empresa->id,
-            'tipo_usuario' => 'admin',
-        ]);
-
-        return redirect('/login')->with('success', 'Conta registrada com sucesso!');
-    }
+    return redirect('/login')->with('success', 'Usuário registrado com sucesso!');
+}
 }
