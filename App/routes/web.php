@@ -19,8 +19,8 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 
-Route::get('/history', function () {
-    return view('history');
+Route::get('/historico', function () {
+    return view('historico');
 });
 
 Route::get('/charts', function () {
