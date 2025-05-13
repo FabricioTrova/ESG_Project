@@ -20,10 +20,8 @@ class RegistroController extends Controller
     {
         $validated = $request->validate([// retorna apenas os dados válidos 
             'fonte_consumo' => 'required|string|max:255',
-            'quantidade_consumida' => 'required|numeric|min:0',
-            'emissoes_co2' => 'required|numeric|min:0',
-            'data_referencia' => 'required|date',
-            'origem_dado' => 'required|string|max:255',
+            'Unidade_Medida' => 'required|numeric|min:0',
+            'fator_Emissao' => 'required|string|max:255',
         ]);
 
         try {
@@ -48,9 +46,7 @@ class RegistroController extends Controller
                 'fonte_consumo_id' => $fonte_consumo_id,
                 'fonte_consumo' => $validated['fonte_consumo'],
                 'quantidade_consumida' => $validated['quantidade_consumida'],
-                'emissoes_co2' => $validated['emissoes_co2'],
-                'data_referencia' => $validated['data_referencia'],
-                'origem_dado' => $validated['origem_dado'],
+                'fator_Emissao' => $validated['fator_Emissao'],
                 'data_registro' => Carbon::now(),
             ]);
 
@@ -62,14 +58,11 @@ class RegistroController extends Controller
 
     public function update(Request $request, $id)//funcao para atualizar um registro
     {
-        $validated = $request->validate([
+        $validated = $request->validate([// retorna apenas os dados válidos 
             'fonte_consumo' => 'required|string|max:255',
-            'quantidade_consumida' => 'required|numeric|min:0',
-            'emissoes_co2' => 'required|numeric|min:0',
-            'data_referencia' => 'required|date',
-            'origem_dado' => 'required|string|max:255',
+            'Unidade_Medida' => 'required|numeric|min:0',
+            'fator_Emissao' => 'required|string|max:255',
         ]);
-
         try {
             $fonte_consumo_id = DB::table('fontes_consumo')//tabela fontes_consumo
                 ->where('nome', $validated['fonte_consumo'])
@@ -84,13 +77,12 @@ class RegistroController extends Controller
                 ]);
             }
 
-            DB::table('consumo')->where('id', $id)->update([
+            DB::table('consumo')->insert([
+                'empresa_id' => $empresa_id,
                 'fonte_consumo_id' => $fonte_consumo_id,
                 'fonte_consumo' => $validated['fonte_consumo'],
                 'quantidade_consumida' => $validated['quantidade_consumida'],
-                'emissoes_co2' => $validated['emissoes_co2'],
-                'data_referencia' => $validated['data_referencia'],
-                'origem_dado' => $validated['origem_dado'],
+                'fator_Emissao' => $validated['fator_Emissao'],
                 'data_registro' => Carbon::now(),
             ]);
 
