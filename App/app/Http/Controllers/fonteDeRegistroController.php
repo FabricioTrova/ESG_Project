@@ -10,24 +10,25 @@ class RegistroController extends Controller
 {
     public function index()
     {
-        //salvando as informações do banco de dados na variavel, busca todos os dados da tabela consumo no banco de dados.
-        // Envia esses dados para a view chamada history.
-        $registros = DB::table('consumo')->get();
-        return view('historico', compact('registros'));
+        $registros = DB::table('registros_consumo')
+            ->join('fontes_consumo', 'registros_consumo.fonte_consumo_id', '=', 'fontes_consumo.id')
+            ->select('registros_consumo.*', 'fontes_consumo.nome as fonte_nome')
+            ->get();
+
+        return view('fonteDeRegistro', compact('registros'));
     }
 
-    public function store(Request $request)//Define uma função pública chamada store, que recebe os dados do formulário através da variável
+    public function store(Request $request)
     {
-        $validated = $request->validate([// retorna apenas os dados válidos 
+        $validated = $request->validate([
             'fonte_consumo' => 'required|string|max:255',
-            'Unidade_Medida' => 'required|numeric|min:0',
-            'fator_Emissao' => 'required|string|max:255',
+            'quantidade_consumida' => 'required|numeric|min:0',
+            'fator_emissao' => 'required|numeric|min:0',
         ]);
 
         try {
-            $empresa_id = 1; 
+            $empresa_id = 1; // ajuste conforme sua lógica de autenticação
 
-            // Busca ou cria fonte_consumo
             $fonte_consumo_id = DB::table('fontes_consumo')
                 ->where('nome', $validated['fonte_consumo'])
                 ->value('id');
@@ -35,18 +36,18 @@ class RegistroController extends Controller
             if (!$fonte_consumo_id) {
                 $fonte_consumo_id = DB::table('fontes_consumo')->insertGetId([
                     'nome' => $validated['fonte_consumo'],
-                    'unidade_medida' => 'Desconhecida', // Ajuste conforme necessário
+                    'unidade_medida' => 'Desconhecida',
+                    'fator_emissao' => $validated['fator_emissao'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
             }
 
-            DB::table('consumo')->insert([
+            DB::table('registros_consumo')->insert([
                 'empresa_id' => $empresa_id,
                 'fonte_consumo_id' => $fonte_consumo_id,
-                'fonte_consumo' => $validated['fonte_consumo'],
                 'quantidade_consumida' => $validated['quantidade_consumida'],
-                'fator_Emissao' => $validated['fator_Emissao'],
+                'fator_emissao' => $validated['fator_emissao'],
                 'data_registro' => Carbon::now(),
             ]);
 
@@ -56,15 +57,16 @@ class RegistroController extends Controller
         }
     }
 
-    public function update(Request $request, $id)//funcao para atualizar um registro
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([// retorna apenas os dados válidos 
+        $validated = $request->validate([
             'fonte_consumo' => 'required|string|max:255',
-            'Unidade_Medida' => 'required|numeric|min:0',
-            'fator_Emissao' => 'required|string|max:255',
+            'quantidade_consumida' => 'required|numeric|min:0',
+            'fator_emissao' => 'required|numeric|min:0',
         ]);
+
         try {
-            $fonte_consumo_id = DB::table('fontes_consumo')//tabela fontes_consumo
+            $fonte_consumo_id = DB::table('fontes_consumo')
                 ->where('nome', $validated['fonte_consumo'])
                 ->value('id');
 
@@ -72,17 +74,16 @@ class RegistroController extends Controller
                 $fonte_consumo_id = DB::table('fontes_consumo')->insertGetId([
                     'nome' => $validated['fonte_consumo'],
                     'unidade_medida' => 'Desconhecida',
+                    'fator_emissao' => $validated['fator_emissao'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
             }
 
-            DB::table('consumo')->insert([
-                'empresa_id' => $empresa_id,
+            DB::table('registros_consumo')->where('id', $id)->update([
                 'fonte_consumo_id' => $fonte_consumo_id,
-                'fonte_consumo' => $validated['fonte_consumo'],
                 'quantidade_consumida' => $validated['quantidade_consumida'],
-                'fator_Emissao' => $validated['fator_Emissao'],
+                'fator_emissao' => $validated['fator_emissao'],
                 'data_registro' => Carbon::now(),
             ]);
 
@@ -92,10 +93,10 @@ class RegistroController extends Controller
         }
     }
 
-    public function delete($id)//funçao para deletar as informaçao no banco
+    public function delete($id)
     {
         try {
-            DB::table('consumo')->where('id', $id)->delete();
+            DB::table('registros_consumo')->where('id', $id)->delete();
             return redirect()->route('registros.index')->with('success', 'Registro excluído com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Erro ao excluir o registro: ' . $e->getMessage()]);
