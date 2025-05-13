@@ -156,124 +156,135 @@
                 </nav>
 
 
-                <!-- aqui é o modal onde voce faz os registro das informaçoes para a tabela -->
-                <div class="container-fluid">
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <!-- Exibe mensagens de sucesso ou erro -->
+<div class="container-fluid">
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if ($errors->has('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $errors->first('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    <!-- Card com tabela e botão para abrir modal -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Registros de fontes de consumo</h6>
+            <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">
+                <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
+                <span class="text">Registrar</span>
+            </a>
+        </div>
+
+        <!-- Tabela de registros -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome do consumo</th>
+                            <th>Quantidade consumida</th>
+                            <th>Emissões CO2</th>
+                            <th>Data referência</th>
+                            <th>Origem do dado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(isset($registros) && $registros->count() > 0)
+                            @foreach($registros as $registro)
+                                <tr>
+                                    <td>{{ $registro->fonte_consumo }}</td>
+                                    <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
+                                    <td>{{ number_format($registro->emissoes_co2, 2) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
+                                    <td>{{ $registro->origem_dado }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
+                                           data-id="{{ $registro->id }}"
+                                           data-fonte="{{ $registro->fonte_consumo }}"
+                                           data-quantidade="{{ $registro->quantidade_consumida }}"
+                                           data-emissoes="{{ $registro->emissoes_co2 }}"
+                                           data-data="{{ $registro->data_referencia }}"
+                                           data-origem="{{ $registro->origem_dado }}">
+                                            Editar
+                                        </a>
+                                        <form action="{{ route('registros.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal de Registro -->
+            <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="registroModalLabel">Registrar Consumo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    @endif
-                    @if ($errors->has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ $errors->first('error') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Registros de fontes de consumo</h6>
+                        <div class="modal-body">
+                            <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" id="registro_id" name="id">
+                                <input type="hidden" name="_method" value="POST">
 
-                            <!-- botão para  abrir modal e registrar os registro -->
-                            <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#registroModal">
-                                <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
-                                <span class="text">Registrar</span>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nome do consumo</th>
-                                            <th>Unidade de medida</th>
-                                            <th>Fator de emisão</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(isset($registros) && $registros->count() > 0)
-
-                                        <!-- nesse trecho de codigo ele faz uma estrutura de repetição onde ele libera mais cadastro na tabela -->
-                                            @foreach($registros as $registro)
-                                                <tr>
-                                                    <td>{{ $registro->Nomedoconsumo}}</td>
-                                                    <td>{{ number_format($registro->Unidade de medida, 2) }}</td>
-                                                    <td>{{ $registro->Fator de emisão }}</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
-                                                           data-id="{{ $registro->id }}"
-                                                           data-fonte="{{ $registro->Nomedoconsumo}}"
-                                                           data-quantidade="{{ $registro->unidadedemedida}}"
-                                                           data-origem="{{ $registro->fatordeEmisao }}">Editar</a>
-
-                                                        <a href="{{ route('registros.destroy', $registro->id) }}"
-                                                           class="btn btn-danger btn-sm"
-                                                           onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="registroModalLabel">Registrar Consumo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <!-- inicio do modal  -->
-                                        <div class="modal-body">
-                                            <!-- esse e o formulario de registro onde ele chama  Registro.store para adicionar as informaçoes no banco -->
-                                            <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
-                                                @csrf
-                                                @method('POST')
-                                                <input type="hidden" id="registro_id" name="id">
-                                                <div class="form-group">
-                                                    <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
-                                                    <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" placeholder="Ex: Gasolina, Eletricidade" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
-                                                    <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" placeholder="Ex: 100.50" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="emissoes_co2" class="font-weight-bold">Emissões CO2 (kg)</label>
-                                                    <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" placeholder="Ex: 50.25" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
-                                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" placeholder="Ex: Formulário, API" required>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <button type="submit" form="registroForm" class="btn btn-primary" id="salvarBtn">Salvar</button>
-                                            <button type="submit" form="registroForm" class="btn btn-warning" id="editarBtn" style="display: none;">Editar</button>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
+                                    <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
+                                    <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="emissoes_co2" class="font-weight-bold">Emissões CO2 (kg)</label>
+                                    <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
+                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
+                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" form="registroForm" class="btn btn-primary" id="salvarBtn">Salvar</button>
+                            <button type="submit" form="registroForm" class="btn btn-warning" id="editarBtn" style="display: none;">Atualizar</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
@@ -293,7 +304,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
     <script src="{{ asset('jquery/jquery.min.js') }}"></script>
@@ -304,44 +315,47 @@
     <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
     
-    <script>
-        function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
-            $('#registro_id').val(id);
-            $('#fonte_consumo').val(fonte);
-            $('#quantidade_consumida').val(quantidade);
-            $('#emissoes_co2').val(emissoes);
-            $('#data_referencia').val(data);
-            $('#origem_dado').val(origem);
+<!-- Script para abrir modal com dados para edição -->
+<script>
+    function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
+        $('#registro_id').val(id);
+        $('#fonte_consumo').val(fonte);
+        $('#quantidade_consumida').val(quantidade);
+        $('#emissoes_co2').val(emissoes);
+        $('#data_referencia').val(data);
+        $('#origem_dado').val(origem);
 
-            $('#salvarBtn').hide();
-            $('#editarBtn').show();
-            $('#registroModalLabel').text('Editar Consumo');
-            $('#registroForm').attr('action', "{{ url('registros') }}/" + id);
-            $('#registroForm').find('input[name="_method"]').val('PUT');
+        $('#salvarBtn').hide();
+        $('#editarBtn').show();
+        $('#registroModalLabel').text('Editar Consumo');
+        $('#registroForm').attr('action', "{{ url('registros') }}/" + id);
+        $('#registroForm').find('input[name="_method"]').val('PUT');
 
-            $('#registroModal').modal('show');
-        }
+        $('#registroModal').modal('show');
+    }
 
-        $('#registroModal').on('hidden.bs.modal', function () {
-            $('#registroForm')[0].reset();
-            $('#registro_id').val('');
-            $('#salvarBtn').show();
-            $('#editarBtn').hide();
-            $('#registroModalLabel').text('Registrar Consumo');
-            $('#registroForm').attr('action', "{{ route('registros.store') }}");
-            $('#registroForm').find('input[name="_method"]').val('POST');
-        });
+    // Resetar modal ao fechar
+    $('#registroModal').on('hidden.bs.modal', function () {
+        $('#registroForm')[0].reset();
+        $('#registro_id').val('');
+        $('#salvarBtn').show();
+        $('#editarBtn').hide();
+        $('#registroModalLabel').text('Registrar Consumo');
+        $('#registroForm').attr('action', "{{ route('registros.store') }}");
+        $('#registroForm').find('input[name="_method"]').val('POST');
+    });
 
-        $('.edit-btn').on('click', function () {
-            var id = $(this).data('id');
-            var fonte = $(this).data('fonte');
-            var quantidade = $(this).data('quantidade');
-            var emissoes = $(this).data('emissoes');
-            var data = $(this).data('data');
-            var origem = $(this).data('origem');
-            abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
-        });
-    
-    </script>
+    // Disparar edição ao clicar no botão
+    $('.edit-btn').on('click', function () {
+        var id = $(this).data('id');
+        var fonte = $(this).data('fonte');
+        var quantidade = $(this).data('quantidade');
+        var emissoes = $(this).data('emissoes');
+        var data = $(this).data('data');
+        var origem = $(this).data('origem');
+
+        abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
+    });
+</script>
 </body>
 </html>
