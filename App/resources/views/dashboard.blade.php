@@ -44,7 +44,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/') }}">
+                <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel</span></a>
             </li>

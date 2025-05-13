@@ -39,6 +39,10 @@ Route::get('/historico', function () {
     return view('historico');
 });
 
+Route::get('/fonteDeConsumo', function () {
+    return view('fonteDeConsumo');
+});
+
 Route::get('/charts', function () {
     return view('charts');
 });
