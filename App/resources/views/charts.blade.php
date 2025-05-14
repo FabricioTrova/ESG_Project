@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
                 <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div> -->
@@ -399,7 +399,7 @@
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">gráfico de donuts</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -407,7 +407,7 @@
                                         <canvas id="myPieChart"></canvas>
                                     </div>
                                     <hr>
-                                    Styling for the donut chart can be found in the
+                                    <!-- O estilo do gráfico de donuts pode ser encontrado em -->
                                     <code>/js/demo/chart-pie-demo.js</code> file.
                                 </div>
                             </div>
@@ -469,17 +469,20 @@
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
 
-    <!-- Custom scripts for all pages-->
+    <!-- Scripts personalizados para todas as páginas-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
-
-    <script src="{{ asset('datatables/dataTables.bootstrap4.js') }}"></script>
-
-    <!-- Page level custom scripts -->
+    <!-- Scripts personalizados para todas as páginas-->
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
-</body>
+     <!-- plugins para o grafico -->
+    <script src="{{ asset('chart.js/Chart.min.js')}}"></script>
 
+
+    <!-- Sao onde faz a estelizaçao do grafico -->
+    <script src="{{ asset('js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js')}}"></script>
+    <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script>
+
+</body>
 </html>
