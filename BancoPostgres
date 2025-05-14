@@ -1,0 +1,95 @@
+Modelagem Banco
+
+empresas
+id (PK)
+nome
+cnpj
+setor_atividade
+endereco
+data_cadastro
+
+usuarios
+id (PK)
+nome
+email (UNIQUE)
+senha_hash
+empresa_id (FK -> empresas.id)
+tipo_usuario (admin, gestor, colaborador)
+data_cadastro
+
+fontes_consumo
+Define o tipo de dado de consumo que será enviado.
+id (PK)
+nome (ex: "Energia elétrica", "Água", "Gás", "Combustível")
+unidade_medida (ex: kWh, m³, L)
+fator_emissao (gCO2e/unidade) -- pode ser nulo se definido em outro lugar
+
+consumos
+Entrada de consumo de um determinado recurso por uma empresa.
+id (PK)
+empresa_id (FK -> empresas.id)
+fonte_consumo_id (FK -> fontes_consumo.id)
+data_referencia (mês/ano ou data exata)
+quantidade_consumida
+origem_dado (api, formulario)
+data_registro
+
+analises_carbono
+Tabela de resultados calculados da pegada de carbono.
+id (PK)
+empresa_id (FK -> empresas.id)
+data_referencia
+emissao_total_kgco2e
+detalhes_json -- opcional: breakdown por fonte em JSON
+data_calculo
+
+SCRIPTS 
+-- Tabela: empresas
+CREATE TABLE empresas (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) UNIQUE NOT NULL,
+    setor_atividade VARCHAR(255),
+    endereco TEXT,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela: usuarios
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    senha_hash TEXT NOT NULL,
+    empresa_id INTEGER REFERENCES empresas(id) ON DELETE CASCADE,
+    tipo_usuario VARCHAR(20) CHECK (tipo_usuario IN ('admin', 'gestor', 'colaborador')) NOT NULL,
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela: fontes_consumo
+CREATE TABLE fontes_consumo (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    unidade_medida VARCHAR(50) NOT NULL,
+    fator_emissao NUMERIC(12,6) -- gCO2e por unidade. Pode ser NULL
+);
+
+-- Tabela: consumos
+CREATE TABLE consumos (
+    id SERIAL PRIMARY KEY,
+    empresa_id INTEGER REFERENCES empresas(id) ON DELETE CASCADE,
+    fonte_consumo_id INTEGER REFERENCES fontes_consumo(id),
+    data_referencia DATE NOT NULL,
+    quantidade_consumida NUMERIC(14,4) NOT NULL,
+    origem_dado VARCHAR(20) CHECK (origem_dado IN ('api', 'formulario')) NOT NULL,
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela: analises_carbono
+CREATE TABLE analises_carbono (
+    id SERIAL PRIMARY KEY,
+    empresa_id INTEGER REFERENCES empresas(id) ON DELETE CASCADE,
+    data_referencia DATE NOT NULL,
+    emissao_total_kgco2e NUMERIC(14,4) NOT NULL,
+    detalhes_json JSONB,
+    data_calculo TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
