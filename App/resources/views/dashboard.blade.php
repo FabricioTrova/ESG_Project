@@ -58,20 +58,22 @@
             </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>Resgistros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        
+                        <a class=" collapse-item" href="{{ url('/historico') }}">
+                        <span>Historico de consumo</span></a>
+          
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
                     </div>
                 </div>
-            </li> -->
+            </li> 
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <!-- <li class="nav-item">
@@ -90,9 +92,9 @@
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
-            </li> -->
+            </li>-->
 
-            <!-- Divider -->
+            <!-- Traço de divisão -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
@@ -129,11 +131,7 @@
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/history') }}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Historico</span></a>
-            </li>
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -695,30 +693,20 @@
                 <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <!-- <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; ESG Gestão</span>
-                    </div>
-                </div>
-            </footer> -->
-            <!-- End of Footer -->
+            <!-- Fim do conteiner principal -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- Fim do conteiner Wrapper -->
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!--Final da pagina Wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
+    <!-- Modal Logout do perfil do usuario -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
