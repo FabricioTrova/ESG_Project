@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <!-- <img src="img\logo.png" alt="" style="height: 60px; width: 100px;"> -->
                     <!-- <i class="fas fa-laugh-wink"></i>  logo projeto -->
@@ -744,6 +744,15 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+
+    <!-- plugins para o grafico -->
+    <script src="{{ asset('chart.js/Chart.min.js')}}"></script>
+
+
+    <!-- Sao onde faz a estelizaçao do grafico -->
+    <script src="{{ asset('js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js')}}"></script>
+    <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script>
 
 </body>
 
