@@ -16,12 +16,12 @@
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
                 <div class="sidebar-brand-text mx-3">DashCarbon</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/') }}">
+                <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel</span>
                 </a>
@@ -193,9 +193,9 @@
                         <tr>
                             <th>Nome do consumo</th>
                             <th>Quantidade consumida</th>
-                            <th>Emissões CO2</th>
+                            <th>Fator Emissão</th>
                             <th>Data referência</th>
-                            <th>Origem do dado</th>
+                            
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -205,17 +205,15 @@
                                 <tr>
                                     <td>{{ $registro->fonte_consumo }}</td>
                                     <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                    <td>{{ number_format($registro->emissoes_co2, 2) }}</td>
+                                    <td>{{ number_format($registro->fator_emissao, 2) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
-                                    <td>{{ $registro->origem_dado }}</td>
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm edit-btn"
                                            data-id="{{ $registro->id }}"
                                            data-fonte="{{ $registro->fonte_consumo }}"
                                            data-quantidade="{{ $registro->quantidade_consumida }}"
-                                           data-emissoes="{{ $registro->emissoes_co2 }}"
-                                           data-data="{{ $registro->data_referencia }}"
-                                           data-origem="{{ $registro->origem_dado }}">
+                                           data-emissoes="{{ $registro->fator_emissao }}"
+                                           data-data="{{ $registro->data_referencia }}">
                                             Editar
                                         </a>
                                         <form action="{{ route('registros.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
@@ -267,10 +265,10 @@
                                     <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
                                     <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
                                     <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                         <div class="modal-footer">
