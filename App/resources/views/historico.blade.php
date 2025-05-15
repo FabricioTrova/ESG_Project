@@ -190,10 +190,8 @@
                                     <thead>
                                         <tr>
                                             <th>Tipo de Consumo</th>
-                                            <th>Quantidade</th>
-                                            <th>Emissões CO2 (kg)</th>
+                                            <th>Quantidade consumida</th>
                                             <th>Data de Registro</th>
-                                            <th>Origem do Dado</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
@@ -205,17 +203,14 @@
                                                 <tr>
                                                     <td>{{ $registro->fonte_consumo }}</td>
                                                     <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                                    <td>{{ number_format($registro->emissoes_co2, 2) }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
-                                                    <td>{{ $registro->origem_dado }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-warning btn-sm edit-btn"
                                                            data-id="{{ $registro->id }}"
                                                            data-fonte="{{ $registro->fonte_consumo }}"
                                                            data-quantidade="{{ $registro->quantidade_consumida }}"
-                                                           data-emissoes="{{ $registro->emissoes_co2 }}"
-                                                           data-data="{{ $registro->data_referencia }}"
-                                                           data-origem="{{ $registro->origem_dado }}">Editar</a>
+                                                           data-data="{{ $registro->data_referencia }}">Editar</a>
+
                                                         <a href="{{ route('registros.destroy', $registro->id) }}"
                                                            class="btn btn-danger btn-sm"
                                                            onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</a>
@@ -247,24 +242,25 @@
                                                 @method('POST')
                                                 <input type="hidden" id="registro_id" name="id">
                                                 <div class="form-group">
+
+                                                <!-- opçao para selecionar o tipo de consulmo -->
                                                     <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
-                                                    <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" placeholder="Ex: Gasolina, Eletricidade" required>
+                                                    <select class="form-control" id="fonte_consumo" name="fonte_consumo_id" required>
+                                                        <option value="">Selecione uma opção</option>
+                                                        @foreach ($fontes as $fonte)
+                                                            <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
+
+                                                <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
                                                     <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" placeholder="Ex: 100.50" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="emissoes_co2" class="font-weight-bold">Emissões CO2 (kg)</label>
-                                                    <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" placeholder="Ex: 50.25" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
+                                                    <label for="data_referencia" class="font-weight-bold">Data de Registro</label>
                                                     <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" placeholder="Ex: Formulário, API" required>
                                                 </div>
                                             </form>
                                         </div>
