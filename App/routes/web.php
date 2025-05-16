@@ -12,16 +12,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //Rotas para funcoes de banco
 
 // Página principal onde será exibido o modal e os registros
-Route::get('/registros', [RegistroController::class, 'index'])->name('registros.index');
+Route::get('/fontes', [RegistroController::class, 'index'])->name('fontes.index');
 
 // Rota para salvar novo registro (modal de cadastro)
-Route::post('/registros', [RegistroController::class, 'store'])->name('registros.store');
+Route::post('/fontes', [RegistroController::class, 'store'])->name('fontes.store');
 
 // Rota para atualizar um registro existente (modal de edição)
-Route::put('/registros/{id}', [RegistroController::class, 'update'])->name('registros.update');
+Route::put('/fontes/{id}', [RegistroController::class, 'update'])->name('fontes.update');
 
 // Rota para deletar um registro (modal de confirmação de exclusão)
-Route::delete('/registros/{id}', [RegistroController::class, 'destroy'])->name('registros.destroy');
+Route::delete('/fontes/{id}', [RegistroController::class, 'destroy'])->name('fontes.destroy');
 
 
 
