@@ -254,11 +254,11 @@
                                     <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
+                                    <label for="quantidade_consumida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
                                     <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="emissoes_co2" class="font-weight-bold">Emissões CO2 (kg)</label>
+                                    <label for="emissoes_co2" class="font-weight-bold">Fator de Emissão (gCO2e/unidade)</label>
                                     <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
                                 </div>
                                 <div class="form-group">
