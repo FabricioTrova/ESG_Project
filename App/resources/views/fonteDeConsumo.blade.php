@@ -244,7 +244,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
+                            <form id="registroForm" action="{{ route('fontes.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" id="registro_id" name="id">
                                 <input type="hidden" name="_method" value="POST">
