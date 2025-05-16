@@ -200,23 +200,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(isset($registros) && $registros->count() > 0)
-                            @foreach($registros as $registro)
+                        @if(isset($fontes) && $fontes->count() > 0)
+                            @foreach($fontes as $fontes)
                                 <tr>
-                                    <td>{{ $registro->fonte_consumo }}</td>
-                                    <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                    <td>{{ number_format($registro->fator_emissao, 2) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
+                                    <td>{{ $regfontesistro->fonte_consumo }}</td>
+                                    <td>{{ number_format($fontes->quantidade_consumida, 2) }}</td>
+                                    <td>{{ number_format($fontes->fator_emissao, 2) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($fontes->data_referencia)->format('d/m/Y') }}</td>
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm edit-btn"
-                                           data-id="{{ $registro->id }}"
-                                           data-fonte="{{ $registro->fonte_consumo }}"
-                                           data-quantidade="{{ $registro->quantidade_consumida }}"
-                                           data-emissoes="{{ $registro->fator_emissao }}"
-                                           data-data="{{ $registro->data_referencia }}">
+                                           data-id="{{ $fontes->id }}"
+                                           data-fonte="{{ $fontes->fonte_consumo }}"
+                                           data-quantidade="{{ $fontes->quantidade_consumida }}"
+                                           data-emissoes="{{ $fontes->fator_emissao }}"
+                                           data-data="{{ $fontes->data_referencia }}">
                                             Editar
                                         </a>
-                                        <form action="{{ route('registros.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
+                                        <form action="{{ route('fontes.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
@@ -326,7 +326,7 @@
         $('#salvarBtn').hide();
         $('#editarBtn').show();
         $('#registroModalLabel').text('Editar Consumo');
-        $('#registroForm').attr('action', "{{ url('registros') }}/" + id);
+        $('#registroForm').attr('action', "{{ url('fontes') }}/" + id);
         $('#registroForm').find('input[name="_method"]').val('PUT');
 
         $('#registroModal').modal('show');
@@ -339,7 +339,7 @@
         $('#salvarBtn').show();
         $('#editarBtn').hide();
         $('#registroModalLabel').text('Registrar Consumo');
-        $('#registroForm').attr('action', "{{ route('registros.store') }}");
+        $('#registroForm').attr('action', "{{ route('fontes.store') }}");
         $('#registroForm').find('input[name="_method"]').val('POST');
     });
 
