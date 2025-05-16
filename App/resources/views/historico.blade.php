@@ -241,15 +241,15 @@
                                                 @csrf
                                                 @method('POST')
                                                 <input type="hidden" id="registro_id" name="id">
-                                                <div class="form-group">
 
+                                                <div class="form-group">
                                                 <!-- opçao para selecionar o tipo de consulmo -->
                                                     <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
                                                     <select class="form-control" id="fonte_consumo" name="fonte_consumo_id" required>
                                                         <option value="">Selecione uma opção</option>
-                                                        @foreach ($fontes as $fonte)
+                                                        <!-- @foreach ($fontes as $fonte)
                                                             <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
-                                                        @endforeach
+                                                        @endforeach -->
                                                     </select>
                                                 </div>
 
@@ -312,9 +312,8 @@
             $('#registro_id').val(id);
             $('#fonte_consumo').val(fonte);
             $('#quantidade_consumida').val(quantidade);
-            $('#emissoes_co2').val(emissoes);
             $('#data_referencia').val(data);
-            $('#origem_dado').val(origem);
+
 
             $('#salvarBtn').hide();
             $('#editarBtn').show();
@@ -339,10 +338,8 @@
             var id = $(this).data('id');
             var fonte = $(this).data('fonte');
             var quantidade = $(this).data('quantidade');
-            var emissoes = $(this).data('emissoes');
             var data = $(this).data('data');
-            var origem = $(this).data('origem');
-            abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
+            abrirModalEdicao(id, fonte, quantidade,  data);
         });
     </script>
 </body>
