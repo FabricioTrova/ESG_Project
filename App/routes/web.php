@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\AdicionarEmpresaController;
 
 //Rotas de login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -50,3 +51,7 @@ Route::get('/charts', function () {
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
+
+// Rotas para adicionar empresa
+Route::get('/empresas', [AdicionarEmpresaController::class, 'index'])->name('empresas.index');
+Route::post('/empresas', [AdicionarEmpresaController::class, 'store'])->name('empresas.store');
