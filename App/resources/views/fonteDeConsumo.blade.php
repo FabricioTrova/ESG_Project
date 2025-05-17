@@ -32,15 +32,15 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Resgistros</span>
+                    <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Historico de consumo</span></a>
+                        <span>Historico de Consumo</span></a>
           
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
                     </div>
                 </div>
             </li> 
@@ -103,7 +103,7 @@
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">Alerts Center</h6>
+                                <h6 class="dropdown-header">Central de Alertas</h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
@@ -115,7 +115,7 @@
                                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todos os alertas</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -124,8 +124,8 @@
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">Message Center</h6>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                <h6 class="dropdown-header">Central de mensagem</h6>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Leia mais mensagem</a>
                             </div>
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -193,9 +193,7 @@
                         <tr>
                             <th>Nome do consumo</th>
                             <th>Quantidade consumida</th>
-                            <th>Fator Emissão</th>
-                            <th>Data referência</th>
-                            
+                            <th>Fator Emissão</th>            
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -206,14 +204,12 @@
                                     <td>{{ $regfontesistro->fonte_consumo }}</td>
                                     <td>{{ number_format($fontes->quantidade_consumida, 2) }}</td>
                                     <td>{{ number_format($fontes->fator_emissao, 2) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($fontes->data_referencia)->format('d/m/Y') }}</td>
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm edit-btn"
                                            data-id="{{ $fontes->id }}"
                                            data-fonte="{{ $fontes->fonte_consumo }}"
                                            data-quantidade="{{ $fontes->quantidade_consumida }}"
-                                           data-emissoes="{{ $fontes->fator_emissao }}"
-                                           data-data="{{ $fontes->data_referencia }}">
+                                           data-emissoes="{{ $fontes->fator_emissao }}">
                                             Editar
                                         </a>
                                         <form action="{{ route('fontes.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
@@ -261,14 +257,6 @@
                                     <label for="emissoes_co2" class="font-weight-bold">Fator de Emissão (gCO2e/unidade)</label>
                                     <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
-                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
-                                </div> -->
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -320,15 +308,13 @@
         $('#fonte_consumo').val(fonte);
         $('#quantidade_consumida').val(quantidade);
         $('#emissoes_co2').val(emissoes);
-        $('#data_referencia').val(data);
-        $('#origem_dado').val(origem);
+
 
         $('#salvarBtn').hide();
         $('#editarBtn').show();
         $('#registroModalLabel').text('Editar Consumo');
         $('#registroForm').attr('action', "{{ url('fontes') }}/" + id);
         $('#registroForm').find('input[name="_method"]').val('PUT');
-
         $('#registroModal').modal('show');
     }
 
@@ -349,10 +335,8 @@
         var fonte = $(this).data('fonte');
         var quantidade = $(this).data('quantidade');
         var emissoes = $(this).data('emissoes');
-        var data = $(this).data('data');
-        var origem = $(this).data('origem');
 
-        abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
+        abrirModalEdicao(id, fonte, quantidade, emissoes);
     });
 </script>
 </body>

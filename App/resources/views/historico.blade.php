@@ -32,15 +32,15 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Resgistros</span>
+                    <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Historico de consumo</span></a>
+                        <span>Historico de Consumo</span></a>
           
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
                     </div>
                 </div>
             </li> 
@@ -103,7 +103,7 @@
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">Alerts Center</h6>
+                                <h6 class="dropdown-header">Central de alertas</h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
@@ -115,7 +115,7 @@
                                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar mais alertas</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -124,8 +124,8 @@
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">Message Center</h6>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                <h6 class="dropdown-header">Central de mensagem</h6>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Ler mais mensagem</a>
                             </div>
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>

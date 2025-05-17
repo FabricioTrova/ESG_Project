@@ -64,9 +64,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Historico de consumo</span></a>
+                        <span>Historico de Consumo</span></a>
           
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
                     </div>
                 </div>
             </li> 
@@ -351,11 +351,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-                    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
+                    <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
+                    <!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
                         The charts below have been customized - for further customization options, please visit the <a
                             target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p>
+                            documentation</a>.</p> -->
 
                     <!-- Content Row -->
                     <div class="row">

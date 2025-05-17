@@ -19,7 +19,6 @@ class FonteConsumoController extends Controller
             'nome' => 'required|integer|exists:fontes_consumo,id',
             'unidade_medida' => 'required|numeric|min:0',
             'fator_emissao' => 'required|numeric|min:0',
-            'data_registro' => 'required|date',
         ]);
 
         try {
@@ -29,7 +28,6 @@ class FonteConsumoController extends Controller
                 'empresa_id' => $empresa_id,
                 'nome' => $validated['nome'],
                 'unidade_medida' => $validated['unidade_medida'],
-                'data_registro' => $validated['data_registro'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -46,7 +44,6 @@ class FonteConsumoController extends Controller
             'nome' => 'required|integer|exists:fontes_consumo,id',
             'unidade_medida' => 'required|numeric|min:0',
             'fator_emissao' => 'required|numeric|min:0',
-            'data_registro' => 'required|date',
         ]);
         try {
 
@@ -54,7 +51,6 @@ class FonteConsumoController extends Controller
                 'empresa_id' => $empresa_id,
                 'nome' => $validated['nome'],
                 'unidade_medida' => $validated['unidade_medida'],
-                'data_registro' => $validated['data_registro'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
