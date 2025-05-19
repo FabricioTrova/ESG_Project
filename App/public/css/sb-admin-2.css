@@ -1504,7 +1504,7 @@ pre code {
 .form-control {
     display:block;
     width:100%;
-    height:calc(1.5em + .75rem + 2px);
+    height:calc(2.7em + .75rem + 2px);
     padding:.375rem .75rem;
     font-size:1rem;
     font-weight:400;
@@ -8780,7 +8780,7 @@ form.user .custom-checkbox.small label {
 form.user .form-control-user {
     font-size:.8rem;
     border-radius:10rem;
-    padding:1.5rem 1rem
+    padding: 0.400rem .75rem;
 }
 form.user .btn-user {
     font-size:.8rem;

@@ -8,7 +8,7 @@
     <title>DashCarbon - Registro</title>
 
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-primary">
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="form-group">
-                                <<select name="empresa_id" class="form-control form-control-user" placeholder="Selecione a empresa" required>
+                                <select name="empresa_id" class="form-control form-control-user" placeholder="Selecione a empresa" required>
                                     <option value="">Selecione uma empresa</option>
                                      @foreach ($empresas as $empresa)
                                     <option value="{{ $empresa->id }}">{{ $empresa->nome }} ({{ $empresa->cnpj }})</option>
