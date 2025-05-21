@@ -237,7 +237,7 @@
                                         <!-- inicio do modal  -->
                                         <div class="modal-body">
                                             <!-- esse e o formulario de registro onde ele chama  Registro.store para adicionar as informaçoes no banco -->
-                                            <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
+                                            <form id="registroForm" action="{{ route('fontes.store') }}" method="POST">
                                                 @csrf
                                                 @method('POST')
                                                 <input type="hidden" id="registro_id" name="id">

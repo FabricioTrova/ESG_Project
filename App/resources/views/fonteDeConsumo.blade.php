@@ -193,37 +193,34 @@
                         <tr>
                             <th>Nome do consumo</th>
                             <th>Quantidade consumida</th>
-                            <th>Fator Emissão</th>
-                            <th>Data referência</th>
-                            
+                            <th>Fator Emissão</th>                            
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if(isset($fontes) && $fontes->count() > 0)
-                            @foreach($fontes as $fontes)
-                                <tr>
-                                    <td>{{ $regfontesistro->fonte_consumo }}</td>
-                                    <td>{{ number_format($fontes->quantidade_consumida, 2) }}</td>
-                                    <td>{{ number_format($fontes->fator_emissao, 2) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($fontes->data_referencia)->format('d/m/Y') }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
-                                           data-id="{{ $fontes->id }}"
-                                           data-fonte="{{ $fontes->fonte_consumo }}"
-                                           data-quantidade="{{ $fontes->quantidade_consumida }}"
-                                           data-emissoes="{{ $fontes->fator_emissao }}"
-                                           data-data="{{ $fontes->data_referencia }}">
-                                            Editar
-                                        </a>
-                                        <form action="{{ route('fontes.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @foreach($fontes as $fonte)
+    <tr>
+        <td>{{ $fonte->nome }}</td>
+        <td>{{ $fonte->unidade_medida }}</td>
+        <td>{{ number_format($fonte->fator_emissao, 2) }}</td>
+        <td>
+            <a href="#" class="btn btn-warning btn-sm edit-btn"
+               data-id="{{ $fonte->id }}"
+               data-nome="{{ $fonte->nome }}"
+               data-unidade="{{ $fonte->unidade_medida }}"
+               data-emissao="{{ $fonte->fator_emissao }}">
+                Editar
+            </a>
+            <form action="{{ route('fontes.destroy', $fonte->id) }}" method="POST" style="display:inline-block;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
                         @else
                             <tr>
                                 <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
@@ -245,31 +242,23 @@
                         </div>
                         <div class="modal-body">
                             <form id="registroForm" action="{{ route('fontes.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" id="registro_id" name="id">
-                                <input type="hidden" name="_method" value="POST">
+    @csrf
+    <input type="hidden" id="registro_id" name="id">
+    <input type="hidden" name="_method" value="POST">
 
-                                <div class="form-group">
-                                    <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
-                                    <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantidade_consumida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
-                                    <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="emissoes_co2" class="font-weight-bold">Fator de Emissão (gCO2e/unidade)</label>
-                                    <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
-                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
-                                </div> -->
-                            </form>
+    <div class="form-group">
+        <label for="nome" class="font-weight-bold">Tipo de Consumo</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
+        <input type="text" class="form-control" id="unidade_medida" name="unidade_medida" required>
+    </div>
+    <div class="form-group">
+        <label for="fator_emissao" class="font-weight-bold">Fator de Emissão (gCO2e/unidade)</label>
+        <input type="number" step="0.01" class="form-control" id="fator_emissao" name="fator_emissao" required>
+    </div>
+</form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -315,12 +304,11 @@
     
 <!-- Script para abrir modal com dados para edição -->
 <script>
-    function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
+    function abrirModalEdicao(id, fonte, quantidade, emissoes, origem) {
         $('#registro_id').val(id);
         $('#fonte_consumo').val(fonte);
         $('#quantidade_consumida').val(quantidade);
         $('#emissoes_co2').val(emissoes);
-        $('#data_referencia').val(data);
         $('#origem_dado').val(origem);
 
         $('#salvarBtn').hide();
@@ -349,10 +337,8 @@
         var fonte = $(this).data('fonte');
         var quantidade = $(this).data('quantidade');
         var emissoes = $(this).data('emissoes');
-        var data = $(this).data('data');
-        var origem = $(this).data('origem');
 
-        abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
+        abrirModalEdicao(id, fonte, quantidade, emissoes);
     });
 </script>
 </body>

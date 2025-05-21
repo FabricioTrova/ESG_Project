@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\AdicionarEmpresaController;
+use App\Http\Controllers\FonteConsumoController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -19,10 +20,10 @@ Route::get('/register', [RegistroController::class, 'showUserForm']);
 Route::post('/register', [RegistroController::class, 'registrarUsuario']);
 
 //Registro fontes de Consumo
-Route::get('/fontes', [RegistroController::class, 'index'])->name('fontes.index');
-Route::post('/fontes', [RegistroController::class, 'store'])->name('fontes.store');
-Route::put('/fontes/{id}', [RegistroController::class, 'update'])->name('fontes.update');
-Route::delete('/fontes/{id}', [RegistroController::class, 'destroy'])->name('fontes.destroy');
+Route::get('/fontes', [FonteConsumoController::class, 'index'])->name('fontes.index');
+Route::post('/fontes', [FonteConsumoController::class, 'store'])->name('fontes.store');
+Route::put('/fontes/{id}', [FonteConsumoController::class, 'update'])->name('fontes.update');
+Route::delete('/fontes/{id}', [FonteConsumoController::class, 'destroy'])->name('fontes.destroy');
 
 // Protegidas futuramente com middleware('auth')
 Route::get('/dashboard', function () {
