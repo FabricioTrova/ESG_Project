@@ -248,8 +248,13 @@
                         <input type="hidden" name="_method" value="POST">
 
                         <div class="form-group">
-                            <label for="fonte_consumo" class="font-weight-bold">Fonte de Consumo</label>
-                            <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
+                            <label for="nome" class="font-weight-bold">Tipo de Consumo</label>
+                                <select name="fonte_consumo_id" id="fonte_consumo" class="form-control" required>
+                                  <option value="">Selecione a fonte</option>
+                                     @foreach($fontes as $fonte)
+                                      <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
+                                     @endforeach
+                                </select>
                         </div>
                         <div class="form-group">
                             <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
