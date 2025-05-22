@@ -10,7 +10,7 @@
     <title>DashCarbon - Histórico</title>
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 <body id="page-top">
@@ -32,7 +32,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Resgistros</span>
+                    <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -130,10 +130,12 @@
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         
-                        <!-- icone do perfil e configuraçãoo -->
+                        <!-- icone do perfil e configuraçãoo / Mostra o nome do usuário que está logado --> 
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                {{ auth()->user()->nome }}
+                                </span>
                                 <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile.svg') }}">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -193,37 +195,34 @@
                         <tr>
                             <th>Nome do consumo</th>
                             <th>Quantidade consumida</th>
-                            <th>Fator Emissão</th>
-                            <th>Data referência</th>
-                            
+                            <th>Fator Emissão</th>                            
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if(isset($registros) && $registros->count() > 0)
-                            @foreach($registros as $registro)
-                                <tr>
-                                    <td>{{ $registro->fonte_consumo }}</td>
-                                    <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                    <td>{{ number_format($registro->fator_emissao, 2) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
-                                           data-id="{{ $registro->id }}"
-                                           data-fonte="{{ $registro->fonte_consumo }}"
-                                           data-quantidade="{{ $registro->quantidade_consumida }}"
-                                           data-emissoes="{{ $registro->fator_emissao }}"
-                                           data-data="{{ $registro->data_referencia }}">
-                                            Editar
-                                        </a>
-                                        <form action="{{ route('registros.destroy', $registro->id) }}" method="POST" style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @if(isset($fontes) && $fontes->count() > 0)
+                            @foreach($fontes as $fonte)
+    <tr>
+        <td>{{ $fonte->nome }}</td>
+        <td>{{ $fonte->unidade_medida }}</td>
+        <td>{{ number_format($fonte->fator_emissao, 2) }}</td>
+        <td>
+            <a href="#" class="btn btn-warning btn-sm edit-btn"
+               data-id="{{ $fonte->id }}"
+               data-nome="{{ $fonte->nome }}"
+               data-unidade="{{ $fonte->unidade_medida }}"
+               data-emissao="{{ $fonte->fator_emissao }}">
+                Editar
+            </a>
+            <form action="{{ route('fontes.destroy', $fonte->id) }}" method="POST" style="display:inline-block;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
                         @else
                             <tr>
                                 <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
@@ -245,31 +244,23 @@
                         </div>
                         <div class="modal-body">
                             <form id="registroForm" action="{{ route('fontes.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" id="registro_id" name="id">
-                                <input type="hidden" name="_method" value="POST">
+    @csrf
+    <input type="hidden" id="registro_id" name="id">
+    <input type="hidden" name="_method" value="POST">
 
-                                <div class="form-group">
-                                    <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
-                                    <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
-                                    <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="emissoes_co2" class="font-weight-bold">Emissões CO2 (kg)</label>
-                                    <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="data_referencia" class="font-weight-bold">Data de Referência</label>
-                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                                    <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
-                                </div> -->
-                            </form>
+    <div class="form-group">
+        <label for="nome" class="font-weight-bold">Tipo de Consumo</label>
+        <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
+        <input type="text" class="form-control" id="unidade_medida" name="unidade_medida" required>
+    </div>
+    <div class="form-group">
+        <label for="fator_emissao" class="font-weight-bold">Fator de Emissão (gCO2e/unidade)</label>
+        <input type="number" step="0.01" class="form-control" id="fator_emissao" name="fator_emissao" required>
+    </div>
+</form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -315,18 +306,17 @@
     
 <!-- Script para abrir modal com dados para edição -->
 <script>
-    function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
+    function abrirModalEdicao(id, fonte, quantidade, emissoes, origem) {
         $('#registro_id').val(id);
         $('#fonte_consumo').val(fonte);
         $('#quantidade_consumida').val(quantidade);
         $('#emissoes_co2').val(emissoes);
-        $('#data_referencia').val(data);
         $('#origem_dado').val(origem);
 
         $('#salvarBtn').hide();
         $('#editarBtn').show();
         $('#registroModalLabel').text('Editar Consumo');
-        $('#registroForm').attr('action', "{{ url('registros') }}/" + id);
+        $('#registroForm').attr('action', "{{ url('fontes') }}/" + id);
         $('#registroForm').find('input[name="_method"]').val('PUT');
 
         $('#registroModal').modal('show');
@@ -339,7 +329,7 @@
         $('#salvarBtn').show();
         $('#editarBtn').hide();
         $('#registroModalLabel').text('Registrar Consumo');
-        $('#registroForm').attr('action', "{{ route('registros.store') }}");
+        $('#registroForm').attr('action', "{{ route('fontes.store') }}");
         $('#registroForm').find('input[name="_method"]').val('POST');
     });
 
@@ -349,10 +339,8 @@
         var fonte = $(this).data('fonte');
         var quantidade = $(this).data('quantidade');
         var emissoes = $(this).data('emissoes');
-        var data = $(this).data('data');
-        var origem = $(this).data('origem');
 
-        abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem);
+        abrirModalEdicao(id, fonte, quantidade, emissoes);
     });
 </script>
 </body>

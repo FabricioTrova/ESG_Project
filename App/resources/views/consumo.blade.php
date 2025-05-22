@@ -10,7 +10,7 @@
     <title>DashCarbon - Histórico</title>
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 <body id="page-top">
@@ -32,7 +32,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Resgistros</span>
+                    <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -130,10 +130,12 @@
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         
-                        <!-- icone do perfil e configuraçãoo -->
+                        <!-- icone do perfil e configuraçãoo / Mostra o nome do usuário que está logado --> 
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                {{ auth()->user()->nome }}
+                                </span>
                                 <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile.svg') }}">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -184,98 +186,97 @@
                                 <span class="text">Registrar</span>
                             </a>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Tipo de Consumo</th>
-                                            <th>Quantidade consumida</th>
-                                            <th>Data de Registro</th>
-                                            <th>Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(isset($registros) && $registros->count() > 0)
+                        <!-- Tabela de registros -->
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Fonte de Consumo</th>
+                    <th>Quantidade</th>
+                    <th>Emissões CO₂</th>
+                    <th>Origem do Dado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(isset($consumos) && $consumos->count() > 0)
+                    @foreach($consumos as $consumo)
+<tr>
+    <td>{{ $consumo->fonte_consumo }}</td>
+    <td>{{ $consumo->quantidade_consumida }}</td>
+    <td>{{ number_format($consumo->emissoes_co2, 2) }}</td>
+    <td>{{ $consumo->origem_dado }}</td>
+    <td>
+        <a href="#" class="btn btn-warning btn-sm edit-btn"
+           data-id="{{ $consumo->id }}"
+           data-fonte="{{ $consumo->fonte_consumo }}"
+           data-quantidade="{{ $consumo->quantidade_consumida }}"
+           data-emissoes="{{ $consumo->emissoes_co2 }}"
+           data-origem="{{ $consumo->origem_dado }}">
+            Editar
+        </a>
+        <form action="{{ route('consumos.destroy', $consumo->id) }}" method="POST" style="display:inline-block;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
+        </form>
+    </td>
+</tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum consumo registrado.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
 
-                                        <!-- nesse trecho de codigo ele faz uma estrutura de repetição onde ele libera mais cadastro na tabela -->
-                                            @foreach($registros as $registro)
-                                                <tr>
-                                                    <td>{{ $registro->fonte_consumo }}</td>
-                                                    <td>{{ number_format($registro->quantidade_consumida, 2) }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($registro->data_referencia)->format('d/m/Y') }}</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
-                                                           data-id="{{ $registro->id }}"
-                                                           data-fonte="{{ $registro->fonte_consumo }}"
-                                                           data-quantidade="{{ $registro->quantidade_consumida }}"
-                                                           data-data="{{ $registro->data_referencia }}">Editar</a>
+    <!-- Modal de Registro / Edição -->
+    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroModalLabel">Registrar Consumo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="registroForm" action="{{ route('consumos.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" id="registro_id" name="id">
+                        <input type="hidden" name="_method" value="POST">
 
-                                                        <a href="{{ route('registros.destroy', $registro->id) }}"
-                                                           class="btn btn-danger btn-sm"
-                                                           onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="registroModalLabel">Registrar Consumo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <!-- inicio do modal  -->
-                                        <div class="modal-body">
-                                            <!-- esse e o formulario de registro onde ele chama  Registro.store para adicionar as informaçoes no banco -->
-                                            <form id="registroForm" action="{{ route('registros.store') }}" method="POST">
-                                                @csrf
-                                                @method('POST')
-                                                <input type="hidden" id="registro_id" name="id">
-
-                                                <div class="form-group">
-                                                <!-- opçao para selecionar o tipo de consulmo -->
-                                                    <label for="fonte_consumo" class="font-weight-bold">Tipo de Consumo</label>
-                                                    <select class="form-control" id="fonte_consumo" name="fonte_consumo_id" required>
-                                                        <option value="">Selecione uma opção</option>
-                                                        <!-- @foreach ($fontes as $fonte)
-                                                            <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
-                                                        @endforeach -->
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                <div class="form-group">
-                                                    <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
-                                                    <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" placeholder="Ex: 100.50" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="data_referencia" class="font-weight-bold">Data de Registro</label>
-                                                    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <button type="submit" form="registroForm" class="btn btn-primary" id="salvarBtn">Salvar</button>
-                                            <button type="submit" form="registroForm" class="btn btn-warning" id="editarBtn" style="display: none;">Editar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label for="fonte_consumo" class="font-weight-bold">Fonte de Consumo</label>
+                            <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
+                            <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emissoes_co2" class="font-weight-bold">Emissões CO₂ (em gCO2e)</label>
+                            <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
+                            <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" form="registroForm" class="btn btn-primary" id="salvarBtn">Salvar</button>
+                    <button type="submit" form="registroForm" class="btn btn-warning" id="editarBtn" style="display: none;">Atualizar</button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
@@ -307,40 +308,42 @@
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
     <script>
+    function abrirModalEdicao(id, fonte, quantidade, emissoes, origem) {
+        $('#registro_id').val(id);
+        $('#fonte_consumo').val(fonte);
+        $('#quantidade_consumida').val(quantidade);
+        $('#emissoes_co2').val(emissoes);
+        $('#origem_dado').val(origem);
 
-        function abrirModalEdicao(id, fonte, quantidade, emissoes, data, origem) {
-            $('#registro_id').val(id);
-            $('#fonte_consumo').val(fonte);
-            $('#quantidade_consumida').val(quantidade);
-            $('#data_referencia').val(data);
+        $('#salvarBtn').hide();
+        $('#editarBtn').show();
+        $('#registroModalLabel').text('Editar Consumo');
+        $('#registroForm').attr('action', "{{ url('consumos') }}/" + id);
+        $('#registroForm').find('input[name="_method"]').val('PUT');
 
+        $('#registroModal').modal('show');
+    }
 
-            $('#salvarBtn').hide();
-            $('#editarBtn').show();
-            $('#registroModalLabel').text('Editar Consumo');
-            $('#registroForm').attr('action', "{{ url('registros') }}/" + id);
-            $('#registroForm').find('input[name="_method"]').val('PUT');
+    $('#registroModal').on('hidden.bs.modal', function () {
+        $('#registroForm')[0].reset();
+        $('#registro_id').val('');
+        $('#salvarBtn').show();
+        $('#editarBtn').hide();
+        $('#registroModalLabel').text('Registrar Consumo');
+        $('#registroForm').attr('action', "{{ route('consumos.store') }}");
+        $('#registroForm').find('input[name="_method"]').val('POST');
+    });
 
-            $('#registroModal').modal('show');
-        }
+    $('.edit-btn').on('click', function () {
+        var id = $(this).data('id');
+        var fonte = $(this).data('fonte');
+        var quantidade = $(this).data('quantidade');
+        var emissoes = $(this).data('emissoes');
+        var origem = $(this).data('origem');
 
-        $('#registroModal').on('hidden.bs.modal', function () {
-            $('#registroForm')[0].reset();
-            $('#registro_id').val('');
-            $('#salvarBtn').show();
-            $('#editarBtn').hide();
-            $('#registroModalLabel').text('Registrar Consumo');
-            $('#registroForm').attr('action', "{{ route('registros.store') }}");
-            $('#registroForm').find('input[name="_method"]').val('POST');
-        });
+        abrirModalEdicao(id, fonte, quantidade, emissoes, origem);
+    });
+</script>
 
-        $('.edit-btn').on('click', function () {
-            var id = $(this).data('id');
-            var fonte = $(this).data('fonte');
-            var quantidade = $(this).data('quantidade');
-            var data = $(this).data('data');
-            abrirModalEdicao(id, fonte, quantidade,  data);
-        });
-    </script>
 </body>
 </html>
