@@ -41,6 +41,8 @@
                         <span>Historico de consumo</span></a>
           
                         <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+
+                        <a class="collapse-item" href="{{url('/empresas')}}">Fontes de consumo</a>
                     </div>
                 </div>
             </li> 
