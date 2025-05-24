@@ -25,10 +25,20 @@ class AdicionarEmpresaController extends Controller
             'endereco' => 'required|string|max:255',
         ]);
 
+        // Remove caracteres especiais do CNPJ, se necessário
+        $cnpj = preg_replace('/[^0-9]/', '', $validated['cnpj']);
+
+        // Verifica se o CNPJ já existe
+        $existe = DB::table('empresas')->where('cnpj', $cnpj)->exists();
+
+        if ($existe) {
+            return redirect()->back()->with('error', 'Este CNPJ já está cadastrado.');
+        }
+
         // Inserção usando Query Builder
         DB::table('empresas')->insert([
             'nome' => $validated['nome'],
-            'cnpj' => $validated['cnpj'],
+            'cnpj' => $cnpj,
             'setor_atividade' => $validated['setor_atividade'],
             'endereco' => $validated['endereco'],
             'data_cadastro' => now(),
@@ -36,9 +46,13 @@ class AdicionarEmpresaController extends Controller
 
         return redirect()->back()->with('success', 'Empresa cadastrada com sucesso!');
     }
+
+    // Excluir empresa
+    public function destroy($id)
+    {
+        DB::table('empresas')->where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Empresa excluída com sucesso!');
+    }
 }
-
-
-?>
 
 
