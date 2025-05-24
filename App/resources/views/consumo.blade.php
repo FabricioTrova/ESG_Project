@@ -199,13 +199,13 @@
                 @if(isset($consumos) && $consumos->count() > 0)
                     @foreach($consumos as $consumo)
 <tr>
-    <td>{{ $consumo->fonte_consumo }}</td>
+    <td>{{ $consumo->fonte_consumo_id }}</td>
     <td>{{ $consumo->quantidade_consumida }}</td>
     <td>{{ number_format($consumo->emissoes_co2, 2) }}</td>
     <td>
         <a href="#" class="btn btn-warning btn-sm edit-btn"
            data-id="{{ $consumo->id }}"
-           data-fonte="{{ $consumo->fonte_consumo }}"
+           data-fonte="{{ $consumo->fonte_consumo_id }}"
            data-quantidade="{{ $consumo->quantidade_consumida }}"
            data-emissoes="{{ $consumo->emissoes_co2 }}">
             Editar
@@ -245,7 +245,7 @@
 
                         <div class="form-group">
                             <label for="nome" class="font-weight-bold">Tipo de Consumo</label>
-                                <select name="fonte_consumo_id" id="fonte_consumo" class="form-control" required>
+                                <select name="fonte_consumo_id" id="fonte_consumo_id" class="form-control" required>
                                   <option value="">Selecione a fonte</option>
                                      @foreach($fontes as $fonte)
                                       <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
@@ -303,20 +303,23 @@
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
     <script>
-    function abrirModalEdicao(id, fonte, quantidade, emissoes) {
-        $('#registro_id').val(id);
-        $('#fonte_consumo').val(fonte);
-        $('#quantidade_consumida').val(quantidade);
-        $('#emissoes_co2').val(emissoes);
+    function abrirModalEdicao(id, fonte, quantidade, emissoes, referencia) {
+    $('#registro_id').val(id);
+    $('#fonte_consumo_id').val(fonte);
+    $('#quantidade_consumida').val(quantidade);
+    $('#emissoes_co2').val(emissoes);
+    $('#data_referencia').val(referencia);
 
-        $('#salvarBtn').hide();
-        $('#editarBtn').show();
-        $('#registroModalLabel').text('Editar Consumo');
-        $('#registroForm').attr('action', "{{ url('consumos') }}/" + id);
-        $('#registroForm').find('input[name="_method"]').val('PUT');
+    $('#salvarBtn').hide();
+    $('#editarBtn').show();
+    $('#registroModalLabel').text('Editar Consumo');
+    $('#registroForm').attr('action', "{{ url('consumos') }}/" + id);
+    $('#registroForm').find('input[name="_method"]').val('PUT');
 
-        $('#registroModal').modal('show');
-    }
+    $('#registroModal').modal('show');
+}
+
+    
 
     $('#registroModal').on('hidden.bs.modal', function () {
         $('#registroForm')[0].reset();
