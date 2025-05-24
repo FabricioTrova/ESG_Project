@@ -193,8 +193,6 @@
                     <th>Fonte de Consumo</th>
                     <th>Quantidade</th>
                     <th>Emissões CO₂</th>
-                    <th>Origem do Dado</th>
-                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -204,14 +202,12 @@
     <td>{{ $consumo->fonte_consumo }}</td>
     <td>{{ $consumo->quantidade_consumida }}</td>
     <td>{{ number_format($consumo->emissoes_co2, 2) }}</td>
-    <td>{{ $consumo->origem_dado }}</td>
     <td>
         <a href="#" class="btn btn-warning btn-sm edit-btn"
            data-id="{{ $consumo->id }}"
            data-fonte="{{ $consumo->fonte_consumo }}"
            data-quantidade="{{ $consumo->quantidade_consumida }}"
-           data-emissoes="{{ $consumo->emissoes_co2 }}"
-           data-origem="{{ $consumo->origem_dado }}">
+           data-emissoes="{{ $consumo->emissoes_co2 }}">
             Editar
         </a>
         <form action="{{ route('consumos.destroy', $consumo->id) }}" method="POST" style="display:inline-block;">
@@ -264,10 +260,6 @@
                             <label for="emissoes_co2" class="font-weight-bold">Emissões CO₂ (em gCO2e)</label>
                             <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
                         </div>
-                        <div class="form-group">
-                            <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                            <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -311,12 +303,11 @@
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
     <script>
-    function abrirModalEdicao(id, fonte, quantidade, emissoes, origem) {
+    function abrirModalEdicao(id, fonte, quantidade, emissoes) {
         $('#registro_id').val(id);
         $('#fonte_consumo').val(fonte);
         $('#quantidade_consumida').val(quantidade);
         $('#emissoes_co2').val(emissoes);
-        $('#origem_dado').val(origem);
 
         $('#salvarBtn').hide();
         $('#editarBtn').show();
@@ -342,10 +333,10 @@
         var fonte = $(this).data('fonte');
         var quantidade = $(this).data('quantidade');
         var emissoes = $(this).data('emissoes');
-        var origem = $(this).data('origem');
 
-        abrirModalEdicao(id, fonte, quantidade, emissoes, origem);
+        abrirModalEdicao(id, fonte, quantidade, emissoes);
     });
+
 </script>
 
 </body>
