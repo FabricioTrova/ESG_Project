@@ -2,13 +2,12 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Cadastrar Empresa</title>
     <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
 </head>
 <body>
      
@@ -313,9 +312,11 @@
         <input type="text" name="cnpj" value="{{ old('cnpj') }}" required><br>
         @error('cnpj') <span style="color:red">{{ $message }}</span><br> @enderror
 
-        <label>Setor de Atividade:</label><br>
-        <input type="text" name="setor_atividade" value="{{ old('setor_atividade') }}" required><br>
-        @error('setor_atividade') <span style="color:red">{{ $message }}</span><br> @enderror
+                        <div class="form-group">
+                        <input type="text" class = "form-control form-control-user" name="setor_atividade" value="{{ old('setor_atividade') }}" 
+                        placeholder = "Setor de Atividade" required><br>
+                        @error('setor_atividade') <span style="color:red">{{ $message }}</span><br> @enderror
+                        </div>
 
         <label>Endereço:</label><br>
         <input type="text" name="endereco" value="{{ old('endereco') }}" required><br>
