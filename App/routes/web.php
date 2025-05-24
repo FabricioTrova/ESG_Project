@@ -54,3 +54,4 @@ Route::get('/forgot', function () {
 // Rotas para adicionar empresa
 Route::get('/empresas', [AdicionarEmpresaController::class, 'index'])->name('empresas.index');
 Route::post('/empresas', [AdicionarEmpresaController::class, 'store'])->name('empresas.store');
+Route::delete('/empresas/{id}', [AdicionarEmpresaController::class, 'destroy'])->name('empresas.destroy');
