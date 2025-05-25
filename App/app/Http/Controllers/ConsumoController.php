@@ -10,8 +10,17 @@ class ConsumoController extends Controller
 {
     public function index()
     {
-        $consumos = Consumo::with('fonteConsumo')->get();
-        $fontes = FonteConsumo::all(); 
+        $user = auth()->user();
+
+        if ($user->tipo_usuario === 'admin') {
+            $consumos = Consumo::with('fonteConsumo')->get();
+        } else {
+            $consumos = Consumo::with('fonteConsumo')
+                ->where('empresa_id', $user->empresa_id)
+                ->get();
+        }
+
+        $fontes = FonteConsumo::all();
 
         return view('consumo', compact('consumos', 'fontes'));
     }
@@ -25,7 +34,7 @@ class ConsumoController extends Controller
         ]);
 
         try {
-            $empresa_id = 1; // Substituir com o ID da empresa autenticada se necessário
+            $empresa_id = auth()->user()->empresa_id;
 
             Consumo::create([
                 'empresa_id' => $empresa_id,
@@ -50,6 +59,11 @@ class ConsumoController extends Controller
 
         try {
             $consumo = Consumo::findOrFail($id);
+            $user = auth()->user();
+
+            if ($user->tipo_usuario !== 'admin' && $consumo->empresa_id !== $user->empresa_id) {
+                abort(403, 'Acesso não autorizado.');
+            }
 
             $consumo->update($validated);
 
@@ -62,7 +76,15 @@ class ConsumoController extends Controller
     public function destroy($id)
     {
         try {
-            Consumo::destroy($id);
+            $consumo = Consumo::findOrFail($id);
+            $user = auth()->user();
+
+            if ($user->tipo_usuario !== 'admin' && $consumo->empresa_id !== $user->empresa_id) {
+                abort(403, 'Acesso não autorizado.');
+            }
+
+            $consumo->delete();
+
             return redirect()->route('consumos.index')->with('success', 'Consumo excluído com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Erro ao excluir o consumo: ' . $e->getMessage()]);

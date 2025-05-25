@@ -38,9 +38,13 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Historico de consumo</span></a>
+                        <span>Cadastro Consumo</span></a>
           
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
+
+                        <a class="collapse-item" href="{{url('/empresas')}}">Cadastro de Empresas</a>
+
+                        <a class="collapse-item" href="{{url('/register')}}">Cadastro de Usuário</a>
                     </div>
                 </div>
             </li> 
