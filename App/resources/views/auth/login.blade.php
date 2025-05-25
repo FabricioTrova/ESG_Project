@@ -79,9 +79,9 @@
                                     <div class="text-center">
                                         <a class="small" href="{{ url('/forgot') }}">Esqueceu a senha?</a>
                                     </div>
-                                    <div class="text-center">
+                                    <!-- div class="text-center">
                                         <a class="small" href="{{ url('/register') }}">Criar uma conta!</a>
-                                    </div>
+                                    </div -->
                                 </div>
                             </div>
                         </div>

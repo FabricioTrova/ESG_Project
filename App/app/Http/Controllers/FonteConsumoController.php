@@ -10,11 +10,16 @@ class FonteConsumoController extends Controller
     public function index()
     {
         $fontes = FonteConsumo::all();
-        return view('fonteDeConsumo', compact('fontes')); // <-- view padrão ajustada
+        return view('fonteDeConsumo', compact('fontes'));
     }
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+        if ($user->tipo_usuario !== 'admin') {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'unidade_medida' => 'required|string|max:50',
@@ -36,6 +41,11 @@ class FonteConsumoController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+        if ($user->tipo_usuario !== 'admin') {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'unidade_medida' => 'required|string|max:50',
@@ -59,6 +69,11 @@ class FonteConsumoController extends Controller
 
     public function destroy($id)
     {
+        $user = auth()->user();
+        if ($user->tipo_usuario !== 'admin') {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         try {
             FonteConsumo::destroy($id);
             return redirect()->route('fontes.index')->with('success', 'Fonte excluída com sucesso!');
