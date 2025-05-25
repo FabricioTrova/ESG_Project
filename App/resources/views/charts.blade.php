@@ -24,7 +24,7 @@
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
+   <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -32,9 +32,10 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
-                <!-- <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div> -->
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <!-- <img src="img\logo.png" alt="" style="height: 60px; width: 100px;"> -->
+                    <!-- <i class="fas fa-laugh-wink"></i>  logo projeto -->
+                </div>
                 <div class="sidebar-brand-text mx-3">DashCarbon</div>
             </a>
 
@@ -42,11 +43,14 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel</span></a>
             </li>
+            <!--Codigos do menu lateral em modo close-->
+            <!-- Divider -->
+            <!-- <hr class="sidebar-divider"> -->
 
             <!-- Heading -->
             <!-- <div class="sidebar-heading">
@@ -61,6 +65,7 @@
                     <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
@@ -68,9 +73,6 @@
           
                         <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
 
-                        <a class="collapse-item" href="{{url('/empresas')}}">Cadastro de Empresas</a>
-
-                        <a class="collapse-item" href="{{url('/register')}}">Cadastro de Usuário</a>
                     </div>
                 </div>
             </li> 
@@ -92,10 +94,10 @@
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
-            </li> -->
+            </li>-->
 
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
+            <!-- Traço de divisão -->
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -103,40 +105,45 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Administração</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <h6 class="collapse-header">Acessos:</h6>
+                        <a class="collapse-item" href="{{ url('/empresas') }}">Cadastro de Empresas</a>
+                        <a class="collapse-item" href="{{ url('/register') }}">Cadastro de Usuário</a>
                     </div>
                 </div>
-            </li> -->
+            </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/') }}">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/charts') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Grafico</span></a>
+                    <span>Graficos</span></a>
             </li>
+
+            <!-- Nav Item - Tables -->
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
+            <!-- Botao de fechar barra lateral -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
+            <!-- Sidebar Messagem de upgrade de plano -->
+            <!-- <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2"><strong>DashCarbon</strong> Aproveite mais recursos!</p>
+                <a class="btn btn-success btn-sm" href="">Upgrade to Pro!</a>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
