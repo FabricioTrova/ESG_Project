@@ -44,30 +44,38 @@
             </li>
 
 
-            <!-- Nav Item - Pages Collapse Menu -->
-             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Registros</span>
+            <!-- Menu Cadastros -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCadastros"
+                aria-expanded="true" aria-controls="collapseCadastros">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Cadastros</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        
-                        <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Cadastro Consumo</span></a>
-          
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
-
-                        <a class="collapse-item" href="{{url('/empresas')}}">Cadastro de Empresas</a>
-
-                        <a class="collapse-item" href="{{url('/register')}}">Cadastro de Usuário</a>
-                    </div>
+                <div id="collapseCadastros" class="collapse" aria-labelledby="headingCadastros" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ url('/historico') }}">Cadastro Consumo</a>
+                    <a class="collapse-item" href="{{ url('/fonteDeConsumo') }}">Fontes de Consumo</a>
                 </div>
-            </li> 
+                </div>
+            </li>
+
+<!-- Menu Administração -->
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin"
+                 aria-expanded="true" aria-controls="collapseAdmin">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Administração</span>
+              </a>
+              <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                  <a class="collapse-item" href="{{ url('/empresas') }}">Cadastro de Empresas</a>
+                  <a class="collapse-item" href="{{ url('/register') }}">Cadastro de Usuário</a>
+                </div>
+              </div>
+            </li>
 
             <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
