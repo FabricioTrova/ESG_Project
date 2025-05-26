@@ -364,7 +364,7 @@
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Criar uma Conta!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Cadastrar conta de usuario</h1>
                         </div>
 
                         <form method="POST" action="{{ url('/register') }}" class="user">
@@ -420,13 +420,6 @@
                             </button>
                         </form>
 
-                        <hr>
-                        <div class="text-center">
-                            <a class="small" href="{{ url('/forgot') }}">Esqueceu a Senha?</a>
-                        </div>
-                        <div class="text-center">
-                            <a class="small" href="{{ url('/login') }}">Já tem uma conta? Faça login!</a>
-                        </div>
                     </div>
                 </div>
             </div>
