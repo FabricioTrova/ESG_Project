@@ -269,39 +269,36 @@
                 <tr>
                     <th>Fonte de Consumo</th>
                     <th>Quantidade</th>
-                    <th>Emissões CO₂</th>
-                    <th>Origem do Dado</th>
+                    <th>Data de Registro</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 @if(isset($consumos) && $consumos->count() > 0)
                     @foreach($consumos as $consumo)
-<tr>
-    <td>{{ $consumo->fonte_consumo }}</td>
-    <td>{{ $consumo->quantidade_consumida }}</td>
-    <td>{{ number_format($consumo->emissoes_co2, 2) }}</td>
-    <td>{{ $consumo->origem_dado }}</td>
-    <td>
-        <a href="#" class="btn btn-warning btn-sm edit-btn"
-           data-id="{{ $consumo->id }}"
-           data-fonte="{{ $consumo->fonte_consumo }}"
-           data-quantidade="{{ $consumo->quantidade_consumida }}"
-           data-emissoes="{{ $consumo->emissoes_co2 }}"
-           data-origem="{{ $consumo->origem_dado }}">
-            Editar
-        </a>
-        <form action="{{ route('consumos.destroy', $consumo->id) }}" method="POST" style="display:inline-block;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
-        </form>
-    </td>
-</tr>
+                        <tr>
+                            <td>{{ $consumo->fonteConsumo->nome ?? 'N/A' }}</td>
+                            <td>{{ $consumo->quantidade_consumida }}</td>
+                            <td>{{ $consumo->data_registro }}</td>
+                            <td>
+                                <a href="#" class="btn btn-warning btn-sm edit-btn"
+                                   data-id="{{ $consumo->id }}"
+                                   data-fonte-consumo-id="{{ $consumo->fonte_consumo_id }}"
+                                   data-quantidade="{{ $consumo->quantidade_consumida }}"
+                                   data-data-registro="{{ $consumo->data_registro }}">
+                                    Editar
+                                </a>
+                                <form action="{{ route('consumos.destroy', $consumo->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja realmente excluir este registro?')">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5" class="text-center">Nenhum consumo registrado.</td>
+                        <td colspan="4" class="text-center">Nenhum consumo registrado.</td>
                     </tr>
                 @endif
             </tbody>
@@ -315,7 +312,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="registroModalLabel">Registrar Consumo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -325,20 +322,25 @@
                         <input type="hidden" name="_method" value="POST">
 
                         <div class="form-group">
-                            <label for="fonte_consumo" class="font-weight-bold">Fonte de Consumo</label>
-                            <input type="text" class="form-control" id="fonte_consumo" name="fonte_consumo" required>
+                            <label for="fonte_consumo_id" class="font-weight-bold">Fonte de Consumo</label>
+                            <select class="form-control" id="fonte_consumo_id" name="fonte_consumo_id" required>
+                                <option value="">Selecione uma fonte</option>
+                                @if(isset($fontes) && $fontes->count() > 0)
+                                    @foreach($fontes as $fonte)
+                                        <option value="{{ $fonte->id }}">{{ $fonte->nome }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled>Nenhuma fonte disponível</option>
+                                @endif
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="quantidade_consumida" class="font-weight-bold">Quantidade Consumida</label>
                             <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
                         </div>
                         <div class="form-group">
-                            <label for="emissoes_co2" class="font-weight-bold">Emissões CO₂ (em gCO2e)</label>
-                            <input type="number" step="0.01" class="form-control" id="emissoes_co2" name="emissoes_co2" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="origem_dado" class="font-weight-bold">Origem do Dado</label>
-                            <input type="text" class="form-control" id="origem_dado" name="origem_dado" required>
+                            <label for="data_registro" class="font-weight-bold">Data de Registro</label>
+                            <input type="date" class="form-control" id="data_registro" name="data_registro" required>
                         </div>
                     </form>
                 </div>
@@ -351,7 +353,6 @@
         </div>
     </div>
 </div>
-
             <a class="scroll-to-top rounded" href="#page-top">
                 <i class="fas fa-angle-up"></i>
             </a>
@@ -382,13 +383,12 @@
     <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 
-    <script>
-    function abrirModalEdicao(id, fonte, quantidade, emissoes, origem) {
+ <script>
+    function abrirModalEdicao(id, fonteConsumoId, quantidade, dataRegistro) {
         $('#registro_id').val(id);
-        $('#fonte_consumo').val(fonte);
+        $('#fonte_consumo_id').val(fonteConsumoId);
         $('#quantidade_consumida').val(quantidade);
-        $('#emissoes_co2').val(emissoes);
-        $('#origem_dado').val(origem);
+        $('#data_registro').val(dataRegistro);
 
         $('#salvarBtn').hide();
         $('#editarBtn').show();
@@ -411,12 +411,11 @@
 
     $('.edit-btn').on('click', function () {
         var id = $(this).data('id');
-        var fonte = $(this).data('fonte');
+        var fonteConsumoId = $(this).data('fonte-consumo-id');
         var quantidade = $(this).data('quantidade');
-        var emissoes = $(this).data('emissoes');
-        var origem = $(this).data('origem');
+        var dataRegistro = $(this).data('data-registro');
 
-        abrirModalEdicao(id, fonte, quantidade, emissoes, origem);
+        abrirModalEdicao(id, fonteConsumoId, quantidade, dataRegistro);
     });
 </script>
 
