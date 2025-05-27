@@ -34,9 +34,7 @@ Route::middleware(['auth', 'tipo_usuario:admin,gestor'])->group(function () {
     Route::delete('/fontes/{id}', [FonteConsumoController::class, 'destroy'])->name('fontes.destroy');
 });
 
-Route::get('/historico', function () {
-    return view('consumo');
-});
+Route::get('/historico', [ConsumoController::class, 'index'])->name('consumos.historico');
 //Registro de Consumos
 Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(function () {
     Route::get('/consumos', [ConsumoController::class, 'index'])->name('consumos.index');
