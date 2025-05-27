@@ -45,14 +45,6 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel</span></a>
             </li>
-            <!--Codigos do menu lateral em modo close-->
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
-
-            <!-- Heading -->
-            <!-- <div class="sidebar-heading">
-                Interface
-            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -73,26 +65,6 @@
                     </div>
                 </div>
             </li> 
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>-->
-
             <!-- Traço de divisão -->
             <hr class="sidebar-divider">
 
@@ -457,6 +429,15 @@
         </div>
     </div>
 </div>
+
+<!-- Scripts DataTables -->
+<script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('#usuariosTable').DataTable();
+    });
+</script>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -45,14 +45,6 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel</span></a>
             </li>
-            <!--Codigos do menu lateral em modo close-->
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
-
-            <!-- Heading -->
-            <!-- <div class="sidebar-heading">
-                Interface
-            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -73,26 +65,6 @@
                     </div>
                 </div>
             </li> 
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>-->
-
             <!-- Traço de divisão -->
             <hr class="sidebar-divider">
 
@@ -123,10 +95,7 @@
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Graficos</span></a>
             </li>
-
-            <!-- Nav Item - Tables -->
             
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -134,13 +103,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-            <!-- Sidebar Messagem de upgrade de plano -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>DashCarbon</strong> Aproveite mais recursos!</p>
-                <a class="btn btn-success btn-sm" href="">Upgrade to Pro!</a>
-            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -357,83 +319,67 @@
 
 
 <div class="container">
-    <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-body p-0">
-            <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                <div class="col-lg-7">
-                    <div class="p-5">
-                        <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Criar uma Conta!</h1>
-                        </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Criar uma Conta</h6>
+        </div>
 
-                        <form method="POST" action="{{ url('/register') }}" class="user">
-                            @csrf
+        <div class="card-body">
+            <form method="POST" action="{{ url('/register') }}">
+                @csrf
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">{{ $errors->first() }}</div>
-                            @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">{{ $errors->first() }}</div>
+                @endif
 
-                            <div class="form-group">
-                                <input type="text" name="nome" class="form-control form-control-user"
-                                       placeholder="Seu nome completo" required>
-                            </div>
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" id="nome" name="nome" value="{{ old('nome') }}" placeholder="Seu nome completo" required>
+                </div>
 
-                            <div class="form-group">
-                                <input type="email" name="email" class="form-control form-control-user"
-                                       placeholder="Email" required>
-                            </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
+                </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" name="senha" class="form-control form-control-user"
-                                           placeholder="Senha" required>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="password" name="senha_confirmation"
-                                           class="form-control form-control-user" placeholder="Confirme a senha"
-                                           required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <select name="empresa_id" class="form-control form-control-user" placeholder="Selecione a empresa" required>
-                                    <option value="">Selecione uma empresa</option>
-                                     @foreach ($empresas as $empresa)
-                                    <option value="{{ $empresa->id }}">{{ $empresa->nome }} ({{ $empresa->cnpj }})</option>
-                                     @endforeach
-                                </select>
-
-                            </div>
-
-                            <div class="form-group">
-    <select name="tipo_usuario" class="form-control form-control-user" placeholder="Selecione o tipo de usuário" required>
-        <option value="">Selecione o tipo de usuário</option>
-        <option value="admin">Administrador</option>
-        <option value="gestor">Gestor</option>
-        <option value="colaborador">Colaborador</option>
-    </select>
-</div>
-
-                            <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Registrar Conta
-                            </button>
-                        </form>
-
-                        <hr>
-                        <div class="text-center">
-                            <a class="small" href="{{ url('/forgot') }}">Esqueceu a Senha?</a>
-                        </div>
-                        <div class="text-center">
-                            <a class="small" href="{{ url('/login') }}">Já tem uma conta? Faça login!</a>
-                        </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label for="senha">Senha:</label>
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="senha_confirmation">Confirme a Senha:</label>
+                        <input type="password" class="form-control" id="senha_confirmation" name="senha_confirmation" placeholder="Confirme a senha" required>
                     </div>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label for="empresa_id">Empresa:</label>
+                    <select name="empresa_id" class="form-control" id="empresa_id" required>
+                        <option value="">Selecione uma empresa</option>
+                        @foreach ($empresas as $empresa)
+                            <option value="{{ $empresa->id }}">{{ $empresa->nome }} ({{ $empresa->cnpj }})</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo_usuario">Tipo de Usuário:</label>
+                    <select name="tipo_usuario" class="form-control" id="tipo_usuario" required>
+                        <option value="">Selecione o tipo de usuário</option>
+                        <option value="admin">Administrador</option>
+                        <option value="gestor">Gestor</option>
+                        <option value="colaborador">Colaborador</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Registrar Conta</button>
+            </form>
         </div>
     </div>
 </div>
  
+
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
