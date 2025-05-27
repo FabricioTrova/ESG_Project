@@ -48,4 +48,6 @@ class RegistroController extends Controller
 
         return redirect('/login')->with('success', 'Usuário registrado com sucesso!');
     }
+
+
 }

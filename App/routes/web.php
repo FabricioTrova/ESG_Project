@@ -20,7 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //Rotas de registro usuario 
 Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
     Route::get('/register', [RegistroController::class, 'showUserForm']);
-    Route::post('/register', [RegistroController::class, 'registrarUsuario']);
+    Route::post('/register', [RegistroController::class, 'registrarUsuario']);;
 });
 
 Route::get('/fonteDeConsumo', function () {

@@ -25,9 +25,4 @@ class Usuario extends Authenticatable
 
     public $timestamps = false;
 
-    // Laravel procura esse método por padrão para comparar senhas
-    public function getAuthPassword()
-    {
-        return $this->senha_hash;
-    }
 }
