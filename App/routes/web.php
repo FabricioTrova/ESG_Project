@@ -66,3 +66,10 @@ Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
+
+Route::delete('/usuarios/{id}', [RegistroController::class, 'destroy'])->name('usuario.destroy');
+Route::resource('usuario', RegistroController::class);
+Route::resource('registro', RegistroController::class);
+
+;
+
