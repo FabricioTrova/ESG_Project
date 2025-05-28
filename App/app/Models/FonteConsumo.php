@@ -16,4 +16,9 @@ class FonteConsumo extends Model
         'unidade_medida',
         'fator_emissao',
     ];
+
+    public function consumos()
+{
+    return $this->hasMany(\App\Models\Consumo::class, 'fonte_consumo_id');
+}
 }

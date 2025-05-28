@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FonteConsumo;
-
+use App\Models\Consumo;
 class FonteConsumoController extends Controller
 {
     public function index()
@@ -75,10 +75,12 @@ class FonteConsumoController extends Controller
         }
 
         try {
-            FonteConsumo::destroy($id);
-            return redirect()->route('fontes.index')->with('success', 'Fonte excluída com sucesso!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Erro ao excluir a fonte: ' . $e->getMessage()]);
-        }
+    $fonte = FonteConsumo::findOrFail($id);
+    $fonte->consumos()->delete(); // deleta consumos vinculados
+    $fonte->delete(); // depois deleta a fonte
+    return redirect()->route('fontes.index')->with('success', 'Fonte de consumos excluídos com sucesso!');
+} catch (\Exception $e) {
+    return redirect()->back()->withErrors(['error' => 'Erro ao excluir a fonte: ' . $e->getMessage()]);
+}
     }
 }
