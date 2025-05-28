@@ -332,7 +332,7 @@
     <i class="fas fa-angle-up"></i>
 </a> -->
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
 
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -354,10 +354,10 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @endif
+    @endif -->
 
     <!-- Card com formulário de cadastro -->
-    <div class="card shadow mb-4">
+    <!-- <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Cadastrar Empresa</h6>
         </div>
@@ -389,66 +389,181 @@
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
    <!-- Tabela de empresas cadastradas -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Empresas Cadastradas</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="empresasTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CNPJ</th>
-                        <th>Setor de Atividade</th>
-                        <th>Endereço</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($empresas as $empresa)
+<div class="container-fluid">
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    @endif
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Empresas Cadastradas</h6>
+            <a href="#" class="btn btn-light btn-icon-split" data-toggle="modal" data-target="#empresaModal">
+                <span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span>
+                <span class="text">Adicionar Empresa</span>
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="empresasTable" width="100%" cellspacing="0">
+                    <thead>
                         <tr>
-                            <td>{{ $empresa->nome }}</td>
-                            <td>{{ $empresa->cnpj }}</td>
-                            <td>{{ $empresa->setor_atividade }}</td>
-                            <td>{{ $empresa->endereco }}</td>
-                            <td>
-                                <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir esta empresa?')" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                                </form>
-                            </td>
+                            <th>Nome</th>
+                            <th>CNPJ</th>
+                            <th>Setor de Atividade</th>
+                            <th>Endereço</th>
+                            <th>Ações</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @if($empresas->count() > 0)
+                            @foreach($empresas as $empresa)
+                                <tr>
+                                    <td>{{ $empresa->nome }}</td>
+                                    <td>{{ $empresa->cnpj }}</td>
+                                    <td>{{ $empresa->setor_atividade }}</td>
+                                    <td>{{ $empresa->endereco }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-warning btn-sm edit-btn"
+                                            data-id="{{ $empresa->id }}"
+                                            data-nome="{{ htmlspecialchars($empresa->nome) }}"
+                                            data-cnpj="{{ htmlspecialchars($empresa->cnpj) }}"
+                                            data-setor="{{ htmlspecialchars($empresa->setor_atividade) }}"
+                                            data-endereco="{{ htmlspecialchars($empresa->endereco) }}">
+                                            Editar
+                                        </a>
+                                        <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir esta empresa?')" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5" class="text-center">Nenhuma empresa cadastrada.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal de Adicionar/Editar Empresa -->
+            <div class="modal fade" id="empresaModal" tabindex="-1" role="dialog" aria-labelledby="empresaModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="empresaModalLabel">Adicionar Empresa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="empresaForm" action="{{ route('empresas.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" id="empresa_id" name="id">
+                                <input type="hidden" name="_method" value="POST">
+
+                                <div class="form-group">
+                                    <label for="nome" class="font-weight-bold">Nome</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cnpj" class="font-weight-bold">CNPJ</label>
+                                    <input type="text" class="form-control" id="cnpj" name="cnpj" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="setor_atividade" class="font-weight-bold">Setor de Atividade</label>
+                                    <input type="text" class="form-control" id="setor_atividade" name="setor_atividade" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="endereco" class="font-weight-bold">Endereço</label>
+                                    <input type="text" class="form-control" id="endereco" name="endereco" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" form="empresaForm" class="btn btn-primary" id="salvarBtn">Salvar</button>
+                            <button type="submit" form="empresaForm" class="btn btn-warning" id="editarBtn" style="display: none;">Atualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Scripts DataTables -->
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+
 <script>
     $(document).ready(function () {
-        $('#usuariosTable').DataTable();
+        $('#empresasTable').DataTable();
+
+        $('.edit-btn').on('click', function () {
+            console.log('Botão Editar clicado');
+            var id = $(this).data('id');
+            var nome = $(this).data('nome');
+            var cnpj = $(this).data('cnpj');
+            var setor = $(this).data('setor');
+            var endereco = $(this).data('endereco');
+
+            console.log('Dados capturados:', { id, nome, cnpj, setor, endereco });
+
+            abrirModalEdicao(id, nome, cnpj, setor, endereco);
+        });
+
+        function abrirModalEdicao(id, nome, cnpj, setor, endereco) {
+            console.log('Abrindo modal com dados:', { id, nome, cnpj, setor, endereco });
+
+            $('#empresa_id').val(id);
+            $('#nome').val(nome);
+            $('#cnpj').val(cnpj);
+            $('#setor_atividade').val(setor);
+            $('#endereco').val(endereco);
+
+            $('#salvarBtn').hide();
+            $('#editarBtn').show();
+            $('#empresaModalLabel').text('Editar Empresa');
+            $('#empresaForm').attr('action', "{{ url('empresas') }}/" + id);
+            $('#empresaForm').find('input[name="_method"]').val('PUT');
+
+            $('#empresaModal').modal('show');
+        }
+
+        $('#empresaModal').on('hidden.bs.modal', function () {
+            $('#empresaForm')[0].reset();
+            $('#empresa_id').val('');
+            $('#salvarBtn').show();
+            $('#editarBtn').hide();
+            $('#empresaModalLabel').text('Adicionar Empresa');
+            $('#empresaForm').attr('action', "{{ route('empresas.store') }}");
+            $('#empresaForm').find('input[name="_method"]').val('POST');
+        });
     });
 </script>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-    <script src="{{ asset('datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 </body>
 </html>
