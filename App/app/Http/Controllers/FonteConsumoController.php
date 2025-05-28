@@ -78,7 +78,7 @@ class FonteConsumoController extends Controller
     $fonte = FonteConsumo::findOrFail($id);
     $fonte->consumos()->delete(); // deleta consumos vinculados
     $fonte->delete(); // depois deleta a fonte
-    return redirect()->route('fontes.index')->with('success', 'Fonte e consumos vinculados excluídos com sucesso!');
+    return redirect()->route('fontes.index')->with('success', 'Fonte de consumos excluídos com sucesso!');
 } catch (\Exception $e) {
     return redirect()->back()->withErrors(['error' => 'Erro ao excluir a fonte: ' . $e->getMessage()]);
 }
