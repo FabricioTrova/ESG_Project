@@ -51,7 +51,7 @@ class RegistroController extends Controller
             'data_cadastro' => now(),
         ]);
 
-        return redirect('/login')->with('success', 'Usuário registrado com sucesso!');
+        return redirect('/register')->with('success', 'Usuário registrado com sucesso!');
     }
 
  public function destroy($id)
