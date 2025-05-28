@@ -31,7 +31,7 @@ class RegistroController extends Controller
         // Apenas admin pode registrar novos usuários
         $user = auth()->user();
         if ($user && $user->tipo_usuario !== 'admin') {
-            abort(403, 'Acesso não autorizado.');
+            abort(403, 'Acesso não autorizado');
         }
 
         $request->validate([
@@ -51,6 +51,7 @@ class RegistroController extends Controller
             'data_cadastro' => now(),
         ]);
 
+        //redireciona para a página de registro com uma mensagem de sucesso
         return redirect('/register')->with('success', 'Usuário registrado com sucesso!');
     }
 
