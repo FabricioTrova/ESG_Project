@@ -300,7 +300,7 @@
 
                         @else
                             <tr>
-                                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
+                                <td colspan="4" class="text-center">Nenhum registro encontrado.</td>
                             </tr>
                         @endif
                     </tbody>
@@ -328,7 +328,7 @@
         <input type="text" class="form-control" id="nome" name="nome" required>
     </div>
     <div class="form-group">
-        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
+        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: Litros, m³, kWh)</label>
         <input type="text" class="form-control" id="unidade_medida" name="unidade_medida" required>
     </div>
     <div class="form-group">
