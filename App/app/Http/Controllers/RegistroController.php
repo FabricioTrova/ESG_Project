@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\UsuarioController;
 
 class RegistroController extends Controller
 {
@@ -18,7 +19,11 @@ class RegistroController extends Controller
         }
 
         $empresas = Empresa::all();
-        return view('auth.register-user', compact('empresas'));
+        $usuarios = Usuario::with('empresa')->get();
+
+        return view('auth.register-user', compact('empresas', 'usuarios'));
+
+
     }
 
     public function registrarUsuario(Request $request)
@@ -49,5 +54,23 @@ class RegistroController extends Controller
         return redirect('/login')->with('success', 'Usuário registrado com sucesso!');
     }
 
+ public function destroy($id)
+{
+    $usuario = Usuario::find($id);
 
+    if (!$usuario) {
+        return redirect()->route('usuario.index')->with('error', 'Usuário não encontrado.');
+    }
+
+    $usuario->delete();
+
+    return redirect()->route('usuario.index')->with('success', 'Usuário excluído com sucesso.');
+}
+
+    public function index()
+    {
+        $empresas = Empresa::all();
+        $usuarios = Usuario::with('empresa')->get();
+        return view('auth.register-user', compact('usuarios', 'empresas'));
+    }
 }

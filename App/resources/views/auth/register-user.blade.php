@@ -378,6 +378,45 @@
         </div>
     </div>
 </div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Usuarios Cadastrados</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="empresasTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Empresa</th>
+                        <th>Tipo de Usuario</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+    @foreach($usuarios as $usuario)
+        <tr>
+            <td>{{ $usuario->nome }}</td>
+            <td>{{ $usuario->email }}</td>
+            <td>{{ $usuario->empresa->nome ?? 'Empresa não encontrada' }}</td>
+            <td>{{ ucfirst($usuario->tipo_usuario) }}</td>
+            <td>
+                <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir este usuário?')" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
  
 
 

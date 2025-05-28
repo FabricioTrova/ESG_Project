@@ -24,5 +24,9 @@ class Usuario extends Authenticatable
     ];
 
     public $timestamps = false;
+    public function empresa()
+{
+    return $this->belongsTo(Empresa::class);
+}
 
 }
