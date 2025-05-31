@@ -28,85 +28,85 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                <div class="sidebar-brand-text mx-3">DashCarbon</div>
-            </a>
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <!-- Ícone opcional -->
+        </div>
+        <div class="sidebar-brand-text mx-3">DashCarbon</div>
+    </a>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Painel</span></a>
-            </li>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ url('/dashboard') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Painel</span>
+        </a>
+    </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Registros</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">        
-                        <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Cadastro Consumo</span></a>
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
-                    </div>
-                </div>
-            </li> 
-
-            <!-- Traço de divisão -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Complementos
+    <!-- Nav Item - Registros Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Registros</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/historico') }}">Cadastro Consumo</a>
+                <a class="collapse-item" href="{{ url('/fonteDeConsumo') }}">Fontes de Consumo</a>
             </div>
+        </div>
+    </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Administração</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Acessos:</h6>
-                        <a class="collapse-item" href="{{ url('/empresas') }}">Cadastro de Empresas</a>
-                        <a class="collapse-item" href="{{ url('/register') }}">Cadastro de Usuário</a>
-                    </div>
-                </div>
-            </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/charts') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Graficos</span></a>
-            </li>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Complementos
+    </div>
 
-            <!-- Nav Item - Tables -->
-            
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Botao de fechar barra lateral -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    <!-- Nav Item - Administração -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Administração</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Acessos:</h6>
+                <a class="collapse-item" href="{{ url('/empresas') }}">Cadastro de Empresas</a>
+                <a class="collapse-item" href="{{ url('/register') }}">Cadastro de Usuário</a>
             </div>
+        </div>
+    </li>
 
-        </ul>
-        <!-- End of Sidebar -->
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('/charts') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Gráficos</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Botão) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
