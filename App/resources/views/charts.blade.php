@@ -2,29 +2,23 @@
 <html lang="PT-br">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>DashCarbon - Grafico</title>
+    <title>DashCarbon - Gráfico</title>
 
-    <!-- Custom fonts for this template-->
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
     <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-    <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
 
-   <!-- Page Wrapper -->
+    <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -33,31 +27,22 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <!-- <img src="img\logo.png" alt="" style="height: 60px; width: 100px;"> -->
-                    <!-- <i class="fas fa-laugh-wink"></i>  logo projeto -->
+                    <!-- Logo ou ícone -->
                 </div>
                 <div class="sidebar-brand-text mx-3">DashCarbon</div>
             </a>
 
-            <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Painel</span></a>
+                    <span>Painel</span>
+                </a>
             </li>
-            <!--Codigos do menu lateral em modo close-->
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
 
-            <!-- Heading -->
-            <!-- <div class="sidebar-heading">
-                Interface
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Registros -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -65,27 +50,17 @@
                     <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        
-                        <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Cadastro Consumo</span></a>
-          
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
-
+                        <a class="collapse-item" href="{{ url('/historico') }}">Cadastro Consumo</a>
+                        <a class="collapse-item" href="{{ url('/fonteDeConsumo') }}">Fontes de Consumo</a>
                     </div>
                 </div>
-            </li> 
+            </li>
 
-            <!-- Traço de divisão -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Complementos
-            </div>
+            <div class="sidebar-heading">Complementos</div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
@@ -101,20 +76,15 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/charts') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Graficos</span></a>
+                    <span>Gráficos</span>
+                </a>
             </li>
 
-            <!-- Nav Item - Tables -->
-            
-
-            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Botao de fechar barra lateral -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
@@ -131,14 +101,11 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
@@ -150,25 +117,23 @@
                         </div>
                     </form>
 
-                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
+                        </li>
 
-                        <!-- icone do perfil e configuraçãoo / Mostra o nome do usuário que está logado --> 
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                {{ auth()->user()->nome }}
+                                    {{ auth()->user()->nome }}
                                 </span>
                                 <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile.svg') }}">
                             </a>
-                            <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
@@ -188,79 +153,166 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-                    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                        The charts below have been customized - for further customization options, please visit the <a
-                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p>
+                    <!-- Filtros Ambientais -->
+                    <div class="mb-4">
+                        <div class="card shadow-sm border-left-primary">
+                            <div class="card-body">
+                                <div class="row gy-3 gx-4 align-items-end">
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <div class="col-xl-8 col-lg-7">
-
-                            <!-- Area Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                                        </label>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
+                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" data-filter="energy">
+                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
+                                                <i class="fas fa-gas-pump me-1"></i> Combustível
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" data-filter="waste">
+                                                <i class="fas fa-recycle me-1"></i> Resíduos
+                                            </button>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    Styling for the area chart can be found in the
-                                    <code>/js/demo/chart-area-demo.js</code> file.
-                                </div>
-                            </div>
 
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
+                                    <div class="col-md-3">
+                                        <label class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1"></i> Período
+                                        </label>
+                                        <select class="form-select form-select-sm" id="select-periodo">
+                                            <option value="7d">Últimos 7 dias</option>
+                                            <option value="30d">Últimos 30 dias</option>
+                                            <option value="90d">Últimos 3 meses</option>
+                                            <option value="1y">Último ano</option>
+                                        </select>
                                     </div>
-                                    <hr>
-                                    Styling for the bar chart can be found in the
-                                    <code>/js/demo/chart-bar-demo.js</code> file.
-                                </div>
-                            </div>
 
-                        </div>
-
-                        <!-- Donut Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">gráfico de donuts</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
+                                    <div class="col-md-3 text-end">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary btn-sm" onclick="applyFilters()">
+                                                <i class="fas fa-filter me-1"></i> Aplicar Filtros
+                                            </button>
+                                            <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
+                                                <i class="fas fa-undo me-1"></i> Limpar Filtros
+                                            </button>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    <!-- O estilo do gráfico de donuts pode ser encontrado em -->
-                                    <code>/js/demo/chart-pie-demo.js</code> file.
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Indicadores Ambientais (KPIs) -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 fw-bold text-primary">Indicadores Ambientais</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="card border-left-success">
+                                        <div class="card-body py-2">
+                                            <div class="text-success fw-bold">-15%</div>
+                                            <div class="small">Redução de CO₂</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="card border-left-info">
+                                        <div class="card-body py-2">
+                                            <div class="text-info fw-bold">89%</div>
+                                            <div class="small">Satisfação Sustentável</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="card border-left-warning">
+                                        <div class="card-body py-2">
+                                            <div class="text-warning fw-bold">98%</div>
+                                            <div class="small">Compliance Ambiental</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="card border-left-primary">
+                                        <div class="card-body py-2">
+                                            <div class="text-primary fw-bold">5.2</div>
+                                            <div class="small">Score ESG</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7 mb-4">
+                            <div class="card shadow h-100">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Visão Geral dos Lucros</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Ações:</div>
+                                            <a class="dropdown-item" href="#">Exportar</a>
+                                            <a class="dropdown-item" href="#">Configurações</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="position: relative; height: 300px;">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5 mb-4">
+                            <div class="card shadow h-100">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Distribuição por Categoria</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Ações:</div>
+                                            <a class="dropdown-item" href="#">Exportar</a>
+                                            <a class="dropdown-item" href="#">Configurações</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="position: relative; height: 300px;">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
+            <!-- End of Content -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -268,53 +320,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Pronto para Sair?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Selecione 'Sair' abaixo se estiver pronto para encerrar sua sessão atual.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="{{ url('/login') }}">Sair</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-       <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Scripts personalizados para todas as páginas-->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Scripts personalizados para todas as páginas-->
-    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
-
-     <!-- plugins para o grafico -->
-    <script src="{{ asset('chart.js/Chart.min.js')}}"></script>
-
-
-    <!-- Sao onde faz a estelizaçao do grafico -->
-    <script src="{{ asset('js/demo/chart-area-demo.js')}}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js')}}"></script>
-    <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script>
-
 </body>
+
 </html>
