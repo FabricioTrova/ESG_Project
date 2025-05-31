@@ -50,12 +50,17 @@
                     <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ url('/historico') }}">Cadastro Consumo</a>
-                        <a class="collapse-item" href="{{ url('/fonteDeConsumo') }}">Fontes de Consumo</a>
+                        
+                        <a class=" collapse-item" href="{{ url('/historico') }}">
+                        <span>Cadastro Consumo</span></a>
+          
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
+
                     </div>
                 </div>
-            </li>
+            </li> 
 
             <hr class="sidebar-divider">
 
@@ -75,6 +80,7 @@
                     </div>
                 </div>
             </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/charts') }}">
@@ -320,6 +326,12 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <!-- scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script> 
 </body>
 
 </html>
