@@ -17,11 +17,15 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//Rotas de registro usuario 
+//Rotas de registro usuario e exclusão de usuario
 Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
     Route::get('/register', [RegistroController::class, 'showUserForm']);
     Route::post('/register', [RegistroController::class, 'registrarUsuario']);;
 });
+
+Route::delete('/usuarios/{id}', [RegistroController::class, 'destroy'])->name('usuario.destroy');
+Route::resource('usuario', RegistroController::class);
+Route::resource('registro', RegistroController::class);
 
 Route::get('/fonteDeConsumo', function () {
     return view('fonteDeConsumo');
@@ -66,10 +70,6 @@ Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
-
-Route::delete('/usuarios/{id}', [RegistroController::class, 'destroy'])->name('usuario.destroy');
-Route::resource('usuario', RegistroController::class);
-Route::resource('registro', RegistroController::class);
 
 ;
 
