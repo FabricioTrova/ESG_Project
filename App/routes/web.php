@@ -6,6 +6,7 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\AdicionarEmpresaController;
 use App\Http\Controllers\FonteConsumoController;
 use App\Http\Controllers\ConsumoController;
+use App\Http\Controllers\AnaliseCarbonoController;
 
 //Redireciona a raiz para a rota de login
 Route::get('/', function () {
@@ -47,7 +48,6 @@ Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(func
     Route::delete('/consumos/{id}', [ConsumoController::class, 'destroy'])->name('consumos.destroy');
 });
 
-// Protegidas futuramente com middleware('auth')
 Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -56,7 +56,10 @@ Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(func
     Route::get('/charts', function () {
         return view('charts');
     });
+
+    Route::post('/analise-carbono/calcular', [AnaliseCarbonoController::class, 'calcular'])->name('analise_carbono.calcular');
 });
+
 
 // Rotas para adicionar empresa
 Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {

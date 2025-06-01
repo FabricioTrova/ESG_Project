@@ -1,7 +1,5 @@
 <?php
 
-// App\Services\CalculoCarbonoService.php
-
 namespace App\Services;
 
 use App\Models\Consumo;
@@ -12,7 +10,7 @@ class CalculoCarbonoService
 {
     public function calcularParaEmpresa($empresaId, $dataReferencia)
     {
-        // Filtra consumos pela empresa e pela data
+        // Busca todos os consumos dessa empresa no mês e ano
         $consumos = Consumo::with('fonte')
             ->where('empresa_id', $empresaId)
             ->whereMonth('data_referencia', $dataReferencia->format('m'))
@@ -25,12 +23,13 @@ class CalculoCarbonoService
         foreach ($consumos as $consumo) {
             $fatorEmissao = $consumo->fonte->fator_emissao;
 
-            // Se não houver fator, ignora
+            // Pula se não tiver fator de emissão
             if (is_null($fatorEmissao)) {
                 continue;
             }
 
-            $emissaoKg = ($consumo->quantidade_consumida * $fatorEmissao) / 1000; // gCO2e → kgCO2e
+            // Cálculo: gCO2e → kgCO2e
+            $emissaoKg = ($consumo->quantidade_consumida * $fatorEmissao) / 1000;
 
             $totalEmissaoKg += $emissaoKg;
 
@@ -43,8 +42,8 @@ class CalculoCarbonoService
             ];
         }
 
-        // Salva na tabela analises_carbono
-        AnaliseCarbono::create([
+        // Grava o resultado na tabela analises_carbono
+        $analise = AnaliseCarbono::create([
             'empresa_id' => $empresaId,
             'data_referencia' => $dataReferencia->format('Y-m-d'),
             'emissao_total_kgco2e' => $totalEmissaoKg,
@@ -52,6 +51,7 @@ class CalculoCarbonoService
         ]);
 
         return [
+            'analise_id' => $analise->id,
             'total_emissao_kgco2e' => $totalEmissaoKg,
             'detalhes' => $detalhes,
         ];
