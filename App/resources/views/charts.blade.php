@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body id="page-top">
@@ -159,61 +161,97 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <div class="container-fluid">
+<div class="container-fluid">
+<!-- Cálculo da Pegada de Carbono -->
+<div class="mb-4">
+    <div class="card shadow-sm border-left-success">
+        <div class="card-body">
+            <form action="{{ route('analise_carbono.calcular') }}" method="POST" class="d-flex justify-content-between align-items-center">
+                @csrf
+                <label class="form-label text-success fw-semibold mb-0">
+                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
+                </label>
+                
+                <input type="month" name="data_referencia" class="form-control form-control-sm me-2" required>
+                
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="fas fa-calculator me-1"></i> Calcular Pegada de Carbono
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
-                    <!-- Filtros Ambientais -->
-                    <div class="mb-4">
-                        <div class="card shadow-sm border-left-primary">
-                            <div class="card-body">
-                                <div class="row gy-3 gx-4 align-items-end">
 
-                                    <div class="col-md-6">
-                                        <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                                        </label>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
-                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="energy">
-                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
-                                                <i class="fas fa-gas-pump me-1"></i> Combustível
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="waste">
-                                                <i class="fas fa-recycle me-1"></i> Resíduos
-                                            </button>
-                                        </div>
-                                    </div>
+@if(session('success'))
+    <div class="alert alert-success mt-3">
+        {{ session('success') }}
+    </div>
+@endif
 
-                                    <div class="col-md-3">
-                                        <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-calendar-alt me-1"></i> Período
-                                        </label>
-                                        <select class="form-select form-select-sm" id="select-periodo">
-                                            <option value="7d">Últimos 7 dias</option>
-                                            <option value="30d">Últimos 30 dias</option>
-                                            <option value="90d">Últimos 3 meses</option>
-                                            <option value="1y">Último ano</option>
-                                        </select>
-                                    </div>
+@if(session('error'))
+    <div class="alert alert-danger mt-3">
+        {{ session('error') }}
+    </div>
+@endif
 
-                                    <div class="col-md-3 text-end">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-primary btn-sm" onclick="applyFilters()">
-                                                <i class="fas fa-filter me-1"></i> Aplicar Filtros
-                                            </button>
-                                            <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                                                <i class="fas fa-undo me-1"></i> Limpar Filtros
-                                            </button>
-                                        </div>
-                                    </div>
+<!-- Filtros Ambientais -->
+<div class="mb-4">
+    <div class="card shadow-sm border-left-primary">
+        <div class="card-body">
+            <div class="row gy-3 gx-4 align-items-end">
 
-                                </div>
-                            </div>
-                        </div>
+                <!-- Categoria Ambiental -->
+                <div class="col-md-6">
+                    <label class="form-label text-primary fw-semibold">
+                        <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                    </label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
+                            <i class="fas fa-smog me-1"></i> Pegada de Carbono
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="energy">
+                            <i class="fas fa-bolt me-1"></i> Consumo Energético
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
+                            <i class="fas fa-gas-pump me-1"></i> Combustível
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="waste">
+                            <i class="fas fa-recycle me-1"></i> Resíduos
+                        </button>
                     </div>
+                </div>
+
+                <!-- Período -->
+                <div class="col-md-3">
+                    <label class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Período
+                    </label>
+                    <select class="form-select form-select-sm" id="select-periodo">
+                        <option value="7d">Últimos 7 dias</option>
+                        <option value="30d">Últimos 30 dias</option>
+                        <option value="90d">Últimos 3 meses</option>
+                        <option value="1y">Último ano</option>
+                    </select>
+                </div>
+
+                <!-- Botões Filtros -->
+                <div class="col-md-3">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-sm" onclick="applyFilters()">
+                            <i class="fas fa-filter me-1"></i> Aplicar Filtros
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
+                            <i class="fas fa-undo me-1"></i> Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
                     <!-- Indicadores Ambientais (KPIs) -->
                     <div class="card shadow mb-4">

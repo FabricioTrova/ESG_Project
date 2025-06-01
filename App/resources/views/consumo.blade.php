@@ -209,13 +209,13 @@
                         <tr>
                             <td>{{ $consumo->fonteConsumo->nome ?? 'N/A' }}</td>
                             <td>{{ $consumo->quantidade_consumida }}</td>
-                            <td>{{ $consumo->data_registro }}</td>
+                            <td>{{ $consumo->data_referencia }}</td>
                             <td>
                                 <a href="#" class="btn btn-warning btn-sm edit-btn"
                                    data-id="{{ $consumo->id }}"
                                    data-fonte-consumo-id="{{ $consumo->fonte_consumo_id }}"
                                    data-quantidade="{{ $consumo->quantidade_consumida }}"
-                                   data-data-registro="{{ $consumo->data_registro }}">
+                                   data-data-referencia="{{ $consumo->data_referencia }}">
                                     Editar
                                 </a>
                                 <form action="{{ route('consumos.destroy', $consumo->id) }}" method="POST" style="display:inline-block;">
@@ -269,9 +269,10 @@
                             <input type="number" step="0.01" class="form-control" id="quantidade_consumida" name="quantidade_consumida" required>
                         </div>
                         <div class="form-group">
-                            <label for="data_registro" class="font-weight-bold">Data de Registro</label>
-                            <input type="date" class="form-control" id="data_registro" name="data_registro" required>
-                        </div>
+    <label for="data_referencia" class="font-weight-bold">Data de Registro</label>
+    <input type="date" class="form-control" id="data_referencia" name="data_referencia" required>
+</div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

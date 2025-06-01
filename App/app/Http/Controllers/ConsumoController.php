@@ -28,7 +28,7 @@ class ConsumoController extends Controller
     {
         $validated = $request->validate([
             'fonte_consumo_id' => 'required|exists:fontes_consumo,id',
-            'data_registro' => 'required|date',
+            'data_referencia' => 'required|date',
             'quantidade_consumida' => 'required|numeric|min:0',
         ]);
 
@@ -38,7 +38,7 @@ class ConsumoController extends Controller
             Consumo::create([
                 'empresa_id' => $empresa_id,
                 'fonte_consumo_id' => $validated['fonte_consumo_id'],
-                'data_registro' => $validated['data_registro'],
+                'data_referencia' => $validated['data_referencia'],
                 'quantidade_consumida' => $validated['quantidade_consumida'],
             ]);
 
@@ -52,7 +52,7 @@ class ConsumoController extends Controller
     {
         $validated = $request->validate([
             'fonte_consumo_id' => 'required|exists:fontes_consumo,id',
-            'data_registro' => 'required|date',
+            'data_referencia' => 'required|date', // corrigido aqui
             'quantidade_consumida' => 'required|numeric|min:0',
         ]);
 
