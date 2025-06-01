@@ -14,17 +14,27 @@
     <link href="{{ asset('datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 <body id="page-top">
+    <!-- Page Wrapper -->
     <div id="wrapper">
+
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                </div>
                 <div class="sidebar-brand-text mx-3">DashCarbon</div>
             </a>
+
+            <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
                 <a class="nav-link" href="{{ url('/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Painel</span>
-                </a>
+                    <span>Painel</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -35,27 +45,56 @@
                     <span>Registros</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
                         <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Historico de consumo</span></a>
+                        <span>Cadastro Consumo</span></a>
           
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de consumo</a>
+                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
+
                     </div>
                 </div>
             </li> 
+
+            <!-- Traço de divisão -->
             <hr class="sidebar-divider">
 
-            <div class="sidebar-heading">Complementos</div>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Complementos
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Administração</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Acessos:</h6>
+                        <a class="collapse-item" href="{{ url('/empresas') }}">Cadastro de Empresas</a>
+                        <a class="collapse-item" href="{{ url('/register') }}">Cadastro de Usuário</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/charts') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Gráfico</span>
-                </a>
+                    <span>Graficos</span></a>
             </li>
 
+            <!-- Nav Item - Tables -->
+            
+
+            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Botao de fechar barra lateral -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
@@ -97,38 +136,6 @@
                                 </form>
                             </div>
                         </li>
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">Alerts Center</h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">Message Center</h6>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-                        <div class="topbar-divider d-none d-sm-block"></div>
                         
                         <!-- icone do perfil e configuraçãoo / Mostra o nome do usuário que está logado --> 
                         <li class="nav-item dropdown no-arrow">
@@ -143,14 +150,10 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Configuração
-                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Sair
                                 </a>
                             </div>
                         </li>
@@ -225,7 +228,7 @@
 
                         @else
                             <tr>
-                                <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
+                                <td colspan="4" class="text-center">Nenhum registro encontrado.</td>
                             </tr>
                         @endif
                     </tbody>
@@ -253,7 +256,7 @@
         <input type="text" class="form-control" id="nome" name="nome" required>
     </div>
     <div class="form-group">
-        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: m³, kWh)</label>
+        <label for="unidade_medida" class="font-weight-bold">Unidade de Medida (Ex: Litros, m³, kWh)</label>
         <input type="text" class="form-control" id="unidade_medida" name="unidade_medida" required>
     </div>
     <div class="form-group">

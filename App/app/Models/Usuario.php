@@ -24,10 +24,9 @@ class Usuario extends Authenticatable
     ];
 
     public $timestamps = false;
+    public function empresa()
+{
+    return $this->belongsTo(Empresa::class);
+}
 
-    // Laravel procura esse método por padrão para comparar senhas
-    public function getAuthPassword()
-    {
-        return $this->senha_hash;
-    }
 }

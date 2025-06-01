@@ -66,21 +66,12 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
-                                        <hr>
-                                        <a href="#" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Registrar com Google
-                                        </a>
-                                        <a href="#" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Registrar com Facebook
-                                        </a>
+                                        
                                     </form>
 
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="{{ url('/forgot') }}">Esqueceu a senha?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ url('/register') }}">Criar uma conta!</a>
                                     </div>
                                 </div>
                             </div>

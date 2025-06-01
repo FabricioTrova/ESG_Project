@@ -11,8 +11,8 @@ class Consumo extends Model
     protected $fillable = [
         'empresa_id',
         'fonte_consumo_id',
-        'data_referencia',
         'quantidade_consumida',
+        'data_referencia',
     ];
 
     public $timestamps = false; // Se sua tabela não tiver created_at / updated_at

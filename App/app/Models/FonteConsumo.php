@@ -11,9 +11,13 @@ class FonteConsumo extends Model
     public $timestamps = false; 
 
     protected $fillable = [
-        'empresa_id',
         'nome',
         'unidade_medida',
         'fator_emissao',
     ];
+
+    public function consumos()
+    {
+        return $this->hasMany(Consumo::class, 'fonte_consumo_id');
+    }
 }
