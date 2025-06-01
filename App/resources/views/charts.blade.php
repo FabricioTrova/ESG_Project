@@ -252,7 +252,6 @@
     </div>
 </div>
 
-
                     <!-- Indicadores Ambientais (KPIs) -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -299,56 +298,245 @@
                     <div class="row">
 
                         <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Visão Geral dos Lucros</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-xl-8 col-lg-7 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões de Carbono</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Ações:</div>
+                    <a class="dropdown-item" href="#">Exportar</a>
+                    <a class="dropdown-item" href="#">Configurações</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Distribuição por Categoria</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Importa Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/analises/dados')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myAreaChart').getContext('2d');
+
+                const myAreaChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,  // Ex.: ["05/2025", "06/2025", "07/2025"]
+                        datasets: [{
+                            label: 'Emissão (kgCO2e)',
+                            data: data.valores,  // Ex.: [350, 400, 370]
+                            backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            pointRadius: 3,
+                            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                            pointBorderColor: 'rgba(78, 115, 223, 1)',
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
+                            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: { left: 10, right: 25, top: 25, bottom: 0 }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                title: { display: true, text: 'Período' }
+                            },
+                            y: {
+                                ticks: { beginAtZero: true },
+                                title: { display: true, text: 'Emissão (kgCO2e)' }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: true }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+    });
+</script>
+
+<div class="col-xl-8 col-lg-7 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões - Barras</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myBarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Emissão (kgCO2e)',
+                        data: data.valores,
+                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Período' }},
+                        y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' }}
+                    },
+                    plugins: { legend: { display: true } }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
+
+<div class="col-xl-4 col-lg-5 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Distribuição das Emissões - Pizza</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados-categoria')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.valores,
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.7)',
+                            'rgba(28, 200, 138, 0.7)',
+                            'rgba(54, 185, 204, 0.7)',
+                            'rgba(246, 194, 62, 0.7)',
+                            'rgba(231, 74, 59, 0.7)',
+                            'rgba(133, 135, 150, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const label = ctx.label || '';
+                                    const value = ctx.parsed || 0;
+                                    return `${label}: ${value.toFixed(2)} kgCO2e`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
+
+
+<div class="col-xl-6 col-lg-6 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Análise Radar das Emissões</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myRadarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myRadarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Emissão (kgCO2e)',
+                        data: data.valores,
+                        backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            angleLines: { display: true },
+                            suggestedMin: 0
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
 
                     </div>
 
