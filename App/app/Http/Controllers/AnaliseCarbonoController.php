@@ -65,4 +65,67 @@ class AnaliseCarbonoController extends Controller
 
         return back()->with('success', "Cálculo realizado com sucesso! Emissão total: {$totalEmissaoKg} kgCO2e.");
     }
+
+    public function dados()
+    {
+        $empresaId = Auth::user()->empresa_id;
+
+        $analises = AnaliseCarbono::where('empresa_id', $empresaId)
+                    ->orderBy('data_referencia')
+                    ->get(['data_referencia', 'emissao_total_kgco2e']);
+
+        $labels = [];
+        $valores = [];
+
+        foreach ($analises as $analise) {
+            $labels[] = date('m/Y', strtotime($analise->data_referencia));
+            $valores[] = $analise->emissao_total_kgco2e;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'valores' => $valores,
+        ]);
+    }
+
+    public function dadosPorCategoria()
+    {
+        $empresaId = Auth::user()->empresa_id;
+
+        // Pega a última análise de carbono da empresa
+        $ultimaAnalise = AnaliseCarbono::where('empresa_id', $empresaId)
+            ->orderBy('data_referencia', 'desc')
+            ->first();
+
+        if (!$ultimaAnalise) {
+            return response()->json([
+                'labels' => [],
+                'valores' => []
+            ]);
+        }
+
+        $detalhes = json_decode($ultimaAnalise->detalhes_json, true);
+
+        // Agregar emissões por categoria somando valores iguais
+        $somaPorCategoria = [];
+
+        foreach ($detalhes as $item) {
+            $categoria = $item['fonte'] ?? 'Outros';
+            $emissaoKg = ($item['emissao_g_co2e'] ?? 0) / 1000;
+
+            if (!isset($somaPorCategoria[$categoria])) {
+                $somaPorCategoria[$categoria] = 0;
+            }
+
+            $somaPorCategoria[$categoria] += $emissaoKg;
+        }
+
+        // Ordenar para manter padrão (opcional)
+        ksort($somaPorCategoria);
+
+        return response()->json([
+            'labels' => array_keys($somaPorCategoria),
+            'valores' => array_map(fn($v) => round($v, 2), array_values($somaPorCategoria))
+        ]);
+    }
 }
