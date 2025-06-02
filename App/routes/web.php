@@ -6,6 +6,7 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\AdicionarEmpresaController;
 use App\Http\Controllers\FonteConsumoController;
 use App\Http\Controllers\ConsumoController;
+use App\Http\Controllers\ExportarConsumoController;
 
 //Redireciona a raiz para a rota de login
 Route::get('/', function () {
@@ -65,11 +66,16 @@ Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
     Route::delete('/empresas/{id}', [AdicionarEmpresaController::class, 'destroy'])->name('empresas.destroy');
     Route::put('/empresas/{id}', [AdicionarEmpresaController::class, 'update'])->name('empresas.update');   
 });
+//rota para exportar planilhos de consumo
+Route::get('/exportar-consumos', [ExportarConsumoController::class, 'exportarExcel'])
+    ->name('exportar.consumos'); // <- Nome da rota
 
 //Ainda não implementada
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
+
+
 
 ;
 
