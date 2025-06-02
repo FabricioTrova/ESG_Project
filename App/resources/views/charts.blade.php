@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body id="page-top">
@@ -159,61 +161,96 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <div class="container-fluid">
+<div class="container-fluid">
+<!-- Cálculo da Pegada de Carbono -->
+<div class="mb-4">
+    <div class="card shadow-sm border-left-success">
+        <div class="card-body">
+            <form action="{{ route('analise_carbono.calcular') }}" method="POST" class="d-flex justify-content-between align-items-center">
+                @csrf
+                <label class="form-label text-success fw-semibold mb-0">
+                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
+                </label>
+                
+                <input type="month" name="data_referencia" class="form-control form-control-sm me-2" required>
+                
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="fas fa-calculator me-1"></i> Calcular Pegada de Carbono
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
-                    <!-- Filtros Ambientais -->
-                    <div class="mb-4">
-                        <div class="card shadow-sm border-left-primary">
-                            <div class="card-body">
-                                <div class="row gy-3 gx-4 align-items-end">
 
-                                    <div class="col-md-6">
-                                        <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                                        </label>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
-                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="energy">
-                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
-                                                <i class="fas fa-gas-pump me-1"></i> Combustível
-                                            </button>
-                                            <button class="btn btn-outline-primary btn-sm" data-filter="waste">
-                                                <i class="fas fa-recycle me-1"></i> Resíduos
-                                            </button>
-                                        </div>
-                                    </div>
+@if(session('success'))
+    <div class="alert alert-success mt-3">
+        {{ session('success') }}
+    </div>
+@endif
 
-                                    <div class="col-md-3">
-                                        <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-calendar-alt me-1"></i> Período
-                                        </label>
-                                        <select class="form-select form-select-sm" id="select-periodo">
-                                            <option value="7d">Últimos 7 dias</option>
-                                            <option value="30d">Últimos 30 dias</option>
-                                            <option value="90d">Últimos 3 meses</option>
-                                            <option value="1y">Último ano</option>
-                                        </select>
-                                    </div>
+@if(session('error'))
+    <div class="alert alert-danger mt-3">
+        {{ session('error') }}
+    </div>
+@endif
 
-                                    <div class="col-md-3 text-end">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-primary btn-sm" onclick="applyFilters()">
-                                                <i class="fas fa-filter me-1"></i> Aplicar Filtros
-                                            </button>
-                                            <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                                                <i class="fas fa-undo me-1"></i> Limpar Filtros
-                                            </button>
-                                        </div>
-                                    </div>
+<!-- Filtros Ambientais -->
+<div class="mb-4">
+    <div class="card shadow-sm border-left-primary">
+        <div class="card-body">
+            <div class="row gy-3 gx-4 align-items-end">
 
-                                </div>
-                            </div>
-                        </div>
+                <!-- Categoria Ambiental -->
+                <div class="col-md-6">
+                    <label class="form-label text-primary fw-semibold">
+                        <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                    </label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
+                            <i class="fas fa-smog me-1"></i> Pegada de Carbono
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="energy">
+                            <i class="fas fa-bolt me-1"></i> Consumo Energético
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
+                            <i class="fas fa-gas-pump me-1"></i> Combustível
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" data-filter="waste">
+                            <i class="fas fa-recycle me-1"></i> Resíduos
+                        </button>
                     </div>
+                </div>
+
+                <!-- Período -->
+                <div class="col-md-3">
+                    <label class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Período
+                    </label>
+                    <select class="form-select form-select-sm" id="select-periodo">
+                        <option value="7d">Últimos 7 dias</option>
+                        <option value="30d">Últimos 30 dias</option>
+                        <option value="90d">Últimos 3 meses</option>
+                        <option value="1y">Último ano</option>
+                    </select>
+                </div>
+
+                <!-- Botões Filtros -->
+                <div class="col-md-3">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-sm" onclick="applyFilters()">
+                            <i class="fas fa-filter me-1"></i> Aplicar Filtros
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
+                            <i class="fas fa-undo me-1"></i> Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
                     <!-- Indicadores Ambientais (KPIs) -->
                     <div class="card shadow mb-4">
@@ -261,56 +298,245 @@
                     <div class="row">
 
                         <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Visão Geral dos Lucros</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-xl-8 col-lg-7 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões de Carbono</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Ações:</div>
+                    <a class="dropdown-item" href="#">Exportar</a>
+                    <a class="dropdown-item" href="#">Configurações</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Distribuição por Categoria</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Importa Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/analises/dados')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('myAreaChart').getContext('2d');
+
+                const myAreaChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,  // Ex.: ["05/2025", "06/2025", "07/2025"]
+                        datasets: [{
+                            label: 'Emissão (kgCO2e)',
+                            data: data.valores,  // Ex.: [350, 400, 370]
+                            backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            pointRadius: 3,
+                            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                            pointBorderColor: 'rgba(78, 115, 223, 1)',
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
+                            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: { left: 10, right: 25, top: 25, bottom: 0 }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                title: { display: true, text: 'Período' }
+                            },
+                            y: {
+                                ticks: { beginAtZero: true },
+                                title: { display: true, text: 'Emissão (kgCO2e)' }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: true }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+    });
+</script>
+
+<div class="col-xl-8 col-lg-7 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões - Barras</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myBarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Emissão (kgCO2e)',
+                        data: data.valores,
+                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Período' }},
+                        y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' }}
+                    },
+                    plugins: { legend: { display: true } }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
+
+<div class="col-xl-4 col-lg-5 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Distribuição das Emissões - Pizza</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados-categoria')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.valores,
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.7)',
+                            'rgba(28, 200, 138, 0.7)',
+                            'rgba(54, 185, 204, 0.7)',
+                            'rgba(246, 194, 62, 0.7)',
+                            'rgba(231, 74, 59, 0.7)',
+                            'rgba(133, 135, 150, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const label = ctx.label || '';
+                                    const value = ctx.parsed || 0;
+                                    return `${label}: ${value.toFixed(2)} kgCO2e`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
+
+
+<div class="col-xl-6 col-lg-6 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Análise Radar das Emissões</h6>
+        </div>
+        <div class="card-body">
+            <div style="position: relative; height: 300px;">
+                <canvas id="myRadarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/analises/dados')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('myRadarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Emissão (kgCO2e)',
+                        data: data.valores,
+                        backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            angleLines: { display: true },
+                            suggestedMin: 0
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
+});
+</script>
 
                     </div>
 
