@@ -160,99 +160,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-<div class="container-fluid">
-<!-- Cálculo da Pegada de Carbono -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-success">
-        <div class="card-body">
-            <form action="{{ route('analise_carbono.calcular') }}" method="POST" class="d-flex justify-content-between align-items-center">
-                @csrf
-                <label class="form-label text-success fw-semibold mb-0">
-                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
-                </label>
-                
-                <input type="month" name="data_referencia" class="form-control form-control-sm me-2" required>
-                
-                <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-calculator me-1"></i> Calcular Pegada de Carbono
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-@if(session('success'))
-    <div class="alert alert-success mt-3">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-danger mt-3">
-        {{ session('error') }}
-    </div>
-@endif
-
-<!-- Filtros Ambientais -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-primary">
-        <div class="card-body">
-            <div class="row gy-3 gx-4 align-items-end">
-
-                <!-- Categoria Ambiental -->
-                <div class="col-md-6">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                    </label>
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
-                            <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="energy">
-                            <i class="fas fa-bolt me-1"></i> Consumo Energético
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
-                            <i class="fas fa-gas-pump me-1"></i> Combustível
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="waste">
-                            <i class="fas fa-recycle me-1"></i> Resíduos
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Período -->
-                <div class="col-md-3">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-calendar-alt me-1"></i> Período
-                    </label>
-                    <select class="form-select form-select-sm" id="select-periodo">
-                        <option value="7d">Últimos 7 dias</option>
-                        <option value="30d">Últimos 30 dias</option>
-                        <option value="90d">Últimos 3 meses</option>
-                        <option value="1y">Último ano</option>
-                    </select>
-                </div>
-
-                <!-- Botões Filtros -->
-                <div class="col-md-3">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-sm" onclick="applyFilters()">
-                            <i class="fas fa-filter me-1"></i> Aplicar Filtros
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                            <i class="fas fa-undo me-1"></i> Limpar Filtros
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-                    <!-- Indicadores Ambientais (KPIs) -->
+<!-- Indicadores Ambientais (KPIs) -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 fw-bold text-primary">Indicadores Ambientais</h6>
@@ -262,8 +170,13 @@
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="card border-left-success">
                                         <div class="card-body py-2">
-                                            <div class="text-success fw-bold">-15%</div>
-                                            <div class="small">Redução de CO₂</div>
+                                            <div class="text-success fw-bold">
+                                                @if(session('success'))
+                                            <div class="alert alert-success mt-3">
+                                              {{ session('success') }}
+                                            </div>
+                                              @endif</div>
+                                            <div class="small">Valor total de KgCO₂</div>
                                         </div>
                                     </div>
                                 </div>
@@ -295,9 +208,93 @@
                         </div>
                     </div>
 
-                    <div class="row">
 
-                        <!-- Area Chart -->
+    <div class="mb-4">
+    <div class="card shadow-sm border-left-success">
+        <div class="card-body">
+            <form action="{{ route('analise_carbono.calcular') }}" method="POST">
+                @csrf
+                <label class="form-label text-success fw-semibold mb-0">
+                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
+                </label>
+                <div class="row align-items-end">
+                    <div class="col-md-3">
+                        <label for="data_inicio" class="form-label text-success fw-semibold">
+                            <i class="fas fa-calendar-alt me-1"></i> Início
+                        </label>
+                        <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="data_fim" class="form-label text-success fw-semibold">
+                            <i class="fas fa-calendar-alt me-1"></i> Fim
+                        </label>
+                        <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-calculator me-1"></i> Calcular
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if(session('error'))
+    <div class="alert alert-danger mt-3">
+        {{ session('error') }}
+    </div>
+@endif
+</div>
+ <!-- Filtros Ambientais -->
+                    <div class="mb-4">
+                        <div class="card shadow-sm border-left-primary">
+                            <div class="card-body">
+                                <form id="filter-form" class="row align-items-end">
+                                    <div class="col-md-3">
+                                        <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1"></i> Início
+                                        </label>
+                                        <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="data_fim_filter" class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1"></i> Fim
+                                        </label>
+                                        <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                                        </label>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('carbon')" data-filter="carbon">
+                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('energy')" data-filter="energy">
+                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('fuel')" data-filter="fuel">
+                                                <i class="fas fa-gas-pump me-1"></i> Combustível
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('waste')" data-filter="waste">
+                                                <i class="fas fa-recycle me-1"></i> Resíduos
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-filter me-1"></i> Filtrar
+                                        </button>
+                                        <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-undo me-1"></i> Limpar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Gráfico -->
 <div class="col-xl-8 col-lg-7 mb-4">
     <div class="card shadow h-100">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -317,7 +314,7 @@
         </div>
         <div class="card-body">
             <div style="position: relative; height: 300px;">
-                <canvas id="myAreaChart"></canvas>
+                <canvas id="myAreaChart" style="max-height: 400px; width: 100%;"></canvas>
             </div>
         </div>
     </div>
@@ -327,19 +324,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('/analises/dados')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('myAreaChart').getContext('2d');
+let myChart = null;
 
-                const myAreaChart = new Chart(ctx, {
+function applyFilters() {
+    const dataInicio = document.getElementById('data_inicio_filter').value;
+    const dataFim = document.getElementById('data_fim_filter').value;
+    const url = `/analise-carbono/dados${dataInicio && dataFim ? `?data_inicio=${dataInicio}&data_fim=${dataFim}` : ''}`;
+
+    console.log('Fetching URL:', url); // Depuração
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na requisição: ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dados recebidos:', data); // Depuração
+
+            const ctx = document.getElementById('myAreaChart').getContext('2d');
+            if (!myChart) {
+                myChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: data.labels,  // Ex.: ["05/2025", "06/2025", "07/2025"]
+                        labels: data.labels,
                         datasets: [{
                             label: 'Emissão (kgCO2e)',
-                            data: data.valores,  // Ex.: [350, 400, 370]
+                            data: data.valores,
                             backgroundColor: 'rgba(78, 115, 223, 0.05)',
                             borderColor: 'rgba(78, 115, 223, 1)',
                             pointRadius: 3,
@@ -349,32 +359,36 @@
                             pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
                             pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
                             pointHitRadius: 10,
-                            pointBorderWidth: 2,
-                        }],
+                            pointBorderWidth: 2
+                        }]
                     },
                     options: {
                         maintainAspectRatio: false,
-                        layout: {
-                            padding: { left: 10, right: 25, top: 25, bottom: 0 }
-                        },
+                        layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
                         scales: {
-                            x: {
-                                grid: { display: false },
-                                title: { display: true, text: 'Período' }
-                            },
-                            y: {
-                                ticks: { beginAtZero: true },
-                                title: { display: true, text: 'Emissão (kgCO2e)' }
-                            }
+                            x: { grid: { display: false }, title: { display: true, text: 'Período' } },
+                            y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' } }
                         },
-                        plugins: {
-                            legend: { display: true }
-                        }
+                        plugins: { legend: { display: true } }
                     }
                 });
-            })
-            .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-    });
+            } else {
+                myChart.data.labels = data.labels;
+                myChart.data.datasets[0].data = data.valores;
+                myChart.update();
+            }
+        })
+        .catch(error => console.error('Erro ao carregar gráfico:', error));
+}
+
+function resetFilters() {
+    document.getElementById('data_inicio_filter').value = '';
+    document.getElementById('data_fim_filter').value = '';
+    applyFilters();
+}
+
+// Carregar o gráfico ao abrir a página
+document.addEventListener('DOMContentLoaded', applyFilters);
 </script>
 
 <div class="col-xl-8 col-lg-7 mb-4">
