@@ -293,150 +293,243 @@
                             </div>
                         </div>
                     </div>
-
-<!-- Gráfico -->
-<div class="col-xl-8 col-lg-7 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões de Carbono</h6>
-            <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                    aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">Ações:</div>
-                    <a class="dropdown-item" href="#">Exportar</a>
-                    <a class="dropdown-item" href="#">Configurações</a>
-                </div>
-            </div>
+<div class="card shadow-sm border-left-success mt-4">
+    <div class="card-body">
+        <h6 class="text-success fw-bold mb-3">
+            <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
+        </h6>
+        <div id="loading" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados...</p>
         </div>
-        <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myAreaChart" style="max-height: 400px; width: 100%;"></canvas>
-            </div>
-        </div>
+        <canvas id="graficoCarbono" height="100"></canvas>
     </div>
 </div>
 
-<!-- Importa Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-let myChart = null;
+    let graficoCarbono;
 
-function applyFilters() {
-    const dataInicio = document.getElementById('data_inicio_filter').value;
-    const dataFim = document.getElementById('data_fim_filter').value;
-    const url = `/analise-carbono/dados${dataInicio && dataFim ? `?data_inicio=${dataInicio}&data_fim=${dataFim}` : ''}`;
+    function applyFilters() {
+        const dataInicio = document.getElementById("data_inicio_filter").value;
+        const dataFim = document.getElementById("data_fim_filter").value;
 
-    console.log('Fetching URL:', url); // Depuração
+        // Mostra o loading
+        document.getElementById("loading").style.display = "block";
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('Erro na requisição: ' + response.status);
-            return response.json();
-        })
-        .then(data => {
-            console.log('Dados recebidos:', data); // Depuração
-
-            const ctx = document.getElementById('myAreaChart').getContext('2d');
-            if (!myChart) {
-                myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Emissão (kgCO2e)',
-                            data: data.valores,
-                            backgroundColor: 'rgba(78, 115, 223, 0.05)',
-                            borderColor: 'rgba(78, 115, 223, 1)',
-                            pointRadius: 3,
-                            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
-                            pointBorderColor: 'rgba(78, 115, 223, 1)',
-                            pointHoverRadius: 3,
-                            pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
-                            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
-                            pointHitRadius: 10,
-                            pointBorderWidth: 2
-                        }]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
-                        scales: {
-                            x: { grid: { display: false }, title: { display: true, text: 'Período' } },
-                            y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' } }
-                        },
-                        plugins: { legend: { display: true } }
-                    }
-                });
-            } else {
-                myChart.data.labels = data.labels;
-                myChart.data.datasets[0].data = data.valores;
-                myChart.update();
-            }
-        })
-        .catch(error => console.error('Erro ao carregar gráfico:', error));
-}
-
-function resetFilters() {
-    document.getElementById('data_inicio_filter').value = '';
-    document.getElementById('data_fim_filter').value = '';
-    applyFilters();
-}
-
-// Carregar o gráfico ao abrir a página
-document.addEventListener('DOMContentLoaded', applyFilters);
-</script>
-
-<div class="col-xl-8 col-lg-7 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões - Barras</h6>
-        </div>
-        <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myBarChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/analises/dados')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('myBarChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Emissão (kgCO2e)',
-                        data: data.valores,
-                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
-                        borderColor: 'rgba(28, 200, 138, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { title: { display: true, text: 'Período' }},
-                        y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' }}
-                    },
-                    plugins: { legend: { display: true } }
-                }
+        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
+            .then(response => response.json())
+            .then(data => {
+                renderizarGrafico(data.labels, data.valores);
+                document.getElementById("loading").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados:", error);
+                document.getElementById("loading").style.display = "none";
+                alert("Erro ao buscar dados. Tente novamente.");
             });
-        })
-        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-});
+    }
+
+    function renderizarGrafico(labels, valores) {
+        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+
+        if (graficoCarbono) {
+            graficoCarbono.destroy(); // Evita sobreposição
+        }
+
+        graficoCarbono = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Emissão (kgCO₂e)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Data'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters(); // Pode exibir dados gerais novamente
+    }
+
+    // Inicializa com dados padrão
+    document.addEventListener("DOMContentLoaded", applyFilters);
 </script>
+
+ 
+<div class="card shadow-sm border-left-info mt-4">
+    <div class="card-body">
+        <h6 class="text-info fw-bold mb-3">
+            <i class="fas fa-chart-pie me-1"></i> Emissão por Categoria
+        </h6>
+        <div id="loading-categoria" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-info" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados por categoria...</p>
+        </div>
+        <canvas id="graficoCategoria" height="100"></canvas>
+    </div>
+</div>
+
+
+<script>
+    let graficoCarbono;
+    let graficoCategoria;
+
+    function applyFilters() {
+        const dataInicio = document.getElementById("data_inicio_filter").value;
+        const dataFim = document.getElementById("data_fim_filter").value;
+
+        // Ativa os loadings
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("loading-categoria").style.display = "block";
+
+        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
+            .then(response => response.json())
+            .then(data => {
+                renderizarGrafico(data.labels, data.valores);
+                renderizarGraficoCategoria(data.categorias);
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("loading-categoria").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao buscar dados.");
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("loading-categoria").style.display = "none";
+            });
+    }
+
+    function renderizarGrafico(labels, valores) {
+        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+
+        if (graficoCarbono) graficoCarbono.destroy();
+
+        graficoCarbono = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'kgCO₂e' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Data' }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderizarGraficoCategoria(categorias) {
+        const ctx = document.getElementById('graficoCategoria').getContext('2d');
+
+        if (graficoCategoria) graficoCategoria.destroy();
+
+        const cores = [
+            '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+            '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+        ];
+
+        const labels = categorias.map(c => c.nome);
+        const valores = categorias.map(c => c.total);
+
+        graficoCategoria = new Chart(ctx, {
+            type: 'bar', // ou 'pie'
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão por Categoria',
+                    data: valores,
+                    backgroundColor: cores.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.label}: ${context.formattedValue} kgCO₂e`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'kgCO₂e' }
+                    }
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters();
+    }
+
+    document.addEventListener("DOMContentLoaded", applyFilters);
+</script>
+
+
 
 <div class="col-xl-4 col-lg-5 mb-4">
     <div class="card shadow h-100">
