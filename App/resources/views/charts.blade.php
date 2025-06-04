@@ -161,124 +161,94 @@
 
                 </nav>
                 <!-- End of Topbar -->
-<!-- Indicadores Ambientais (KPIs) -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 fw-bold text-primary">Indicadores Ambientais</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-success">
-                                        <div class="card-body py-2">
-                                            <div class="text-success fw-bold">
-                                                @if(session('success'))
-                                            <div class="alert alert-success mt-3">
-                                              {{ session('success') }}
-                                            </div>
-                                              @endif</div>
-                                            <div class="small">Valor total de KgCO₂</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-info">
-                                        <div class="card-body py-2">
-                                            <div class="text-info fw-bold">89%</div>
-                                            <div class="small">Satisfação Sustentável</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-warning">
-                                        <div class="card-body py-2">
-                                            <div class="text-warning fw-bold">98%</div>
-                                            <div class="small">Compliance Ambiental</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                    <a href="{{ route('exportar.consumos') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório
-                                    </a>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
+<!-- Espaço entre os blocos -->
+<div class="mb-3"></div>
 
-    <div class="mb-4">
-    <div class="card shadow-sm border-left-success">
-        <div class="card-body">
-            <form action="{{ route('analise_carbono.calcular') }}" method="POST">
-                @csrf
-                <label class="form-label text-success fw-semibold mb-0">
+<div class="card shadow-sm border-left-success mb-4">
+    <div class="card-body">
+        <form action="{{ route('analise_carbono.calcular') }}" method="POST">
+            @csrf
+            <!-- Título com tooltip -->
+            <div class="mb-3">
+                <label class="form-label text-success fw-semibold mb-0" 
+                       data-bs-toggle="tooltip" 
+                       title="Clique aqui para realizar o cálculo da Pegada de Carbono da sua empresa.">
                     <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
                 </label>
-                <div class="row align-items-end">
-                    <div class="col-md-3">
-                        <label for="data_inicio" class="form-label text-success fw-semibold">
-                            <i class="fas fa-calendar-alt me-1"></i> Início
-                        </label>
-                        <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="data_fim" class="form-label text-success fw-semibold">
-                            <i class="fas fa-calendar-alt me-1"></i> Fim
-                        </label>
-                        <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-success btn-sm">
-                            <i class="fas fa-calculator me-1"></i> Calcular
-                        </button>
-                    </div>
+            </div>
+
+            <!-- Campos e botão -->
+            <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                    <label for="data_inicio" class="form-label text-success fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Início
+                    </label>
+                    <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
                 </div>
-            </form>
-        </div>
+                <div class="col-md-3">
+                    <label for="data_fim" class="form-label text-success fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Fim
+                    </label>
+                    <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="fas fa-calculator me-1"></i> Calcular
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
+
     @if(session('error'))
     <div class="alert alert-danger mt-3">
         {{ session('error') }}
     </div>
-@endif
+    @endif
 </div>
- <!-- Filtros Ambientais -->
-                    <div class="mb-4">
-                        <div class="card shadow-sm border-left-primary">
-                            <div class="card-body">
-                                <form id="filter-form" class="row align-items-end">
-                                    <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                                        </label> <br>
-                                    <div class="col-md-3">
-                                        <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-calendar-alt me-1"></i> Início
-                                        </label>
-                                        <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="data_fim_filter" class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-calendar-alt me-1"></i> Fim
-                                        </label>
-                                        <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-filter me-1"></i> Filtrar
-                                        </button>
-                                        <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm">
-                                            <i class="fas fa-undo me-1"></i> Limpar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-<div class="card shadow-sm border-left-success mt-4">
+
+<div class="card shadow-sm border-left-primary mb-4">
+    <div class="card-body">
+        <form id="filter-form">
+            <!-- Linha só para o título -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label text-primary fw-semibold" 
+                           data-bs-toggle="tooltip" 
+                           title="Filtros relacionados ao impacto ambiental das atividades.">
+                        <i class="fas fa-leaf me-1"></i> Filtros 
+                    </label>
+                </div>
+            </div>
+            <!-- Linha dos filtros -->
+            <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                    <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Início
+                    </label>
+                    <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-3">
+                    <label for="data_fim_filter" class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Fim
+                    </label>
+                    <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 mt-3">
+                    <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
+                        <i class="fas fa-filter me-1"></i> Filtrar
+                    </button>
+                    <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-undo me-1"></i> Limpar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm border-left-success mt-3">
     <div class="card-body">
         <h6 class="text-success fw-bold mb-3">
             <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
