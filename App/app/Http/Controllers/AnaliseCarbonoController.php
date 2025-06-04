@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Consumo;
 use App\Models\AnaliseCarbono;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AnaliseCarbonoController extends Controller
 {
@@ -91,5 +92,31 @@ class AnaliseCarbonoController extends Controller
         'valores' => $valores,
     ]);
 }
-}
+public function emissaoPorFonte(Request $request)
+    {
+        $empresaId = Auth::user()->empresa_id;  // Pega a empresa do usuário autenticado
 
+        $analises = DB::table('analises_carbono')
+            ->where('empresa_id', $empresaId)
+            ->select('detalhes_json')
+            ->get();
+
+        $agregado = [];
+
+        foreach ($analises as $analise) {
+            $detalhes = json_decode($analise->detalhes_json, true);
+
+            foreach ($detalhes as $item) {
+                $fonte = $item['fonte'];
+                $emissao = $item['emissao_g_co2e'];
+
+                if (!isset($agregado[$fonte])) {
+                    $agregado[$fonte] = 0;
+                }
+                $agregado[$fonte] += $emissao;
+            }
+        }
+
+        return response()->json($agregado);
+    }
+}

@@ -197,11 +197,11 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-primary">
-                                        <div class="card-body py-2">
-                                            <div class="text-primary fw-bold">5.2</div>
-                                            <div class="small">Score ESG</div>
-                                        </div>
+                                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <a href="{{ route('exportar.consumos') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    <i class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório
+                                    </a>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -250,6 +250,9 @@
                         <div class="card shadow-sm border-left-primary">
                             <div class="card-body">
                                 <form id="filter-form" class="row align-items-end">
+                                    <label class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                                        </label> <br>
                                     <div class="col-md-3">
                                         <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
                                             <i class="fas fa-calendar-alt me-1"></i> Início
@@ -261,25 +264,6 @@
                                             <i class="fas fa-calendar-alt me-1"></i> Fim
                                         </label>
                                         <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-primary fw-semibold">
-                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                                        </label>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('carbon')" data-filter="carbon">
-                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                                            </button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('energy')" data-filter="energy">
-                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
-                                            </button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('fuel')" data-filter="fuel">
-                                                <i class="fas fa-gas-pump me-1"></i> Combustível
-                                            </button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('waste')" data-filter="waste">
-                                                <i class="fas fa-recycle me-1"></i> Resíduos
-                                            </button>
-                                        </div>
                                     </div>
                                     <div class="col-md-6 mt-3">
                                         <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
@@ -396,102 +380,42 @@
 <div class="card shadow-sm border-left-info mt-4">
     <div class="card-body">
         <h6 class="text-info fw-bold mb-3">
-            <i class="fas fa-chart-pie me-1"></i> Emissão por Categoria
+            <i class="fas fa-chart-pie me-1"></i> Emissão por Fonte
         </h6>
-        <div id="loading-categoria" class="text-center my-3" style="display: none;">
+        <div id="loading-fonte" class="text-center my-3" style="display: none;">
             <div class="spinner-border text-info" role="status"></div>
-            <p class="mt-2 text-muted">Carregando dados por categoria...</p>
+            <p class="mt-2 text-muted">Carregando dados por fonte...</p>
         </div>
-        <canvas id="graficoCategoria" height="100"></canvas>
+        <canvas id="graficoFonte" height="100"></canvas>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    let graficoCarbono;
-    let graficoCategoria;
+    let graficoFonte;
 
-    function applyFilters() {
-        const dataInicio = document.getElementById("data_inicio_filter").value;
-        const dataFim = document.getElementById("data_fim_filter").value;
+    const cores = [
+        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+    ];
 
-        // Ativa os loadings
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("loading-categoria").style.display = "block";
+    function renderizarGraficoFonte(agregadoFontes) {
+        const ctx = document.getElementById('graficoFonte').getContext('2d');
 
-        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
-            .then(response => response.json())
-            .then(data => {
-                renderizarGrafico(data.labels, data.valores);
-                renderizarGraficoCategoria(data.categorias);
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("loading-categoria").style.display = "none";
-            })
-            .catch(error => {
-                console.error("Erro:", error);
-                alert("Erro ao buscar dados.");
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("loading-categoria").style.display = "none";
-            });
-    }
+        const labels = Object.keys(agregadoFontes);
+        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // Convert gCO2e to kgCO2e
 
-    function renderizarGrafico(labels, valores) {
-        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+        if (graficoFonte) {
+            graficoFonte.destroy();
+        }
 
-        if (graficoCarbono) graficoCarbono.destroy();
-
-        graficoCarbono = new Chart(ctx, {
-            type: 'line',
+        graficoFonte = new Chart(ctx, {
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Emissão (kgCO₂e)',
-                    data: valores,
-                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                    borderColor: 'rgba(40, 167, 69, 1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                    tooltip: { mode: 'index', intersect: false }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: { display: true, text: 'kgCO₂e' }
-                    },
-                    x: {
-                        title: { display: true, text: 'Data' }
-                    }
-                }
-            }
-        });
-    }
-
-    function renderizarGraficoCategoria(categorias) {
-        const ctx = document.getElementById('graficoCategoria').getContext('2d');
-
-        if (graficoCategoria) graficoCategoria.destroy();
-
-        const cores = [
-            '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
-            '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
-        ];
-
-        const labels = categorias.map(c => c.nome);
-        const valores = categorias.map(c => c.total);
-
-        graficoCategoria = new Chart(ctx, {
-            type: 'bar', // ou 'pie'
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Emissão por Categoria',
+                    label: 'Emissão por Fonte (kgCO₂e)',
                     data: valores,
                     backgroundColor: cores.slice(0, valores.length),
                     borderWidth: 1
@@ -500,13 +424,10 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
+                    legend: { display: true, position: 'top' },
                     tooltip: {
                         callbacks: {
-                            label: (context) => `${context.label}: ${context.formattedValue} kgCO₂e`
+                            label: context => `${context.label}: ${context.formattedValue} kgCO₂e`
                         }
                     }
                 },
@@ -514,19 +435,31 @@
                     y: {
                         beginAtZero: true,
                         title: { display: true, text: 'kgCO₂e' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Fonte' }
                     }
                 }
             }
         });
     }
 
-    function resetFilters() {
-        document.getElementById("data_inicio_filter").value = "";
-        document.getElementById("data_fim_filter").value = "";
-        applyFilters();
+    function carregarDadosFonte() {
+        document.getElementById('loading-fonte').style.display = 'block';
+
+        fetch('/analises/fontes')
+            .then(response => response.json())
+            .then(agregado => {
+                renderizarGraficoFonte(agregado);
+                document.getElementById('loading-fonte').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados por fonte:', error);
+                document.getElementById('loading-fonte').style.display = 'none';
+            });
     }
 
-    document.addEventListener("DOMContentLoaded", applyFilters);
+    document.addEventListener('DOMContentLoaded', carregarDadosFonte);
 </script>
 
 
@@ -547,102 +480,65 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/analises/dados-categoria')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('myPieChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        data: data.valores,
-                        backgroundColor: [
-                            'rgba(78, 115, 223, 0.7)',
-                            'rgba(28, 200, 138, 0.7)',
-                            'rgba(54, 185, 204, 0.7)',
-                            'rgba(246, 194, 62, 0.7)',
-                            'rgba(231, 74, 59, 0.7)',
-                            'rgba(133, 135, 150, 0.7)'
-                        ]
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' },
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => {
-                                    const label = ctx.label || '';
-                                    const value = ctx.parsed || 0;
-                                    return `${label}: ${value.toFixed(2)} kgCO2e`;
-                                }
+    let myPieChart;
+
+    const coresPizza = [
+        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+    ];
+
+    function renderizarPizzaFontes(agregadoFontes) {
+        const ctx = document.getElementById('myPieChart').getContext('2d');
+
+        const labels = Object.keys(agregadoFontes);
+        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // gCO2e → kgCO2e
+
+        if (myPieChart) {
+            myPieChart.destroy();
+        }
+
+        myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: valores,
+                    backgroundColor: coresPizza.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.formattedValue || '';
+                                return `${label}: ${value} kgCO₂e`;
                             }
                         }
                     }
                 }
+            }
+        });
+    }
+
+    function carregarDadosPizza() {
+        fetch('/analises/fontes')
+            .then(response => response.json())
+            .then(agregado => {
+                renderizarPizzaFontes(agregado);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados da pizza:', error);
             });
-        })
-        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-});
-</script>
+    }
 
-
-<div class="col-xl-6 col-lg-6 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Análise Radar das Emissões</h6>
-        </div>
-        <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myRadarChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/analises/dados')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('myRadarChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Emissão (kgCO2e)',
-                        data: data.valores,
-                        backgroundColor: 'rgba(78, 115, 223, 0.2)',
-                        borderColor: 'rgba(78, 115, 223, 1)',
-                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)'
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            angleLines: { display: true },
-                            suggestedMin: 0
-                        }
-                    },
-                    plugins: {
-                        legend: { display: true }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-});
+    document.addEventListener('DOMContentLoaded', carregarDadosPizza);
 </script>
 
                     </div>

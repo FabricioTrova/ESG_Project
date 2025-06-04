@@ -62,6 +62,7 @@ Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(func
     Route::post('/analise-carbono/calcular', [AnaliseCarbonoController::class, 'calcular'])->name('analise_carbono.calcular');
     Route::get('/analises/dados', [AnaliseCarbonoController::class, 'dados']);
     Route::get('/analises/dados-categoria', [AnaliseCarbonoController::class, 'dadosPorCategoria']);
+    Route::get('/analises/fontes', [AnaliseCarbonoController::class, 'emissaoPorFonte']);
 });
 
 
@@ -80,8 +81,3 @@ Route::get('/exportar-consumos', [ExportarConsumoController::class, 'exportarExc
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
-
-
-
-;
-
