@@ -160,99 +160,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-<div class="container-fluid">
-<!-- Cálculo da Pegada de Carbono -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-success">
-        <div class="card-body">
-            <form action="{{ route('analise_carbono.calcular') }}" method="POST" class="d-flex justify-content-between align-items-center">
-                @csrf
-                <label class="form-label text-success fw-semibold mb-0">
-                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
-                </label>
-                
-                <input type="month" name="data_referencia" class="form-control form-control-sm me-2" required>
-                
-                <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-calculator me-1"></i> Calcular Pegada de Carbono
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-@if(session('success'))
-    <div class="alert alert-success mt-3">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-danger mt-3">
-        {{ session('error') }}
-    </div>
-@endif
-
-<!-- Filtros Ambientais -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-primary">
-        <div class="card-body">
-            <div class="row gy-3 gx-4 align-items-end">
-
-                <!-- Categoria Ambiental -->
-                <div class="col-md-6">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                    </label>
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
-                            <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="energy">
-                            <i class="fas fa-bolt me-1"></i> Consumo Energético
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
-                            <i class="fas fa-gas-pump me-1"></i> Combustível
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="waste">
-                            <i class="fas fa-recycle me-1"></i> Resíduos
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Período -->
-                <div class="col-md-3">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-calendar-alt me-1"></i> Período
-                    </label>
-                    <select class="form-select form-select-sm" id="select-periodo">
-                        <option value="7d">Últimos 7 dias</option>
-                        <option value="30d">Últimos 30 dias</option>
-                        <option value="90d">Últimos 3 meses</option>
-                        <option value="1y">Último ano</option>
-                    </select>
-                </div>
-
-                <!-- Botões Filtros -->
-                <div class="col-md-3">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-sm" onclick="applyFilters()">
-                            <i class="fas fa-filter me-1"></i> Aplicar Filtros
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                            <i class="fas fa-undo me-1"></i> Limpar Filtros
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-                    <!-- Indicadores Ambientais (KPIs) -->
+<!-- Indicadores Ambientais (KPIs) -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 fw-bold text-primary">Indicadores Ambientais</h6>
@@ -262,8 +170,13 @@
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="card border-left-success">
                                         <div class="card-body py-2">
-                                            <div class="text-success fw-bold">-15%</div>
-                                            <div class="small">Redução de CO₂</div>
+                                            <div class="text-success fw-bold">
+                                                @if(session('success'))
+                                            <div class="alert alert-success mt-3">
+                                              {{ session('success') }}
+                                            </div>
+                                              @endif</div>
+                                            <div class="small">Valor total de KgCO₂</div>
                                         </div>
                                     </div>
                                 </div>
@@ -295,134 +208,328 @@
                         </div>
                     </div>
 
-                    <div class="row">
 
-                        <!-- Area Chart -->
-<div class="col-xl-8 col-lg-7 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões de Carbono</h6>
-            <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                    aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">Ações:</div>
-                    <a class="dropdown-item" href="#">Exportar</a>
-                    <a class="dropdown-item" href="#">Configurações</a>
-                </div>
-            </div>
-        </div>
+    <div class="mb-4">
+    <div class="card shadow-sm border-left-success">
         <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myAreaChart"></canvas>
-            </div>
+            <form action="{{ route('analise_carbono.calcular') }}" method="POST">
+                @csrf
+                <label class="form-label text-success fw-semibold mb-0">
+                    <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
+                </label>
+                <div class="row align-items-end">
+                    <div class="col-md-3">
+                        <label for="data_inicio" class="form-label text-success fw-semibold">
+                            <i class="fas fa-calendar-alt me-1"></i> Início
+                        </label>
+                        <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="data_fim" class="form-label text-success fw-semibold">
+                            <i class="fas fa-calendar-alt me-1"></i> Fim
+                        </label>
+                        <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-calculator me-1"></i> Calcular
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
+    @if(session('error'))
+    <div class="alert alert-danger mt-3">
+        {{ session('error') }}
+    </div>
+@endif
+</div>
+ <!-- Filtros Ambientais -->
+                    <div class="mb-4">
+                        <div class="card shadow-sm border-left-primary">
+                            <div class="card-body">
+                                <form id="filter-form" class="row align-items-end">
+                                    <div class="col-md-3">
+                                        <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1"></i> Início
+                                        </label>
+                                        <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="data_fim_filter" class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1"></i> Fim
+                                        </label>
+                                        <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-primary fw-semibold">
+                                            <i class="fas fa-leaf me-1"></i> Categoria Ambiental
+                                        </label>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('carbon')" data-filter="carbon">
+                                                <i class="fas fa-smog me-1"></i> Pegada de Carbono
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('energy')" data-filter="energy">
+                                                <i class="fas fa-bolt me-1"></i> Consumo Energético
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('fuel')" data-filter="fuel">
+                                                <i class="fas fa-gas-pump me-1"></i> Combustível
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCategory('waste')" data-filter="waste">
+                                                <i class="fas fa-recycle me-1"></i> Resíduos
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-filter me-1"></i> Filtrar
+                                        </button>
+                                        <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-undo me-1"></i> Limpar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+<div class="card shadow-sm border-left-success mt-4">
+    <div class="card-body">
+        <h6 class="text-success fw-bold mb-3">
+            <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
+        </h6>
+        <div id="loading" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados...</p>
+        </div>
+        <canvas id="graficoCarbono" height="100"></canvas>
     </div>
 </div>
 
-<!-- Importa Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('/analises/dados')
+    let graficoCarbono;
+
+    function applyFilters() {
+        const dataInicio = document.getElementById("data_inicio_filter").value;
+        const dataFim = document.getElementById("data_fim_filter").value;
+
+        // Mostra o loading
+        document.getElementById("loading").style.display = "block";
+
+        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
             .then(response => response.json())
             .then(data => {
-                const ctx = document.getElementById('myAreaChart').getContext('2d');
+                renderizarGrafico(data.labels, data.valores);
+                document.getElementById("loading").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados:", error);
+                document.getElementById("loading").style.display = "none";
+                alert("Erro ao buscar dados. Tente novamente.");
+            });
+    }
 
-                const myAreaChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,  // Ex.: ["05/2025", "06/2025", "07/2025"]
-                        datasets: [{
-                            label: 'Emissão (kgCO2e)',
-                            data: data.valores,  // Ex.: [350, 400, 370]
-                            backgroundColor: 'rgba(78, 115, 223, 0.05)',
-                            borderColor: 'rgba(78, 115, 223, 1)',
-                            pointRadius: 3,
-                            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
-                            pointBorderColor: 'rgba(78, 115, 223, 1)',
-                            pointHoverRadius: 3,
-                            pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
-                            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
-                            pointHitRadius: 10,
-                            pointBorderWidth: 2,
-                        }],
+    function renderizarGrafico(labels, valores) {
+        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+
+        if (graficoCarbono) {
+            graficoCarbono.destroy(); // Evita sobreposição
+        }
+
+        graficoCarbono = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Emissão (kgCO₂e)'
+                        }
                     },
-                    options: {
-                        maintainAspectRatio: false,
-                        layout: {
-                            padding: { left: 10, right: 25, top: 25, bottom: 0 }
-                        },
-                        scales: {
-                            x: {
-                                grid: { display: false },
-                                title: { display: true, text: 'Período' }
-                            },
-                            y: {
-                                ticks: { beginAtZero: true },
-                                title: { display: true, text: 'Emissão (kgCO2e)' }
-                            }
-                        },
-                        plugins: {
-                            legend: { display: true }
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Data'
                         }
                     }
-                });
-            })
-            .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-    });
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters(); // Pode exibir dados gerais novamente
+    }
+
+    // Inicializa com dados padrão
+    document.addEventListener("DOMContentLoaded", applyFilters);
 </script>
 
-<div class="col-xl-8 col-lg-7 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Visão Geral das Emissões - Barras</h6>
+ 
+<div class="card shadow-sm border-left-info mt-4">
+    <div class="card-body">
+        <h6 class="text-info fw-bold mb-3">
+            <i class="fas fa-chart-pie me-1"></i> Emissão por Categoria
+        </h6>
+        <div id="loading-categoria" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-info" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados por categoria...</p>
         </div>
-        <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myBarChart"></canvas>
-            </div>
-        </div>
+        <canvas id="graficoCategoria" height="100"></canvas>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/analises/dados')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('myBarChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Emissão (kgCO2e)',
-                        data: data.valores,
-                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
-                        borderColor: 'rgba(28, 200, 138, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { title: { display: true, text: 'Período' }},
-                        y: { beginAtZero: true, title: { display: true, text: 'Emissão (kgCO2e)' }}
-                    },
-                    plugins: { legend: { display: true } }
-                }
+    let graficoCarbono;
+    let graficoCategoria;
+
+    function applyFilters() {
+        const dataInicio = document.getElementById("data_inicio_filter").value;
+        const dataFim = document.getElementById("data_fim_filter").value;
+
+        // Ativa os loadings
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("loading-categoria").style.display = "block";
+
+        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
+            .then(response => response.json())
+            .then(data => {
+                renderizarGrafico(data.labels, data.valores);
+                renderizarGraficoCategoria(data.categorias);
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("loading-categoria").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao buscar dados.");
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("loading-categoria").style.display = "none";
             });
-        })
-        .catch(error => console.error('Erro ao carregar dados do gráfico:', error));
-});
+    }
+
+    function renderizarGrafico(labels, valores) {
+        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+
+        if (graficoCarbono) graficoCarbono.destroy();
+
+        graficoCarbono = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'kgCO₂e' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Data' }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderizarGraficoCategoria(categorias) {
+        const ctx = document.getElementById('graficoCategoria').getContext('2d');
+
+        if (graficoCategoria) graficoCategoria.destroy();
+
+        const cores = [
+            '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+            '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+        ];
+
+        const labels = categorias.map(c => c.nome);
+        const valores = categorias.map(c => c.total);
+
+        graficoCategoria = new Chart(ctx, {
+            type: 'bar', // ou 'pie'
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão por Categoria',
+                    data: valores,
+                    backgroundColor: cores.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.label}: ${context.formattedValue} kgCO₂e`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'kgCO₂e' }
+                    }
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters();
+    }
+
+    document.addEventListener("DOMContentLoaded", applyFilters);
 </script>
+
+
 
 <div class="col-xl-4 col-lg-5 mb-4">
     <div class="card shadow h-100">
