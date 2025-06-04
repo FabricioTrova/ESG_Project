@@ -27,22 +27,23 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <!-- Logo ou ícone -->
-                </div>
-                <div class="sidebar-brand-text mx-3">DashCarbon</div>
-            </a>
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+    <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-leaf"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">DashCarbon</div>
+</a>
 
-            <hr class="sidebar-divider my-0">
+<!-- Divider -->
+<hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url('/dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Painel</span>
-                </a>
-            </li>
+<!-- Nav Item - Dashboard -->
+<li class="nav-item active">
+    <a class="nav-link" href="{{ url('/dashboard') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Painel</span>
+    </a>
+</li>
 
             <!-- Registros -->
             <li class="nav-item">
@@ -161,194 +162,355 @@
                 </nav>
                 <!-- End of Topbar -->
 
-<div class="container-fluid">
-<!-- Cálculo da Pegada de Carbono -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-success">
-        <div class="card-body">
-            <form action="{{ route('analise_carbono.calcular') }}" method="POST" class="d-flex justify-content-between align-items-center">
-                @csrf
-                <label class="form-label text-success fw-semibold mb-0">
+<!-- Espaço entre os blocos -->
+<div class="mb-3"></div>
+
+<div class="card shadow-sm border-left-success mb-4">
+    <div class="card-body">
+        <form action="{{ route('analise_carbono.calcular') }}" method="POST">
+            @csrf
+            <!-- Título com tooltip -->
+            <div class="mb-3">
+                <label class="form-label text-success fw-semibold mb-0" 
+                       data-bs-toggle="tooltip" 
+                       title="Clique aqui para realizar o cálculo da Pegada de Carbono da sua empresa.">
                     <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
                 </label>
-                
-                <input type="month" name="data_referencia" class="form-control form-control-sm me-2" required>
-                
-                <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-calculator me-1"></i> Calcular Pegada de Carbono
-                </button>
-            </form>
-        </div>
+            </div>
+
+            <!-- Campos e botão -->
+            <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                    <label for="data_inicio" class="form-label text-success fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Início
+                    </label>
+                    <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="data_fim" class="form-label text-success fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Fim
+                    </label>
+                    <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="fas fa-calculator me-1"></i> Calcular
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-</div>
 
-
-@if(session('success'))
-    <div class="alert alert-success mt-3">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
+    @if(session('error'))
     <div class="alert alert-danger mt-3">
         {{ session('error') }}
     </div>
-@endif
+    @endif
+</div>
 
-<!-- Filtros Ambientais -->
-<div class="mb-4">
-    <div class="card shadow-sm border-left-primary">
+<div class="card shadow-sm border-left-primary mb-4">
+    <div class="card-body">
+        <form id="filter-form">
+            <!-- Linha só para o título -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label text-primary fw-semibold" 
+                           data-bs-toggle="tooltip" 
+                           title="Filtros relacionados ao impacto ambiental das atividades.">
+                        <i class="fas fa-leaf me-1"></i> Filtros 
+                    </label>
+                </div>
+            </div>
+            <!-- Linha dos filtros -->
+            <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                    <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Início
+                    </label>
+                    <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-3">
+                    <label for="data_fim_filter" class="form-label text-primary fw-semibold">
+                        <i class="fas fa-calendar-alt me-1"></i> Fim
+                    </label>
+                    <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-6 mt-3">
+                    <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm">
+                        <i class="fas fa-filter me-1"></i> Filtrar
+                    </button>
+                    <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-undo me-1"></i> Limpar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm border-left-success mt-3">
+    <div class="card-body">
+        <h6 class="text-success fw-bold mb-3">
+            <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
+        </h6>
+        <div id="loading" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados...</p>
+        </div>
+        <canvas id="graficoCarbono" height="100"></canvas>
+    </div>
+</div>
+
+<script>
+    let graficoCarbono;
+
+    function applyFilters() {
+        const dataInicio = document.getElementById("data_inicio_filter").value;
+        const dataFim = document.getElementById("data_fim_filter").value;
+
+        // Mostra o loading
+        document.getElementById("loading").style.display = "block";
+
+        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
+            .then(response => response.json())
+            .then(data => {
+                renderizarGrafico(data.labels, data.valores);
+                document.getElementById("loading").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados:", error);
+                document.getElementById("loading").style.display = "none";
+                alert("Erro ao buscar dados. Tente novamente.");
+            });
+    }
+
+    function renderizarGrafico(labels, valores) {
+        const ctx = document.getElementById('graficoCarbono').getContext('2d');
+
+        if (graficoCarbono) {
+            graficoCarbono.destroy(); // Evita sobreposição
+        }
+
+        graficoCarbono = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Emissão (kgCO₂e)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Data'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters(); // Pode exibir dados gerais novamente
+    }
+
+    // Inicializa com dados padrão
+    document.addEventListener("DOMContentLoaded", applyFilters);
+</script>
+
+ 
+<div class="card shadow-sm border-left-info mt-4">
+    <div class="card-body">
+        <h6 class="text-info fw-bold mb-3">
+            <i class="fas fa-chart-pie me-1"></i> Emissão por Fonte
+        </h6>
+        <div id="loading-fonte" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-info" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados por fonte...</p>
+        </div>
+        <canvas id="graficoFonte" height="100"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    let graficoFonte;
+
+    const cores = [
+        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+    ];
+
+    function renderizarGraficoFonte(agregadoFontes) {
+        const ctx = document.getElementById('graficoFonte').getContext('2d');
+
+        const labels = Object.keys(agregadoFontes);
+        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // Convert gCO2e to kgCO2e
+
+        if (graficoFonte) {
+            graficoFonte.destroy();
+        }
+
+        graficoFonte = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão por Fonte (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: cores.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: context => `${context.label}: ${context.formattedValue} kgCO₂e`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'kgCO₂e' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Fonte' }
+                    }
+                }
+            }
+        });
+    }
+
+    function carregarDadosFonte() {
+        document.getElementById('loading-fonte').style.display = 'block';
+
+        fetch('/analises/fontes')
+            .then(response => response.json())
+            .then(agregado => {
+                renderizarGraficoFonte(agregado);
+                document.getElementById('loading-fonte').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados por fonte:', error);
+                document.getElementById('loading-fonte').style.display = 'none';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarDadosFonte);
+</script>
+
+
+
+<div class="col-xl-4 col-lg-5 mb-4">
+    <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Distribuição das Emissões - Pizza</h6>
+        </div>
         <div class="card-body">
-            <div class="row gy-3 gx-4 align-items-end">
-
-                <!-- Categoria Ambiental -->
-                <div class="col-md-6">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-leaf me-1"></i> Categoria Ambiental
-                    </label>
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-primary btn-sm" data-filter="carbon">
-                            <i class="fas fa-smog me-1"></i> Pegada de Carbono
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="energy">
-                            <i class="fas fa-bolt me-1"></i> Consumo Energético
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="fuel">
-                            <i class="fas fa-gas-pump me-1"></i> Combustível
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" data-filter="waste">
-                            <i class="fas fa-recycle me-1"></i> Resíduos
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Período -->
-                <div class="col-md-3">
-                    <label class="form-label text-primary fw-semibold">
-                        <i class="fas fa-calendar-alt me-1"></i> Período
-                    </label>
-                    <select class="form-select form-select-sm" id="select-periodo">
-                        <option value="7d">Últimos 7 dias</option>
-                        <option value="30d">Últimos 30 dias</option>
-                        <option value="90d">Últimos 3 meses</option>
-                        <option value="1y">Último ano</option>
-                    </select>
-                </div>
-
-                <!-- Botões Filtros -->
-                <div class="col-md-3">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-sm" onclick="applyFilters()">
-                            <i class="fas fa-filter me-1"></i> Aplicar Filtros
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
-                            <i class="fas fa-undo me-1"></i> Limpar Filtros
-                        </button>
-                    </div>
-                </div>
-
+            <div style="position: relative; height: 300px;">
+                <canvas id="myPieChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                    <!-- Indicadores Ambientais (KPIs) -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 fw-bold text-primary">Indicadores Ambientais</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-success">
-                                        <div class="card-body py-2">
-                                            <div class="text-success fw-bold">-15%</div>
-                                            <div class="small">Redução de CO₂</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-info">
-                                        <div class="card-body py-2">
-                                            <div class="text-info fw-bold">89%</div>
-                                            <div class="small">Satisfação Sustentável</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-warning">
-                                        <div class="card-body py-2">
-                                            <div class="text-warning fw-bold">98%</div>
-                                            <div class="small">Compliance Ambiental</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card border-left-primary">
-                                        <div class="card-body py-2">
-                                            <div class="text-primary fw-bold">5.2</div>
-                                            <div class="small">Score ESG</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<script>
+    let myPieChart;
 
-                    <div class="row">
+    const coresPizza = [
+        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
+        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
+    ];
 
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Visão Geral dos Lucros</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    function renderizarPizzaFontes(agregadoFontes) {
+        const ctx = document.getElementById('myPieChart').getContext('2d');
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5 mb-4">
-                            <div class="card shadow h-100">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Distribuição por Categoria</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Ações:</div>
-                                            <a class="dropdown-item" href="#">Exportar</a>
-                                            <a class="dropdown-item" href="#">Configurações</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div style="position: relative; height: 300px;">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        const labels = Object.keys(agregadoFontes);
+        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // gCO2e → kgCO2e
+
+        if (myPieChart) {
+            myPieChart.destroy();
+        }
+
+        myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: valores,
+                    backgroundColor: coresPizza.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.formattedValue || '';
+                                return `${label}: ${value} kgCO₂e`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function carregarDadosPizza() {
+        fetch('/analises/fontes')
+            .then(response => response.json())
+            .then(agregado => {
+                renderizarPizzaFontes(agregado);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados da pizza:', error);
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarDadosPizza);
+</script>
 
                     </div>
 

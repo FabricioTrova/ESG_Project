@@ -29,9 +29,7 @@ Entrada de consumo de um determinado recurso por uma empresa.
 id (PK)
 empresa_id (FK -> empresas.id)
 fonte_consumo_id (FK -> fontes_consumo.id)
-data_referencia (mês/ano ou data exata)
 quantidade_consumida
-origem_dado (api, formulario)
 data_registro
 
 analises_carbono

@@ -6,7 +6,9 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\AdicionarEmpresaController;
 use App\Http\Controllers\FonteConsumoController;
 use App\Http\Controllers\ConsumoController;
+use App\Http\Controllers\ExportarConsumoController;
 use App\Http\Controllers\AnaliseCarbonoController;
+
 
 //Redireciona a raiz para a rota de login
 Route::get('/', function () {
@@ -58,6 +60,9 @@ Route::middleware(['auth', 'tipo_usuario:admin,gestor,colaborador'])->group(func
     });
 
     Route::post('/analise-carbono/calcular', [AnaliseCarbonoController::class, 'calcular'])->name('analise_carbono.calcular');
+    Route::get('/analises/dados', [AnaliseCarbonoController::class, 'dados']);
+    Route::get('/analises/dados-categoria', [AnaliseCarbonoController::class, 'dadosPorCategoria']);
+    Route::get('/analises/fontes', [AnaliseCarbonoController::class, 'emissaoPorFonte']);
 });
 
 
@@ -68,11 +73,11 @@ Route::middleware(['auth', 'tipo_usuario:admin'])->group(function () {
     Route::delete('/empresas/{id}', [AdicionarEmpresaController::class, 'destroy'])->name('empresas.destroy');
     Route::put('/empresas/{id}', [AdicionarEmpresaController::class, 'update'])->name('empresas.update');   
 });
+//rota para exportar planilhos de consumo
+Route::get('/exportar-consumos', [ExportarConsumoController::class, 'exportarExcel'])
+    ->name('exportar.consumos'); // <- Nome da rota
 
 //Ainda não implementada
 Route::get('/forgot', function () {
     return view('auth.forgot-password');
 });
-
-;
-
