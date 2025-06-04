@@ -160,6 +160,53 @@
             </ul>
         </nav>
         <!-- End of Topbar -->
+         <!-- Indicadores Ambientais (KPIs) -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 fw-bold text-primary" data-bs-toggle="tooltip" title="Aqui estão os indicadores e metas de nosso sistema ESG.">
+            Indicadores Ambientais
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-left-success">
+                    <div class="card-body py-2">
+                        <div class="text-success fw-bold">
+                            @if(session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                            @endif
+                        </div>
+                        <div class="small">Valor total de KgCO₂</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-left-info">
+                    <div class="card-body py-2">
+                        <div class="text-info fw-bold">89%</div>
+                        <div class="small">Satisfação Sustentável</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-left-warning">
+                    <div class="card-body py-2">
+                        <div class="text-warning fw-bold">98%</div>
+                        <div class="small">Compliance Ambiental</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 d-flex align-items-center justify-content-center">
+                <a href="{{ route('exportar.consumos') }}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório Consumo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
