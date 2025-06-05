@@ -1,5 +1,5 @@
 🌱 Sistema de Gestão ESG - DashCarbon
-📖 Descrição
+
 Este sistema tem como objetivo gerenciar dados relacionados ao consumo de recursos pelas empresas, possibilitando o cálculo da pegada de carbono e a análise de indicadores ESG (Environmental, Social, and Governance). A solução permite o cadastro de empresas, usuários, fontes de consumo, registros de consumo e a geração automatizada de análises de carbono, com visualização via dashboards.
 
 🗂️ Modelagem do Banco de Dados
