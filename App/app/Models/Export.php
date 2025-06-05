@@ -1,15 +1,11 @@
 <?php
 
 namespace App\Models;
-
 use App\Models\Consumo;
 
-class Export
-{
-    public static function dadosConsumos()
-    {
+class Export{
+    public static function dadosConsumos(){
         $consumos = Consumo::with('fonteConsumo')->get();
-
         return $consumos->map(function ($item) {
             return [
                 'Empresa ID'           => $item->empresa_id,

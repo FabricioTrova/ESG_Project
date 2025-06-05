@@ -16,8 +16,7 @@ class FonteConsumo extends Model
         'fator_emissao',
     ];
 
-    public function consumos()
-    {
+    public function consumos(){
         return $this->hasMany(Consumo::class, 'fonte_consumo_id');
     }
 }
