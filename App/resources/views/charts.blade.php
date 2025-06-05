@@ -11,7 +11,9 @@
     <title>DashCarbon - Gráfico</title>
 
     <!-- Custom fonts for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -27,23 +29,23 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
-    <div class="sidebar-brand-icon rotate-n-15">
-        <i class="fas fa-leaf"></i>
-    </div>
-    <div class="sidebar-brand-text mx-3">DashCarbon</div>
-</a>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">DashCarbon</div>
+            </a>
 
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-    <a class="nav-link" href="{{ url('/dashboard') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Painel</span>
-    </a>
-</li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('/dashboard') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Painel</span>
+                </a>
+            </li>
 
             <!-- Registros -->
             <li class="nav-item">
@@ -54,16 +56,16 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        
-                        <a class=" collapse-item" href="{{ url('/historico') }}">
-                        <span>Cadastro Consumo</span></a>
-          
-                        <a class="collapse-item" href="{{url('/fonteDeConsumo')}}">Fontes de Consumo</a>
+                        <div class="bg-white py-2 collapse-inner rounded">
 
+                            <a class=" collapse-item" href="{{ url('/historico') }}">
+                                <span>Cadastro Consumo</span></a>
+
+                            <a class="collapse-item" href="{{ url('/fonteDeConsumo') }}">Fontes de Consumo</a>
+
+                        </div>
                     </div>
-                </div>
-            </li> 
+            </li>
 
             <hr class="sidebar-divider">
 
@@ -114,10 +116,11 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small"
+                                placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -150,7 +153,8 @@
                                     Perfil
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Sair
                                 </a>
@@ -161,317 +165,341 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-<!-- Espaço entre os blocos -->
-<div class="row g-3 mb-4">
-    <!-- Card Calcular Pegada de Carbono -->
-    <div class="col-md-6">
-        <div class="card shadow-sm border-left-success h-100">
-            <div class="card-body">
-                <form action="{{ route('analise_carbono.calcular') }}" method="POST">
-                    @csrf
-                    <!-- Título com tooltip -->
-                    <div class="mb-3">
-                        <label class="form-label text-success fw-semibold mb-0" 
-                               data-bs-toggle="tooltip" 
-                               title="Clique aqui para realizar o cálculo da Pegada de Carbono da sua empresa.">
-                            <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
-                        </label>
-                    </div>
-
-                    <!-- Campos e botão -->
-                    <div class="row align-items-end g-3">
+                <div class="container-fluid px-4">
+                    <!-- Espaço entre os blocos -->
+                    <div class="row g-3 mb-4">
+                        <!-- Card Calcular Pegada de Carbono -->
                         <div class="col-md-6">
-                            <label for="data_inicio" class="form-label text-success fw-semibold">
-                                <i class="fas fa-calendar-alt me-1"></i> Início
-                            </label>
-                            <input type="date" name="data_inicio" id="data_inicio" class="form-control form-control-sm" required>
+                            <div class="card shadow-sm border-left-success h-100">
+                                <div class="card-body">
+                                    <form action="{{ route('analise_carbono.calcular') }}" method="POST">
+                                        @csrf
+                                        <!-- Título com tooltip -->
+                                        <div class="mb-3">
+                                            <label class="form-label text-success fw-semibold mb-0"
+                                                data-bs-toggle="tooltip"
+                                                title="Clique aqui para realizar o cálculo da Pegada de Carbono da sua empresa.">
+                                                <i class="fas fa-leaf me-1"></i> Realizar Cálculo de Pegada de Carbono
+                                            </label>
+                                        </div>
+
+                                        <!-- Campos e botão -->
+                                        <div class="row align-items-end g-3">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data_inicio" class="form-label text-success fw-semibold">
+                                                    <i class="fas fa-calendar-alt me-1"></i> Início
+                                                </label>
+                                                <input type="date" name="data_inicio" id="data_inicio"
+                                                    class="form-control form-control-sm" required>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data_fim" class="form-label text-success fw-semibold">
+                                                    <i class="fas fa-calendar-alt me-1"></i> Fim
+                                                </label>
+                                                <input type="date" name="data_fim" id="data_fim"
+                                                    class="form-control form-control-sm" required>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-success btn-sm w-100 mt-1">
+                                                    <i class="fas fa-calculator me-1"></i> Calcular
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    @if (session('success'))
+                                        <div class="alert alert-success mt-3">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+                                    @if (session('error'))
+                                        <div class="alert alert-danger mt-3">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Card Filtros -->
                         <div class="col-md-6">
-                            <label for="data_fim" class="form-label text-success fw-semibold">
-                                <i class="fas fa-calendar-alt me-1"></i> Fim
-                            </label>
-                            <input type="date" name="data_fim" id="data_fim" class="form-control form-control-sm" required>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-success btn-sm w-100">
-                                <i class="fas fa-calculator me-1"></i> Calcular
-                            </button>
+                            <div class="card shadow-sm border-left-primary h-100">
+                                <div class="card-body">
+                                    <form id="filter-form">
+                                        <!-- Título -->
+                                        <div class="mb-3">
+                                            <label class="form-label text-primary fw-semibold"
+                                                data-bs-toggle="tooltip"
+                                                title="Filtros relacionados ao impacto ambiental das atividades.">
+                                                <i class="fas fa-leaf me-1"></i> Filtros
+                                            </label>
+                                        </div>
+
+                                        <!-- Campos e botões -->
+                                        <div class="row align-items-end g-3">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data_inicio_filter"
+                                                    class="form-label text-primary fw-semibold">
+                                                    <i class="fas fa-calendar-alt me-1"></i> Início
+                                                </label>
+                                                <input type="date" name="data_inicio" id="data_inicio_filter"
+                                                    class="form-control form-control-sm">
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data_fim_filter"
+                                                    class="form-label text-primary fw-semibold">
+                                                    <i class="fas fa-calendar-alt me-1"></i> Fim
+                                                </label>
+                                                <input type="date" name="data_fim" id="data_fim_filter"
+                                                    class="form-control form-control-sm">
+                                            </div>
+
+                                            <div class="col-12 d-flex gap-2 mt-2">
+                                                <button type="button" onclick="applyFilters()"
+                                                    class="btn btn-primary btn-sm w-50">
+                                                    <i class="fas fa-filter me-1"></i> Filtrar
+                                                </button>
+                                                <button type="button" onclick="resetFilters()"
+                                                    class="btn btn-outline-secondary btn-sm w-50">
+                                                    <i class="fas fa-undo me-1"></i> Limpar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-
-                @if(session('success'))
-                <div class="alert alert-success mt-3">
-                    {{ session('success') }}
                 </div>
-                @endif
-                @if(session('error'))
-                <div class="alert alert-danger mt-3">
-                    {{ session('error') }}
+                <div class="container-fluid px-4">
+                    <div class="card shadow-sm border-left-success mt-3">
+                        <div class="card-body">
+                            <h6 class="text-success fw-bold mb-3">
+                                <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
+                            </h6>
+                            <div id="loading" class="text-center my-3" style="display: none;">
+                                <div class="spinner-border text-success" role="status"></div>
+                                <p class="mt-2 text-muted">Carregando dados...</p>
+                            </div>
+                            <canvas id="graficoCarbono" height="100"></canvas>
+                        </div>
+                    </div>
                 </div>
-                @endif
-            </div>
-        </div>
-    </div>
 
-    <!-- Card Filtros -->
-    <div class="col-md-6">
-        <div class="card shadow-sm border-left-primary h-100">
-            <div class="card-body">
-                <form id="filter-form">
-                    <!-- Título -->
-                    <div class="mb-3">
-                        <label class="form-label text-primary fw-semibold" 
-                               data-bs-toggle="tooltip" 
-                               title="Filtros relacionados ao impacto ambiental das atividades.">
-                            <i class="fas fa-leaf me-1"></i> Filtros
-                        </label>
-                    </div>
+                <script>
+                    let graficoCarbono;
 
-                    <!-- Campos e botões -->
-                    <div class="row align-items-end g-3">
-                        <div class="col-md-6">
-                            <label for="data_inicio_filter" class="form-label text-primary fw-semibold">
-                                <i class="fas fa-calendar-alt me-1"></i> Início
-                            </label>
-                            <input type="date" name="data_inicio" id="data_inicio_filter" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="data_fim_filter" class="form-label text-primary fw-semibold">
-                                <i class="fas fa-calendar-alt me-1"></i> Fim
-                            </label>
-                            <input type="date" name="data_fim" id="data_fim_filter" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-12 d-flex gap-2">
-                            <button type="button" onclick="applyFilters()" class="btn btn-primary btn-sm w-50">
-                                <i class="fas fa-filter me-1"></i> Filtrar
-                            </button>
-                            <button type="button" onclick="resetFilters()" class="btn btn-outline-secondary btn-sm w-50">
-                                <i class="fas fa-undo me-1"></i> Limpar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                    function applyFilters() {
+                        const dataInicio = document.getElementById("data_inicio_filter").value;
+                        const dataFim = document.getElementById("data_fim_filter").value;
 
+                        // Mostra o loading
+                        document.getElementById("loading").style.display = "block";
 
-<div class="card shadow-sm border-left-success mt-3">
-    <div class="card-body">
-        <h6 class="text-success fw-bold mb-3">
-            <i class="fas fa-chart-line me-1"></i> Evolução da Pegada de Carbono
-        </h6>
-        <div id="loading" class="text-center my-3" style="display: none;">
-            <div class="spinner-border text-success" role="status"></div>
-            <p class="mt-2 text-muted">Carregando dados...</p>
-        </div>
-        <canvas id="graficoCarbono" height="100"></canvas>
-    </div>
-</div>
+                        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                renderizarGrafico(data.labels, data.valores);
+                                document.getElementById("loading").style.display = "none";
+                            })
+                            .catch(error => {
+                                console.error("Erro ao buscar dados:", error);
+                                document.getElementById("loading").style.display = "none";
+                                alert("Erro ao buscar dados. Tente novamente.");
+                            });
+                    }
 
-<script>
-    let graficoCarbono;
+                    function renderizarGrafico(labels, valores) {
+                        const ctx = document.getElementById('graficoCarbono').getContext('2d');
 
-    function applyFilters() {
-        const dataInicio = document.getElementById("data_inicio_filter").value;
-        const dataFim = document.getElementById("data_fim_filter").value;
-
-        // Mostra o loading
-        document.getElementById("loading").style.display = "block";
-
-        fetch(`/analises/dados?data_inicio=${dataInicio}&data_fim=${dataFim}`)
-            .then(response => response.json())
-            .then(data => {
-                renderizarGrafico(data.labels, data.valores);
-                document.getElementById("loading").style.display = "none";
-            })
-            .catch(error => {
-                console.error("Erro ao buscar dados:", error);
-                document.getElementById("loading").style.display = "none";
-                alert("Erro ao buscar dados. Tente novamente.");
-            });
-    }
-
-    function renderizarGrafico(labels, valores) {
-        const ctx = document.getElementById('graficoCarbono').getContext('2d');
-
-        if (graficoCarbono) {
-            graficoCarbono.destroy(); // Evita sobreposição
-        }
-
-        graficoCarbono = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Emissão (kgCO₂e)',
-                    data: valores,
-                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                    borderColor: 'rgba(40, 167, 69, 1)',
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Emissão (kgCO₂e)'
+                        if (graficoCarbono) {
+                            graficoCarbono.destroy(); // Evita sobreposição
                         }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Data'
-                        }
+
+                        graficoCarbono = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Emissão (kgCO₂e)',
+                                    data: valores,
+                                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                    borderColor: 'rgba(40, 167, 69, 1)',
+                                    borderWidth: 2,
+                                    fill: true,
+                                    tension: 0.3,
+                                    pointRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Emissão (kgCO₂e)'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Data'
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    tooltip: {
+                                        mode: 'index',
+                                        intersect: false
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'top'
+                                    }
+                                }
+                            }
+                        });
                     }
-                },
-                plugins: {
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    legend: {
-                        display: true,
-                        position: 'top'
+
+                    function resetFilters() {
+                        document.getElementById("data_inicio_filter").value = "";
+                        document.getElementById("data_fim_filter").value = "";
+                        applyFilters(); // Pode exibir dados gerais novamente
                     }
-                }
-            }
-        });
-    }
 
-    function resetFilters() {
-        document.getElementById("data_inicio_filter").value = "";
-        document.getElementById("data_fim_filter").value = "";
-        applyFilters(); // Pode exibir dados gerais novamente
-    }
+                    // Inicializa com dados padrão
+                    document.addEventListener("DOMContentLoaded", applyFilters);
+                </script>
 
-    // Inicializa com dados padrão
-    document.addEventListener("DOMContentLoaded", applyFilters);
-</script>
-
- 
-<div class="card shadow-sm border-left-info mt-4">
-    <div class="card-body">
-        <h6 class="text-info fw-bold mb-3">
-            <i class="fas fa-chart-pie me-1"></i> Emissão por Fonte
-        </h6>
-        <div id="loading-fonte" class="text-center my-3" style="display: none;">
-            <div class="spinner-border text-info" role="status"></div>
-            <p class="mt-2 text-muted">Carregando dados por fonte...</p>
-        </div>
-        <canvas id="graficoFonte" height="100"></canvas>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    let graficoFonte;
-
-   const cores = [
-    '#a8e6cf', // Verde água pastel
-    '#dcedc1', // Verde claro
-    '#aed9e0', // Azul esverdeado claro
-    '#81c784', // Verde médio
-    '#c5e1a5', // Verde lima claro
-    '#b2dfdb', // Verde acinzentado claro
-    '#9ccc65', // Verde vibrante mas suave
-    '#66bb6a', // Verde folha
-    '#43a047', // Verde escuro suave
-    '#2e7d32'  // Verde escuro
-];
-
-    function renderizarGraficoFonte(agregadoFontes) {
-        const ctx = document.getElementById('graficoFonte').getContext('2d');
-
-        const labels = Object.keys(agregadoFontes);
-        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // Convert gCO2e to kgCO2e
-
-        if (graficoFonte) {
-            graficoFonte.destroy();
-        }
-
-        graficoFonte = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Emissão por Fonte (kgCO₂e)',
-                    data: valores,
-                    backgroundColor: cores.slice(0, valores.length),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: true, position: 'top' },
-                    tooltip: {
-                        callbacks: {
-                            label: context => `${context.label}: ${context.formattedValue} kgCO₂e`
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: { display: true, text: 'kgCO₂e' }
-                    },
-                    x: {
-                        title: { display: true, text: 'Fonte' }
-                    }
-                }
-            }
-        });
-    }
-
-    function carregarDadosFonte() {
-        document.getElementById('loading-fonte').style.display = 'block';
-
-        fetch('/analises/fontes')
-            .then(response => response.json())
-            .then(agregado => {
-                renderizarGraficoFonte(agregado);
-                document.getElementById('loading-fonte').style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Erro ao carregar dados por fonte:', error);
-                document.getElementById('loading-fonte').style.display = 'none';
-            });
-    }
-
-    document.addEventListener('DOMContentLoaded', carregarDadosFonte);
-</script>
-
+                <div class="container-fluid px-4">
+                    <div class="card shadow-sm border-left-info mt-4">
+                        <div class="card-body">
+                            <h6 class="text-info fw-bold mb-3">
+                                <i class="fas fa-chart-pie me-1"></i> Emissão por Fonte
+                            </h6>
+                            <div id="loading-fonte" class="text-center my-3" style="display: none;">
+                                <div class="spinner-border text-info" role="status"></div>
+                                <p class="mt-2 text-muted">Carregando dados por fonte...</p>
+                            </div>
+                            <canvas id="graficoFonte" height="100"></canvas>
+                        </div>
                     </div>
-
                 </div>
-                <!-- End of container-fluid -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <script>
+                    let graficoFonte;
+
+                    const cores = [
+                        '#a8e6cf', // Verde água pastel
+                        '#dcedc1', // Verde claro
+                        '#aed9e0', // Azul esverdeado claro
+                        '#81c784', // Verde médio
+                        '#c5e1a5', // Verde lima claro
+                        '#b2dfdb', // Verde acinzentado claro
+                        '#9ccc65', // Verde vibrante mas suave
+                        '#66bb6a', // Verde folha
+                        '#43a047', // Verde escuro suave
+                        '#2e7d32' // Verde escuro
+                    ];
+
+                    function renderizarGraficoFonte(agregadoFontes) {
+                        const ctx = document.getElementById('graficoFonte').getContext('2d');
+
+                        const labels = Object.keys(agregadoFontes);
+                        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // Convert gCO2e to kgCO2e
+
+                        if (graficoFonte) {
+                            graficoFonte.destroy();
+                        }
+
+                        graficoFonte = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Emissão por Fonte (kgCO₂e)',
+                                    data: valores,
+                                    backgroundColor: cores.slice(0, valores.length),
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: context => `${context.label}: ${context.formattedValue} kgCO₂e`
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'kgCO₂e'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Fonte'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    function carregarDadosFonte() {
+                        document.getElementById('loading-fonte').style.display = 'block';
+
+                        fetch('/analises/fontes')
+                            .then(response => response.json())
+                            .then(agregado => {
+                                renderizarGraficoFonte(agregado);
+                                document.getElementById('loading-fonte').style.display = 'none';
+                            })
+                            .catch(error => {
+                                console.error('Erro ao carregar dados por fonte:', error);
+                                document.getElementById('loading-fonte').style.display = 'none';
+                            });
+                    }
+
+                    document.addEventListener('DOMContentLoaded', carregarDadosFonte);
+                </script>
 
             </div>
-            <!-- End of Content -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of container-fluid -->
+
+    </div>
+    <!-- End of Content -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
 
     <!-- scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/demo/datatables-demo.js') }}"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 </body>
 
 </html>
