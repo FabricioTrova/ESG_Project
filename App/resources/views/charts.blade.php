@@ -257,10 +257,86 @@
                                 alert("Erro ao buscar dados. Tente novamente.");
                             });
                     }
+
                     function renderizarGrafico(labels, valores){
                         const ctx = document.getElementById('graficoCarbono').getContext('2d');
                         if (graficoCarbono) {
                             graficoCarbono.destroy(); // Evita sobreposição
+                }
+            }
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("data_inicio_filter").value = "";
+        document.getElementById("data_fim_filter").value = "";
+        applyFilters(); // Pode exibir dados gerais novamente
+    }
+
+    // Inicializa com dados padrão
+    document.addEventListener("DOMContentLoaded", applyFilters);
+</script>
+
+ 
+<div class="card shadow-sm border-left-info mt-4">
+    <div class="card-body">
+        <h6 class="text-info fw-bold mb-3">
+            <i class="fas fa-chart-pie me-1"></i> Emissão por Fonte
+        </h6>
+        <div id="loading-fonte" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-info" role="status"></div>
+            <p class="mt-2 text-muted">Carregando dados por fonte...</p>
+        </div>
+        <canvas id="graficoFonte" height="100"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    let graficoFonte;
+
+   const cores = [
+    '#a8e6cf', // Verde água pastel
+    '#dcedc1', // Verde claro
+    '#aed9e0', // Azul esverdeado claro
+    '#81c784', // Verde médio
+    '#c5e1a5', // Verde lima claro
+    '#b2dfdb', // Verde acinzentado claro
+    '#9ccc65', // Verde vibrante mas suave
+    '#66bb6a', // Verde folha
+    '#43a047', // Verde escuro suave
+    '#2e7d32'  // Verde escuro
+];
+
+    function renderizarGraficoFonte(agregadoFontes) {
+        const ctx = document.getElementById('graficoFonte').getContext('2d');
+
+        const labels = Object.keys(agregadoFontes);
+        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // Convert gCO2e to kgCO2e
+
+        if (graficoFonte) {
+            graficoFonte.destroy();
+        }
+
+        graficoFonte = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Emissão por Fonte (kgCO₂e)',
+                    data: valores,
+                    backgroundColor: cores.slice(0, valores.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: context => `${context.label}: ${context.formattedValue} kgCO₂e`
                         }
                         graficoCarbono = new Chart(ctx, {
                             type: 'line',
@@ -410,6 +486,29 @@
                                 <canvas id="myPieChart"></canvas>
                             </div>
                         </div>
+                }
+            }
+        });
+    }
+
+    function carregarDadosFonte() {
+        document.getElementById('loading-fonte').style.display = 'block';
+
+        fetch('/analises/fontes')
+            .then(response => response.json())
+            .then(agregado => {
+                renderizarGraficoFonte(agregado);
+                document.getElementById('loading-fonte').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados por fonte:', error);
+                document.getElementById('loading-fonte').style.display = 'none';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarDadosFonte);
+</script>
+
                     </div>
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
