@@ -186,8 +186,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (isset($consumos) && $consumos->count() > 0){
-                                            @foreach ($consumos as $consumo){
+                                        @if (isset($consumos) && $consumos->count() > 0)
+                                            @foreach ($consumos as $consumo)
                                                 <tr>
                                                     <td>{{ $consumo->fonteConsumo->nome ?? 'N/A' }}</td>
                                                     <td>{{ $consumo->quantidade_consumida }}</td>
@@ -209,14 +209,14 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                            }
+                                            
                                             @endforeach
-                                        }
-                                        @else{
+                                        
+                                        @else
                                             <tr>
                                                 <td colspan="4" class="text-center">Nenhum consumo registrado.</td>
                                             </tr>
-                                        }
+                                        
                                         @endif
                                     </tbody>
                                 </table>
