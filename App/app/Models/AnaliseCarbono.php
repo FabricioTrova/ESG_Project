@@ -1,15 +1,12 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class AnaliseCarbono extends Model
 {
     protected $table = 'analises_carbono';
-
     public $timestamps = false;
-
     protected $fillable = [
         'empresa_id',
         'data_referencia',
@@ -17,8 +14,6 @@ class AnaliseCarbono extends Model
         'detalhes_json',
         'data_calculo',
     ];
-
-    // Você pode adicionar relacionamentos, se quiser:
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresa_id');

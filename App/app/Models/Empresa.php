@@ -10,8 +10,7 @@ class Empresa extends Model
     public $timestamps = false;
     protected $fillable = ['nome', 'cnpj', 'setor_atividade', 'endereco'];
 
-    public function usuarios()
-    {
+    public function usuarios(){
         return $this->hasMany(Usuario::class);
     }
 }

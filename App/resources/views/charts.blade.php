@@ -377,10 +377,18 @@
 <script>
     let graficoFonte;
 
-    const cores = [
-        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
-        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
-    ];
+   const cores = [
+    '#a8e6cf', // Verde água pastel
+    '#dcedc1', // Verde claro
+    '#aed9e0', // Azul esverdeado claro
+    '#81c784', // Verde médio
+    '#c5e1a5', // Verde lima claro
+    '#b2dfdb', // Verde acinzentado claro
+    '#9ccc65', // Verde vibrante mas suave
+    '#66bb6a', // Verde folha
+    '#43a047', // Verde escuro suave
+    '#2e7d32'  // Verde escuro
+];
 
     function renderizarGraficoFonte(agregadoFontes) {
         const ctx = document.getElementById('graficoFonte').getContext('2d');
@@ -442,85 +450,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', carregarDadosFonte);
-</script>
-
-
-
-<div class="col-xl-4 col-lg-5 mb-4">
-    <div class="card shadow h-100">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Distribuição das Emissões - Pizza</h6>
-        </div>
-        <div class="card-body">
-            <div style="position: relative; height: 300px;">
-                <canvas id="myPieChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    let myPieChart;
-
-    const coresPizza = [
-        '#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8',
-        '#6f42c1', '#fd7e14', '#20c997', '#6610f2', '#e83e8c'
-    ];
-
-    function renderizarPizzaFontes(agregadoFontes) {
-        const ctx = document.getElementById('myPieChart').getContext('2d');
-
-        const labels = Object.keys(agregadoFontes);
-        const valores = Object.values(agregadoFontes).map(v => (v / 1000).toFixed(2)); // gCO2e → kgCO2e
-
-        if (myPieChart) {
-            myPieChart.destroy();
-        }
-
-        myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: valores,
-                    backgroundColor: coresPizza.slice(0, valores.length),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.formattedValue || '';
-                                return `${label}: ${value} kgCO₂e`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function carregarDadosPizza() {
-        fetch('/analises/fontes')
-            .then(response => response.json())
-            .then(agregado => {
-                renderizarPizzaFontes(agregado);
-            })
-            .catch(error => {
-                console.error('Erro ao carregar dados da pizza:', error);
-            });
-    }
-
-    document.addEventListener('DOMContentLoaded', carregarDadosPizza);
 </script>
 
                     </div>
