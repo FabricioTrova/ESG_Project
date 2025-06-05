@@ -177,8 +177,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if ($empresas->count() > 0){
-                                            @foreach ($empresas as $empresa){
+                                        @if ($empresas->count() > 0)
+                                            @foreach ($empresas as $empresa)
                                                 <tr>
                                                     <td>{{ $empresa->nome }}</td>
                                                     <td>{{ $empresa->cnpj }}</td>
@@ -204,15 +204,15 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                            } 
+ 
                                             @endforeach
-                                        }  
-                                        @else{
+                                          
+                                        @else
                                             <tr>
                                                 <td colspan="5" class="text-center">Nenhuma empresa cadastrada.
                                                 </td>
                                             </tr>
-                                        }
+                                        
                                         @endif
                                     </tbody>
                                 </table>
