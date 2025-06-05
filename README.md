@@ -45,6 +45,7 @@ id: Identificador único.
 
 empresa_id: Referência à empresa.
 
+
 fonte_consumo_id: Referência à fonte.
 
 data_referencia: Data de referência.
@@ -197,4 +198,17 @@ Notificações sobre metas e limites de emissões.
 Exportação de relatórios em PDF.
 
 Análises preditivas com machine learning.
+Tela principal
+![Captura de tela 2025-06-04 233447](https://github.com/user-attachments/assets/1d421a9c-c35f-4535-a72e-ec727402d9f3)
 
+Tela registro de fonte de consumo
+![Captura de tela 2025-06-04 233554](https://github.com/user-attachments/assets/afbed861-217b-44fb-bec9-431f2b75a262)
+
+Tela registro de  consumo
+![Captura de tela 2025-06-04 233820](https://github.com/user-attachments/assets/4ce7242e-dbda-4cb9-ab9d-1c60b4da1b74)
+
+Tela administrada- cadastro usuario
+![Captura de tela 2025-06-04 233820](https://github.com/user-attachments/assets/743e262b-875d-4c4e-95fe-877bda7980aa)
+
+Tela de graficos
+![Captura de tela 2025-06-04 233841](https://github.com/user-attachments/assets/c5a22f98-c56b-425b-b1e4-ba1afa41747c)
