@@ -144,6 +144,10 @@
 <div class="container">
     <!-- Content Row: Carbon Metrics -->
     <div class="row">
+<!-- Indicadores Ambientais (KPIs) -->
+<div class="container">
+    <!-- Content Row: Carbon Metrics -->
+    <div class="row">
         <!-- Redução de CO2 -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
@@ -163,7 +167,6 @@
                             <i class="fas fa-leaf fa-2x text-gray-300"></i>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -181,19 +184,6 @@
                             <div class="progress progress-sm mt-2">
                                 <div class="progress-bar bg-success" role="progressbar"
                                      style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-
-                    <div class="card-body">
-                        <div class="row g-3">
-                           
-                            
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="card border-left-info">
-                                    <div class="card-body py-2">
-                                        <div class="text-info fw-bold">89%</div>
-                                        <div class="small">Satisfação Sustentável</div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                         <div class="ms-3">
@@ -213,21 +203,10 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Energia Renovável
                             </div>
-
                             <div class="h5 mb-0 font-weight-bold text-gray-800">80%</div>
                             <div class="progress progress-sm mt-2">
                                 <div class="progress-bar bg-success" role="progressbar"
                                      style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex align-items-center justify-content-center">
-                                <a href="{{ route('exportar.consumos') }}" >
-                                
-                                </a>
-                            </div>
-                            <div class="col-sm-6 col-lg-3 d-flex align-items-center justify-content-center">
-                                <a href="{{ route('exportar.consumos') }}" class="btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório Consumo
-                                </a>
                             </div>
                         </div>
                         <div class="ms-3">
